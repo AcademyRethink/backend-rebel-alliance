@@ -4,12 +4,12 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("users", (table) => {
     table.string("cpf_cnpj").primary().notNullable();
     table.string("name").notNullable();
-    table.date("birthday").notNullable();
-    table.string("phone").notNullable();
     table.string("celphone").notNullable();
-    table.string("email").notNullable();
+    table.string("email");
     table.string("password").notNullable();
     table.string("userType").notNullable();
+    table.string("farm").notNullable();
+    table.foreign("farm").references("farm.cnpj");
   });
 }
 

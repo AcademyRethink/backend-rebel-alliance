@@ -4,8 +4,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("plot", (table) => {
     table.increments();
     table.string("name").notNullable();
-    table.string("user").notNullable();
-    table.foreign("user").references("users.cpf_cnpj");
+    table.string("farm").notNullable();
+    table.foreign("farm").references("farm.cnpj");
   });
 }
 
