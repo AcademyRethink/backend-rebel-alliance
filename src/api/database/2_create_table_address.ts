@@ -3,8 +3,8 @@ import { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("address", (table) => {
     table.increments();
-    table.integer("user_id").notNullable();
-    table.foreign("user_id").references("users.id");
+    table.string("user").notNullable();
+    table.foreign("user").references("users.cpf_cnpj");
     table.string("street").notNullable();
     table.integer("number").notNullable();
     table.string("complement").notNullable();

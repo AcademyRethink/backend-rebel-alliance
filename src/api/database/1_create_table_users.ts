@@ -2,8 +2,7 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("users", (table) => {
-    table.increments();
-    table.string("cpf_cnpj").notNullable();
+    table.string("cpf_cnpj").primary().notNullable();
     table.string("name").notNullable();
     table.date("birthday").notNullable();
     table.string("phone").notNullable();
