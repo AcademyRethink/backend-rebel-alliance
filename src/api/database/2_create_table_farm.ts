@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("name").notNullable();
     table.string("phone").notNullable();
     table.integer("address_id").notNullable();
-    table.foreign("address").references("address.id");
+    table.foreign("address_id").references("address.id");
   });
 }
 
