@@ -4,5 +4,6 @@ import plantingsController from "../controllers/plantingsController";
 const router: Router = Router();
 
 router.get("/", plantingsController.index);
+router.get("/:id", plantingsController.show);
 
 export { router };
