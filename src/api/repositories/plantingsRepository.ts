@@ -1,11 +1,14 @@
 import knex from "knex";
 import config from "../../../knexfile";
-import { PlantingsWitNames } from "../../types/plantingTypes";
+import {
+  PlantingsWithIds,
+  PlantingsWithNames,
+} from "../../types/plantingTypes";
 
 const knexInstance = knex(config);
 
-const selectAllPlantings = (): Promise<PlantingsWitNames[]> => {
-  return knexInstance("planting")
+const selectAllPlantings = (): Promise<PlantingsWithNames[]> =>
+  knexInstance("planting")
     .select(
       "planting.id",
       "planting.date",
@@ -19,12 +22,9 @@ const selectAllPlantings = (): Promise<PlantingsWitNames[]> => {
     .join("stages", "stages.id", "=", "planting.stages_id")
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id");
-};
 
-const selectAllPlantingsOfAUser = (
-  id: number
-): Promise<PlantingsWitNames[]> => {
-  return knexInstance("planting")
+const selectAllPlantingsOfAUser = (id: number): Promise<PlantingsWithNames[]> =>
+  knexInstance("planting")
     .where({ farm: id })
     .select(
       "planting.id",
@@ -39,6 +39,16 @@ const selectAllPlantingsOfAUser = (
     .join("stages", "stages.id", "=", "planting.stages_id")
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id");
-};
 
-export default { selectAllPlantings, selectAllPlantingsOfAUser };
+const selectId = (tableName: string, columnName: string, value: string) =>
+  knexInstance(tableName).select("id").where(columnName, "=", value);
+
+const insertPlanting = (planting: PlantingsWithIds): Promise<Array<number>> =>
+  knexInstance("planting").insert(planting);
+
+export default {
+  selectAllPlantings,
+  selectAllPlantingsOfAUser,
+  insertPlanting,
+  selectId,
+};
