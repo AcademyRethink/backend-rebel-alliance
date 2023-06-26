@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+import { router } from "./api/routes";
 import * as dotenv from "dotenv";
 import cors from "cors";
 
@@ -10,6 +11,8 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Bem vindo ao Dashboard da Rebel Alliance");
 });
+
+app.use("/", router);
 
 app.listen(3000, () => {
   console.log("Ta funcionando");
