@@ -9,10 +9,10 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign("plot_id").references("plot.id");
     table.integer("stages_id").notNullable();
     table.foreign("stages_id").references("stages.id");
-    table.string("user").notNullable();
-    table.foreign("user").references("users.cpf_cnpj");
-    table.string("farm").notNullable();
-    table.foreign("farm").references("farm.cnpj");
+    table.integer("user_id").notNullable();
+    table.foreign("user_id").references("users.id");
+    table.integer("farm_id").notNullable();
+    table.foreign("farm_id").references("farm.id");
   });
 }
 

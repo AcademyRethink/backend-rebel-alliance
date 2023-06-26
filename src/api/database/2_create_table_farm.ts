@@ -2,10 +2,11 @@ import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("farm", (table) => {
-    table.string("cnpj").primary().notNullable();
+    table.increments();
+    table.string("cnpj").notNullable();
     table.string("name").notNullable();
     table.string("phone").notNullable();
-    table.integer("address").notNullable();
+    table.integer("address_id").notNullable();
     table.foreign("address").references("address.id");
   });
 }
