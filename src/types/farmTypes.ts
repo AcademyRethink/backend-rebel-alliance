@@ -1,9 +1,9 @@
 type FarmWhithIDsOfFKs = {
   id?: number;
-  cnpj?: string;
+  cpnj?: string;
   name?: string;
   phone?: string;
-  adress_id?: number;
+  address_id?: number;
 };
 
 export { FarmWhithIDsOfFKs };
