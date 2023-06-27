@@ -23,32 +23,10 @@ const getllPlantingsOfAUser = async (
 const postPlanting = async (planting: PlantingsWithNames) => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
 
-  const plotResult: ColumnId[] = await plantingsRepository.selectId(
-    "plot",
-    "name",
-    plot
-  );
-  const stageResult: ColumnId[] = await plantingsRepository.selectId(
-    "stages",
-    "stage",
-    stage
-  );
-  const userResult: ColumnId[] = await plantingsRepository.selectId(
-    "users",
-    "cpf_cnpj",
-    user
-  );
-  const farmResult: ColumnId[] = await plantingsRepository.selectId(
-    "farm",
-    "name",
-    farm
-  );
-
-  const plotId: number | null = plotResult.length > 0 ? plotResult[0].id : null;
-  const stageId: number | null =
-    stageResult.length > 0 ? stageResult[0].id : null;
-  const userId: number | null = userResult.length > 0 ? userResult[0].id : null;
-  const farmId: number | null = farmResult.length > 0 ? farmResult[0].id : null;
+  const plotId: number | null = await selectId("plot", "name", plot);
+  const stageId: number | null = await selectId("stages", "stage", stage);
+  const userId: number | null = await selectId("users", "cpf_cnpj", user);
+  const farmId: number | null = await selectId("farm", "name", farm);
 
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
@@ -68,6 +46,32 @@ const postPlanting = async (planting: PlantingsWithNames) => {
   }
 };
 
+const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
+  const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
+
+  const plotId: number | null = await selectId("plot", "name", plot);
+  const stageId: number | null = await selectId("stages", "stage", stage);
+  const userId: number | null = await selectId("users", "cpf_cnpj", user);
+  const farmId: number | null = await selectId("farm", "name", farm);
+
+  if (plotId && stageId && userId && farmId) {
+    const formatedPlanting: PlantingsWithIds = {
+      ...data,
+      plot_id: plotId,
+      stages_id: stageId,
+      user_id: userId,
+      farm_id: farmId,
+    };
+
+    await plantingsRepository.updatePlanting(id, formatedPlanting);
+  } else {
+    throw makeError({
+      message: "Some ID can not found",
+      status: 400,
+    });
+  }
+};
+
 const deletePlanting = async (id: number): Promise<number> => {
   const planting: number = await plantingsRepository.deletePlanting(id);
   if (!planting)
@@ -75,9 +79,23 @@ const deletePlanting = async (id: number): Promise<number> => {
   return planting;
 };
 
+const selectId = async (
+  tableName: string,
+  columnName: string,
+  value: string
+): Promise<number | null> => {
+  const result: ColumnId[] = await plantingsRepository.selectId(
+    tableName,
+    columnName,
+    value
+  );
+  return result.length > 0 ? result[0].id : null;
+};
+
 export default {
   getAllPlantings,
   getllPlantingsOfAUser,
   postPlanting,
+  updatePlanting,
   deletePlanting,
 };

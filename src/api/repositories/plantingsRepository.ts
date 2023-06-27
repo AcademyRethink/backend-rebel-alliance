@@ -51,6 +51,11 @@ const selectId = (
 const insertPlanting = (planting: PlantingsWithIds): Promise<Array<number>> =>
   knexInstance("planting").insert(planting);
 
+const updatePlanting = (
+  id: number,
+  planting: PlantingsWithIds
+): Promise<number> => knexInstance("planting").update(planting).where({ id });
+
 const deletePlanting = (id: number): Promise<number> =>
   knexInstance("planting").delete().where({ id });
 
@@ -59,5 +64,6 @@ export default {
   selectAllPlantingsOfAUser,
   insertPlanting,
   selectId,
+  updatePlanting,
   deletePlanting,
 };

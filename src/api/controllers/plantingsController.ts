@@ -54,6 +54,30 @@ const insert = async (
   }
 };
 
+const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const id: number = parseInt(req.params.id);
+    const { date, saplings, plot, stage, user, farm }: PlantingsWithNames =
+      req.body;
+    const planting: PlantingsWithNames = {
+      date,
+      saplings,
+      plot,
+      stage,
+      user,
+      farm,
+    };
+    await plantingsService.updatePlanting(id, planting);
+    res.send("Planting has been updated");
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
 const remove = async (
   req: Request,
   res: Response,
@@ -68,4 +92,4 @@ const remove = async (
   }
 };
 
-export default { index, show, insert, remove };
+export default { index, show, insert, update, remove };
