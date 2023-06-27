@@ -11,7 +11,7 @@ const index = async (
     const plantings: PlantingsWithNames[] =
       await plantingsService.getAllPlantings();
     res.status(200).send(plantings);
-  } catch (error) {
+  } catch (error: unknown) {
     next(error);
   }
 };
@@ -26,7 +26,7 @@ const show = async (
     const plantings: PlantingsWithNames[] =
       await plantingsService.getllPlantingsOfAUser(id);
     res.status(200).send(plantings);
-  } catch (error) {
+  } catch (error: unknown) {
     next(error);
   }
 };
@@ -48,10 +48,24 @@ const insert = async (
       farm,
     };
     await plantingsService.postPlanting(planting);
-    res.send("Plantio Cadastrada");
-  } catch (error) {
+    res.send("Registered planting");
+  } catch (error: unknown) {
     next(error);
   }
 };
 
-export default { index, show, insert };
+const remove = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const id: number = parseInt(req.params.id);
+    await plantingsService.deletePlanting(id);
+    res.send("Planting has benn deleted");
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+export default { index, show, insert, remove };

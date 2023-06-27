@@ -5,7 +5,6 @@ import {
 } from "../../types/plantingTypes";
 import plantingsRepository from "../repositories/plantingsRepository";
 import { makeError } from "../middlewares/errorHandler";
-// import { ErrorType } from "../../types";
 
 const getAllPlantings = async (): Promise<PlantingsWithNames[]> =>
   await plantingsRepository.selectAllPlantings();
@@ -16,7 +15,7 @@ const getllPlantingsOfAUser = async (
   const plantings: PlantingsWithNames[] =
     await plantingsRepository.selectAllPlantingsOfAUser(id);
   if (!plantings.length) {
-    makeError({ message: "Farm not found", status: 400 });
+    throw makeError({ message: "Farm not found", status: 400 });
   }
   return plantings;
 };
@@ -36,7 +35,7 @@ const postPlanting = async (planting: PlantingsWithNames) => {
   );
   const userResult: ColumnId[] = await plantingsRepository.selectId(
     "users",
-    "name",
+    "cpf_cnpj",
     user
   );
   const farmResult: ColumnId[] = await plantingsRepository.selectId(
@@ -69,4 +68,16 @@ const postPlanting = async (planting: PlantingsWithNames) => {
   }
 };
 
-export default { getAllPlantings, getllPlantingsOfAUser, postPlanting };
+const deletePlanting = async (id: number): Promise<number> => {
+  const planting: number = await plantingsRepository.deletePlanting(id);
+  if (!planting)
+    throw makeError({ message: "Planting not found", status: 400 });
+  return planting;
+};
+
+export default {
+  getAllPlantings,
+  getllPlantingsOfAUser,
+  postPlanting,
+  deletePlanting,
+};
