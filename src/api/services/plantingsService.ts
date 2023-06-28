@@ -28,7 +28,7 @@ const getllPlantingsOfAUser = async (
   return plantings;
 };
 
-const postPlanting = async (planting: PlantingsWithNames) => {
+const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
   const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
@@ -45,6 +45,7 @@ const postPlanting = async (planting: PlantingsWithNames) => {
     };
 
     await plantingsRepository.insertPlanting(formatedPlanting);
+    return "Registered planting";
   } else {
     throw makeError({
       message: "Some ID can not found",
@@ -53,7 +54,10 @@ const postPlanting = async (planting: PlantingsWithNames) => {
   }
 };
 
-const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
+const updatePlanting = async (
+  id: number,
+  planting: PlantingsWithNames
+): Promise<string> => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
   const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
@@ -70,6 +74,7 @@ const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
     };
 
     await plantingsRepository.updatePlanting(id, formatedPlanting);
+    return "Planting has been updated";
   } else {
     throw makeError({
       message: "Some ID can not found",
@@ -78,14 +83,14 @@ const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
   }
 };
 
-const deletePlanting = async (id: number): Promise<number> => {
+const deletePlanting = async (id: number): Promise<string> => {
   const planting: number = await plantingsRepository.deletePlanting(id);
   if (!planting)
     throw makeError({ message: "Planting not found", status: 400 });
-  return planting;
+  return "Planting has benn deleted";
 };
 
-const getllPlantingsOfAUserByPlot = async (
+const getAllPlantingsOfAUserByPlot = async (
   farmId: number,
   plotId: number
 ): Promise<PlantingsWithNames[]> => {
@@ -100,7 +105,7 @@ const getllPlantingsOfAUserByPlot = async (
   return plantings;
 };
 
-const getllPlantingsOfAUserByDate = async (
+const getAllPlantingsOfAUserByDate = async (
   farmId: number,
   date: string
 ): Promise<PlantingsWithNames[]> => {
@@ -115,7 +120,7 @@ const getllPlantingsOfAUserByDate = async (
   return plantings;
 };
 
-const getllPlantingsOfAUserByPlotAndByDate = async (
+const getAllPlantingsOfAUserByPlotAndByDate = async (
   farmId: number,
   plotId: number,
   date: string
@@ -153,8 +158,8 @@ export default {
   postPlanting,
   updatePlanting,
   deletePlanting,
-  getllPlantingsOfAUserByPlot,
-  getllPlantingsOfAUserByDate,
-  getllPlantingsOfAUserByPlotAndByDate,
+  getAllPlantingsOfAUserByPlot,
+  getAllPlantingsOfAUserByDate,
+  getAllPlantingsOfAUserByPlotAndByDate,
   selectId,
 };

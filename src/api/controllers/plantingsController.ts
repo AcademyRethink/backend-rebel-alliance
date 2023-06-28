@@ -47,8 +47,8 @@ const insert = async (
       user,
       farm,
     };
-    await plantingsService.postPlanting(planting);
-    res.send("Registered planting");
+    const registeredPlanting = await plantingsService.postPlanting(planting);
+    res.send(registeredPlanting);
   } catch (error: unknown) {
     next(error);
   }
@@ -71,8 +71,8 @@ const update = async (
       user,
       farm,
     };
-    await plantingsService.updatePlanting(id, planting);
-    res.send("Planting has been updated");
+    const updatePlanting = await plantingsService.updatePlanting(id, planting);
+    res.send(updatePlanting);
   } catch (error: unknown) {
     next(error);
   }
@@ -85,8 +85,8 @@ const remove = async (
 ): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
-    await plantingsService.deletePlanting(id);
-    res.send("Planting has benn deleted");
+    const deletePlanting = await plantingsService.deletePlanting(id);
+    res.send(deletePlanting);
   } catch (error: unknown) {
     next(error);
   }
@@ -102,7 +102,7 @@ const showByPlot = async (
     const plotId: number = parseInt(req.params.plotId);
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUserByPlot(farmId, plotId);
+      await plantingsService.getAllPlantingsOfAUserByPlot(farmId, plotId);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -119,7 +119,7 @@ const showByDate = async (
     const plantingDate: string = req.params.plantingDate;
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUserByDate(farmId, plantingDate);
+      await plantingsService.getAllPlantingsOfAUserByDate(farmId, plantingDate);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -137,7 +137,7 @@ const showByPlotAndDate = async (
     const plantingDate: string = req.params.plantingDate;
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUserByPlotAndByDate(
+      await plantingsService.getAllPlantingsOfAUserByPlotAndByDate(
         farmId,
         plotId,
         plantingDate
