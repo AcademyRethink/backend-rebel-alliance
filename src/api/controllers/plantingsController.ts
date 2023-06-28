@@ -22,9 +22,9 @@ const show = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
+    const farmId: number = parseInt(req.params.farmId);
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUser(id);
+      await plantingsService.getllPlantingsOfAUser(farmId);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -92,4 +92,68 @@ const remove = async (
   }
 };
 
-export default { index, show, insert, update, remove };
+const showByPlot = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const farmId: number = parseInt(req.params.farmId);
+    const plotId: number = parseInt(req.params.plotId);
+
+    const plantings: PlantingsWithNames[] =
+      await plantingsService.getllPlantingsOfAUserByPlot(farmId, plotId);
+    res.status(200).send(plantings);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const showByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const farmId: number = parseInt(req.params.farmId);
+    const plantingDate: string = req.params.plantingDate;
+
+    const plantings: PlantingsWithNames[] =
+      await plantingsService.getllPlantingsOfAUserByDate(farmId, plantingDate);
+    res.status(200).send(plantings);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const showByPlotAndDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const farmId: number = parseInt(req.params.farmId);
+    const plotId: number = parseInt(req.params.plotId);
+    const plantingDate: string = req.params.plantingDate;
+
+    const plantings: PlantingsWithNames[] =
+      await plantingsService.getllPlantingsOfAUserByPlotAndByDate(
+        farmId,
+        plotId,
+        plantingDate
+      );
+    res.status(200).send(plantings);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+export default {
+  index,
+  show,
+  insert,
+  update,
+  remove,
+  showByPlot,
+  showByDate,
+  showByPlotAndDate,
+};

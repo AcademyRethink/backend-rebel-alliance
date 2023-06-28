@@ -6,8 +6,13 @@ import {
 import plantingsRepository from "../repositories/plantingsRepository";
 import { makeError } from "../middlewares/errorHandler";
 
-const getAllPlantings = async (): Promise<PlantingsWithNames[]> =>
-  await plantingsRepository.selectAllPlantings();
+const getAllPlantings = async (): Promise<PlantingsWithNames[]> => {
+  const plantings = await plantingsRepository.selectAllPlantings();
+  if (!plantings.length) {
+    throw makeError({ message: "Plantings not found", status: 400 });
+  }
+  return plantings;
+};
 
 const getllPlantingsOfAUser = async (
   id: number
@@ -15,14 +20,16 @@ const getllPlantingsOfAUser = async (
   const plantings: PlantingsWithNames[] =
     await plantingsRepository.selectAllPlantingsOfAUser(id);
   if (!plantings.length) {
-    throw makeError({ message: "Farm not found", status: 400 });
+    throw makeError({
+      message: "Farm not found or there are no plantations",
+      status: 400,
+    });
   }
   return plantings;
 };
 
 const postPlanting = async (planting: PlantingsWithNames) => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
-
   const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
   const userId: number | null = await selectId("users", "cpf_cnpj", user);
@@ -30,11 +37,11 @@ const postPlanting = async (planting: PlantingsWithNames) => {
 
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
-      ...data,
       plot_id: plotId,
       stages_id: stageId,
       user_id: userId,
       farm_id: farmId,
+      ...data,
     };
 
     await plantingsRepository.insertPlanting(formatedPlanting);
@@ -48,7 +55,6 @@ const postPlanting = async (planting: PlantingsWithNames) => {
 
 const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
-
   const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
   const userId: number | null = await selectId("users", "cpf_cnpj", user);
@@ -56,11 +62,11 @@ const updatePlanting = async (id: number, planting: PlantingsWithNames) => {
 
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
-      ...data,
       plot_id: plotId,
       stages_id: stageId,
       user_id: userId,
       farm_id: farmId,
+      ...data,
     };
 
     await plantingsRepository.updatePlanting(id, formatedPlanting);
@@ -79,6 +85,55 @@ const deletePlanting = async (id: number): Promise<number> => {
   return planting;
 };
 
+const getllPlantingsOfAUserByPlot = async (
+  farmId: number,
+  plotId: number
+): Promise<PlantingsWithNames[]> => {
+  const plantings: PlantingsWithNames[] =
+    await plantingsRepository.selectAllPlantingsOfAUserByPlot(farmId, plotId);
+  if (!plantings.length) {
+    throw makeError({
+      message: "Farm not found or there are no plantations",
+      status: 400,
+    });
+  }
+  return plantings;
+};
+
+const getllPlantingsOfAUserByDate = async (
+  farmId: number,
+  date: string
+): Promise<PlantingsWithNames[]> => {
+  const plantings: PlantingsWithNames[] =
+    await plantingsRepository.selectAllPlantingsOfAUserByDate(farmId, date);
+  if (!plantings.length) {
+    throw makeError({
+      message: "Farm not found or there are no plantations",
+      status: 400,
+    });
+  }
+  return plantings;
+};
+
+const getllPlantingsOfAUserByPlotAndByDate = async (
+  farmId: number,
+  plotId: number,
+  date: string
+): Promise<PlantingsWithNames[]> => {
+  const plantings: PlantingsWithNames[] =
+    await plantingsRepository.selectAllPlantingsOfAUserByPlotAndByDate(
+      farmId,
+      plotId,
+      date
+    );
+  if (!plantings.length) {
+    throw makeError({
+      message: "Farm not found or there are no plantations",
+      status: 400,
+    });
+  }
+  return plantings;
+};
 const selectId = async (
   tableName: string,
   columnName: string,
@@ -98,4 +153,8 @@ export default {
   postPlanting,
   updatePlanting,
   deletePlanting,
+  getllPlantingsOfAUserByPlot,
+  getllPlantingsOfAUserByDate,
+  getllPlantingsOfAUserByPlotAndByDate,
+  selectId,
 };

@@ -1,17 +1,47 @@
 import { Request, Response, NextFunction } from "express";
 import { string, number, object } from "yup";
 
-const hasTrueStrict = { strict: true };
+const hasTrueStrict: { strict: boolean } = { strict: true };
 
-const plantingPathValidator = async (
+const plantingPathValidatorByFarm = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
-    const pathPlanting = parseInt(req.params.id);
-    const pathPlantingSchema = number().required("Id is required");
+    const pathPlanting = parseInt(req.params.farmId);
+    const pathPlantingSchema = number().required("Farm id is required");
     await pathPlantingSchema.validate(pathPlanting, hasTrueStrict);
+    next();
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const plantingPathValidatorByPlot = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const pathPlantingPlot = parseInt(req.params.plotId);
+    const pathPlantingPlotSchema = number().required("Plot id is required");
+    await pathPlantingPlotSchema.validate(pathPlantingPlot, hasTrueStrict);
+    next();
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const plantingPathValidatorByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const pathPlantingDate = req.params.plantingDate;
+    const pathPlantingDateSchema = string().required("Data id required");
+    await pathPlantingDateSchema.validate(pathPlantingDate, hasTrueStrict);
     next();
   } catch (error: unknown) {
     next(error);
@@ -22,7 +52,7 @@ const plantingsDataValidator = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const planting = req.body;
     const plantingSchema = object({
@@ -40,4 +70,9 @@ const plantingsDataValidator = async (
   }
 };
 
-export default { plantingPathValidator, plantingsDataValidator };
+export default {
+  plantingPathValidatorByFarm,
+  plantingsDataValidator,
+  plantingPathValidatorByPlot,
+  plantingPathValidatorByDate,
+};

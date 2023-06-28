@@ -1,6 +1,6 @@
 type PlantingsWithIds = {
   id?: number;
-  date?: Date;
+  date?: string;
   saplings?: number;
   plot_id?: number;
   stages_id?: number;
@@ -10,7 +10,7 @@ type PlantingsWithIds = {
 
 type PlantingsWithNames = {
   id?: number;
-  date: Date;
+  date: string;
   saplings: number;
   plot: string;
   stage: string;
