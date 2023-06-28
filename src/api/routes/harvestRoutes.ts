@@ -1,9 +1,14 @@
 import { Router } from "express";
 import harvestController from "../controllers/harvestController";
+import dataValidator from "../middlewares/dataValidator";
 
 const harvestRouter: Router = Router();
 
-harvestRouter.post("/", harvestController.insert);
+harvestRouter.post(
+  "/",
+  dataValidator.harvestDataValidator,
+  harvestController.insert
+);
 
 harvestRouter.get("/:farmid", harvestController.index);
 
@@ -22,8 +27,12 @@ harvestRouter.get(
   harvestController.getHarvestOfTheFarmByDateAndPlot
 );
 
-harvestRouter.patch("/:harvestid", harvestController.updateHarvestOfTheFarm);
+harvestRouter.patch(
+  "/:harvestid",
+  dataValidator.harvestPatchDataValidator,
+  harvestController.updateHarvestOfTheFarm
+);
 
-harvestRouter.delete("/:harvestid");
+harvestRouter.delete("/:harvestid", harvestController.deleteHarvest);
 
 export { harvestRouter };

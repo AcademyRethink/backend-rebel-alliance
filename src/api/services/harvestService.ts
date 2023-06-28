@@ -131,6 +131,13 @@ const updateHarvest = async (
   return newHarvestData;
 };
 
+const deleteHarvest = async (harvestId: number) => {
+  const isDeleted = await harvestRepository.deleteHarvest(harvestId);
+
+  if (isDeleted) return { message: "Harvest deleted successfully" };
+  return { message: "Harvest not deleted" };
+};
+
 export default {
   registerNewHarvest,
   getAllHarvestsOfTheFarm,
@@ -138,4 +145,5 @@ export default {
   getHarvestsOfTheFarmByDate,
   getHarvestOfTheFarmByDateAndPlot,
   updateHarvest,
+  deleteHarvest,
 };

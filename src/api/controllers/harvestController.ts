@@ -96,7 +96,19 @@ const updateHarvestOfTheFarm = async (
   } catch (error: unknown) {}
 };
 
-// const deleteHarvest =
+const deleteHarvest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = parseInt(req.params.harvestid);
+    const deleteStatus = await harvestService.deleteHarvest(id);
+    res.status(200).json(deleteStatus);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
 
 export default {
   insert,
@@ -105,4 +117,5 @@ export default {
   getHarvestsOfTheFarmByDate,
   getHarvestOfTheFarmByDateAndPlot,
   updateHarvestOfTheFarm,
+  deleteHarvest,
 };
