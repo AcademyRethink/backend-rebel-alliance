@@ -12,10 +12,32 @@ const insert = async (
 
   return newHarvest[0];
 };
+
 const selectAllOfTheFarmWithJoin = async (
   farmId: number
 ): Promise<HarvestWhithNamesOfFKs[]> => {
-  const allPlots = await knexInstance("harvest")
+  const harvests = await knexInstance("harvest")
+    .select(
+      "harvest.id",
+      "harvest.date",
+      "harvest.bags",
+      "plot.name as plot_name",
+      "users.name as user_name",
+      "farm.name as farm_name"
+    )
+    .join("plot", "plot.id", "=", "harvest.plot_id")
+    .join("users", "users.id", "=", "harvest.user_id")
+    .join("farm", "farm.id", "=", "harvest.farm_id")
+    .where({ "harvest.farm_id": farmId });
+
+  return harvests;
+};
+
+const selectFromFarmByIdWithJoin = async (
+  farmId: number,
+  harvestId: number
+): Promise<HarvestWhithNamesOfFKs[]> => {
+  const harvests = await knexInstance("harvest")
     .select(
       "harvest.date",
       "harvest.bags",
@@ -25,19 +47,106 @@ const selectAllOfTheFarmWithJoin = async (
     )
     .join("plot", "plot.id", "=", "harvest.plot_id")
     .join("users", "users.id", "=", "harvest.user_id")
-    .join("farm", "farm.id", "=", "plot.farm_id")
-    .where({ "farm.id": farmId });
+    .join("farm", "farm.id", "=", "harvest.farm_id")
+    .where({ "harvest.id": harvestId, "harvest.farm_id": farmId });
 
-  return allPlots;
+  return harvests;
 };
 
-// const update = async ( harvestId: number,
-//   harvestData: HarvestWhithIDsOfFKs
-// ): Promise<HarvestWhithIDsOfFKs> => {
-//   const newHarvest: HarvestWhithIDsOfFKs[] = await knexInstance("harvest")
-//     .insert(harvestData)
-//     .returning(["id", "date", "bags", "plot_id", "user_id", "farm_id"]);
+const selectFromFarmByPlotIdWithJoin = async (
+  farmId: number,
+  plotId: number
+): Promise<HarvestWhithNamesOfFKs[]> => {
+  const harvests = await knexInstance("harvest")
+    .select(
+      "harvest.id",
+      "harvest.date",
+      "harvest.bags",
+      "plot.name as plot_name",
+      "users.name as user_name",
+      "farm.name as farm_name"
+    )
+    .join("plot", "plot.id", "=", "harvest.plot_id")
+    .join("users", "users.id", "=", "harvest.user_id")
+    .join("farm", "farm.id", "=", "harvest.farm_id")
+    .where({ "harvest.plot_id": plotId, "harvest.farm_id": farmId });
 
-//   return newHarvest[0];
-// };
-export default { selectAllOfTheFarmWithJoin, insert };
+  return harvests;
+};
+
+const selectFromFarmByDateWithJoin = async (
+  farmId: number,
+  harvestDate: string
+): Promise<HarvestWhithNamesOfFKs[]> => {
+  const harvests = await knexInstance("harvest")
+    .select(
+      "harvest.id",
+      "harvest.date",
+      "harvest.bags",
+      "plot.name as plot_name",
+      "users.name as user_name",
+      "farm.name as farm_name"
+    )
+    .join("plot", "plot.id", "=", "harvest.plot_id")
+    .join("users", "users.id", "=", "harvest.user_id")
+    .join("farm", "farm.id", "=", "harvest.farm_id")
+    .where({ "harvest.farm_id": farmId, "harvest.date": harvestDate });
+
+  return harvests;
+};
+
+const selectFromFarmByDateAndPlotWithJoin = async (
+  farmId: number,
+  harvestDate: string,
+  plotId: number
+): Promise<HarvestWhithNamesOfFKs[]> => {
+  const harvests = await knexInstance("harvest")
+    .select(
+      "harvest.date",
+      "harvest.bags",
+      "plot.name as plot_name",
+      "users.name as user_name",
+      "farm.name as farm_name"
+    )
+    .join("plot", "plot.id", "=", "harvest.plot_id")
+    .join("users", "users.id", "=", "harvest.user_id")
+    .join("farm", "farm.id", "=", "harvest.farm_id")
+    .whereRaw(`DATE(harvest.date) = ?`, [harvestDate])
+    .where({ "harvest.plot_id": plotId, "harvest.farm_id": farmId });
+
+  return harvests;
+};
+
+const updateHarvest = async (
+  harvestId: number,
+  harvestData: HarvestWhithIDsOfFKs
+): Promise<HarvestWhithIDsOfFKs> => {
+  const updatedHarvest: HarvestWhithIDsOfFKs[] = await knexInstance("harvest")
+    .update(harvestData)
+    .where({ "harvest.id": harvestId })
+    .returning(["id", "date", "bags", "plot_id", "user_id", "farm_id"]);
+
+  return updatedHarvest[0];
+};
+
+const deleteHarvest = async (harvestId: number): Promise<boolean> => {
+  const isDeleted = await knexInstance("harvest")
+    .delete()
+    .where({ "harvest.id": harvestId });
+
+  if (isDeleted > 0) {
+    return true;
+  }
+  return false;
+};
+
+export default {
+  insert,
+  selectAllOfTheFarmWithJoin,
+  selectFromFarmByIdWithJoin,
+  selectFromFarmByPlotIdWithJoin,
+  selectFromFarmByDateWithJoin,
+  selectFromFarmByDateAndPlotWithJoin,
+  updateHarvest,
+  deleteHarvest,
+};

@@ -23,4 +23,4 @@ const selectByNameWhithoutJoin = async (
   return farm[0];
 };
 
-export { selectByIdWithoutJoin, selectByNameWhithoutJoin };
+export default { selectByIdWithoutJoin, selectByNameWhithoutJoin };
