@@ -13,7 +13,7 @@ harvestRouter.get(
 );
 
 harvestRouter.get(
-  "/farm/:farmid/date/:farmdate",
+  "/farm/:farmid/date/:harvestdate",
   harvestController.getHarvestsOfTheFarmByDate
 );
 export { harvestRouter };
