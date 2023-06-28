@@ -12,7 +12,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Bem vindo ao Dashboard da Rebel Alliance");
 });
 
-app.use("/current", weather);
+app.use("/weather", weather);
 
 app.listen(3000, () => {
   console.log("Ta funcionando");

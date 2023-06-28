@@ -1,14 +1,11 @@
-import { Router, Request, Response } from "express";
-import { getCurrentWeather } from "../weather_api/current";
+import { Router } from "express";
+import weatherController from "../controllers/weatherController";
 
 const router = Router();
 
-const currentWeather = async (req: Request, res: Response) => {
-  const query = req.query;
-  const response = await getCurrentWeather(query.city);
-  res.send(response);
-};
-
-router.use("/", currentWeather);
+router.use("/current", weatherController.getCurrentWeather);
+router.use("/hourly", weatherController.getHourlyForecast);
+router.use("/daily", weatherController.getDailyForecast);
+router.use("/month", weatherController.getMonthForecast);
 
 export default router;

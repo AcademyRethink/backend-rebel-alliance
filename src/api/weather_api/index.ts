@@ -21,5 +21,5 @@ export const forecastWeatherApi = axios.create({
 });
 
 export const forecastProWeatherApi = axios.create({
-  baseURL: "https://pro.openweathermap.org/data/2.5/forecast",
+  baseURL: "https://pro.openweathermap.org/data/2.5/forecast/",
 });
