@@ -75,9 +75,67 @@ const getHarvestsOfTheFarmByDate = async (
   return harvests;
 };
 
+const getHarvestOfTheFarmByDateAndPlot = async (
+  farmID: number,
+  plotId: number,
+  harvestDate: string
+): Promise<HarvestWhithNamesOfFKs[]> => {
+  const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
+  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
+  const findFarm = await farmRepository.selectByIdWithoutJoin(farmID);
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+
+  const harvests = await harvestRepository.selectFromFarmByDateAndPlotWithJoin(
+    farmID,
+    plotId,
+    harvestDate
+  );
+
+  return harvests;
+};
+
+const updateHarvest = async (
+  harvestID: number,
+  harvestData: HarvestWhithNamesOfFKs
+) => {
+  if (harvestData.plot_name) {
+    const findPlot = await plotRepository.selectByNameWhithoutJoin(
+      harvestData.plot_name
+    );
+    if (!findPlot)
+      throw makeError({ message: "New Plot Not Found", status: 400 });
+  }
+  if (harvestData.user_name) {
+    const findUser = await userRepository.selectByNameWithoutJoin(
+      harvestData.user_name!
+    );
+    if (!findUser)
+      throw makeError({ message: "New User Not Found", status: 400 });
+  }
+
+  if (harvestData.farm_name) {
+    const findFarm = await farmRepository.selectByNameWhithoutJoin(
+      harvestData.farm_name
+    );
+    if (!findFarm)
+      throw makeError({ message: "New Farm Not Found", status: 400 });
+  }
+
+  const newData = harvestData;
+
+  const newHarvestData = await harvestRepository.updateHarvest(
+    harvestID,
+    newData
+  );
+
+  return newHarvestData;
+};
+
 export default {
   registerNewHarvest,
   getAllHarvestsOfTheFarm,
   getHarvestsOfTheFarmByPlotId,
   getHarvestsOfTheFarmByDate,
+  getHarvestOfTheFarmByDateAndPlot,
+  updateHarvest,
 };

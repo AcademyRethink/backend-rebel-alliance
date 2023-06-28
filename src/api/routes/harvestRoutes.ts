@@ -16,4 +16,14 @@ harvestRouter.get(
   "/farm/:farmid/date/:harvestdate",
   harvestController.getHarvestsOfTheFarmByDate
 );
+
+harvestRouter.get(
+  "/farm/:farmid/plot/:plotid/date/:harvestdate",
+  harvestController.getHarvestOfTheFarmByDateAndPlot
+);
+
+harvestRouter.patch("/:harvestid", harvestController.updateHarvestOfTheFarm);
+
+harvestRouter.delete("/:harvestid");
+
 export { harvestRouter };

@@ -97,8 +97,8 @@ const selectFromFarmByDateWithJoin = async (
 
 const selectFromFarmByDateAndPlotWithJoin = async (
   farmId: number,
-  harvestDate: string,
-  plotId: number
+  plotId: number,
+  harvestDate: string
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const harvests = await knexInstance("harvest")
     .select(
@@ -111,8 +111,11 @@ const selectFromFarmByDateAndPlotWithJoin = async (
     .join("plot", "plot.id", "=", "harvest.plot_id")
     .join("users", "users.id", "=", "harvest.user_id")
     .join("farm", "farm.id", "=", "harvest.farm_id")
-    .whereRaw(`DATE(harvest.date) = ?`, [harvestDate])
-    .where({ "harvest.plot_id": plotId, "harvest.farm_id": farmId });
+    .where({
+      "harvest.plot_id": plotId,
+      "harvest.farm_id": farmId,
+      "harvest.date": harvestDate,
+    });
 
   return harvests;
 };

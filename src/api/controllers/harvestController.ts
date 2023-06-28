@@ -46,11 +46,11 @@ const getHarvestsOfTheFarmByDate = async (
   next: NextFunction
 ) => {
   try {
-    const farID = parseInt(req.params.farmid);
+    const farmID = parseInt(req.params.farmid);
     const harvestDate = req.params.harvestdate;
 
     const harvests = await harvestService.getHarvestsOfTheFarmByDate(
-      farID,
+      farmID,
       harvestDate
     );
 
@@ -60,9 +60,49 @@ const getHarvestsOfTheFarmByDate = async (
   }
 };
 
+const getHarvestOfTheFarmByDateAndPlot = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const farmID = parseInt(req.params.farmid);
+    const plotId = parseInt(req.params.plotid);
+    const harvestDate = req.params.harvestdate;
+
+    const harvests = await harvestService.getHarvestOfTheFarmByDateAndPlot(
+      farmID,
+      plotId,
+      harvestDate
+    );
+
+    res.status(200).json(harvests);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const updateHarvestOfTheFarm = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = parseInt(req.params.harvestid);
+    const newHarvestData = req.body;
+    const newHarvest = await harvestService.updateHarvest(id, newHarvestData);
+
+    res.status(200).json(newHarvest);
+  } catch (error: unknown) {}
+};
+
+// const deleteHarvest =
+
 export default {
   insert,
   index,
   getHarvestsOfTheFarmByPlotId,
   getHarvestsOfTheFarmByDate,
+  getHarvestOfTheFarmByDateAndPlot,
+  updateHarvestOfTheFarm,
 };
