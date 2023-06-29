@@ -50,6 +50,7 @@ const getHarvestsOfTheFarmByPlotId = async (
   plotId: number
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
+
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
 
   const harvests = await harvestRepository.selectFromFarmByPlotIdWithJoin(

@@ -10,7 +10,7 @@ harvestRouter.post(
   harvestController.insert
 );
 
-harvestRouter.get("/:farmid", harvestController.index);
+harvestRouter.get("/farm/:farmid", harvestController.index);
 
 harvestRouter.get(
   "/farm/:farmid/plot/:plotid",
