@@ -2,7 +2,7 @@ import { Router } from "express";
 import weatherController from "../controllers/weatherController";
 import middleware from "../middlewares/weatherQueryValidator";
 
-const router = Router();
+const router: Router = Router();
 
 router.use(
   "/current",
