@@ -1,17 +1,13 @@
 import { QueryType } from "../../types/queryType";
-import { getCurrentWeather } from "../weather_api/current";
-import {
-  get4DaysHourlyForecast,
-  getUpTo16DaysForecast,
-  getUpTo30DaysForecast,
-} from "../weather_api/forecast";
+import { makeError } from "../middlewares/errorHandler";
+import weatherApi from "../weatherApi";
 
 const current = async (
   city: QueryType,
   state?: QueryType,
   country?: QueryType
 ) => {
-  const response = await getCurrentWeather(city, state, country);
+  const response = await weatherApi.getCurrentWeather(city, state, country);
   return response;
 };
 
@@ -21,7 +17,16 @@ const hourlyForecast = async (
   country?: QueryType,
   hours?: QueryType
 ) => {
-  const response = await get4DaysHourlyForecast(city, state, country, hours);
+  const hoursParam = hours ? parseInt(hours as string) : 0;
+  if (hoursParam > 96)
+    throw makeError({ message: "Hours must be in 1 - 96 interval", status: 400 });
+
+  const response = await weatherApi.get4DaysHourlyForecast(
+    city,
+    state,
+    country,
+    hours
+  );
   return response;
 };
 
@@ -31,7 +36,16 @@ const upTo16DaysForecast = async (
   country?: QueryType,
   days?: QueryType
 ) => {
-  const response = await getUpTo16DaysForecast(city, state, country, days);
+  const daysParam = days ? parseInt(days as string) : 0;
+  if (daysParam > 16)
+    throw makeError({ message: "Days must be in 1 - 16 interval", status: 400 });
+
+  const response = await weatherApi.getUpTo16DaysForecast(
+    city,
+    state,
+    country,
+    days
+  );
   return response;
 };
 
@@ -41,7 +55,16 @@ const upTo30DaysForecast = async (
   country?: QueryType,
   days?: QueryType
 ) => {
-  const response = await getUpTo30DaysForecast(city, state, country, days);
+  const daysParam = days ? parseInt(days as string) : 0;
+  if (daysParam > 30)
+    throw makeError({ message: "Days must be in 1 - 16 interval", status: 400 });
+
+  const response = await weatherApi.getUpTo30DaysForecast(
+    city,
+    state,
+    country,
+    days
+  );
   return response;
 };
 

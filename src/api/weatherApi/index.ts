@@ -1,8 +1,9 @@
 import {
+  currentWeatherApi,
   forecastWeatherApi,
   forecastProWeatherApi,
   defaultParameters,
-} from ".";
+} from "./apiConnection";
 import { QueryType } from "../../types/queryType";
 
 const makeLocale = (
@@ -17,7 +18,20 @@ const makeLocale = (
     : cityName;
 };
 
-export const get4DaysHourlyForecast = async (
+const getCurrentWeather = async (
+  cityName: QueryType,
+  stateName?: QueryType,
+  countryName?: QueryType
+) => {
+  const locale = makeLocale(cityName, stateName, countryName);
+
+  const response = await currentWeatherApi.get(
+    `?q=${locale}&${defaultParameters}`
+  );
+  return response.data;
+};
+
+const get4DaysHourlyForecast = async (
   cityName: QueryType,
   stateName?: QueryType,
   countryName?: QueryType,
@@ -31,7 +45,7 @@ export const get4DaysHourlyForecast = async (
   return response.data;
 };
 
-export const getUpTo16DaysForecast = async (
+const getUpTo16DaysForecast = async (
   cityName: QueryType,
   stateName?: QueryType,
   countryName?: QueryType,
@@ -45,7 +59,7 @@ export const getUpTo16DaysForecast = async (
   return response.data;
 };
 
-export const getUpTo30DaysForecast = async (
+const getUpTo30DaysForecast = async (
   cityName: QueryType,
   stateName?: QueryType,
   countryName?: QueryType,
@@ -57,4 +71,11 @@ export const getUpTo30DaysForecast = async (
     `/climate?q=${locale}&${defaultParameters}&cnt=${numberOfDays}`
   );
   return response.data;
+};
+
+export default {
+  getCurrentWeather,
+  get4DaysHourlyForecast,
+  getUpTo16DaysForecast,
+  getUpTo30DaysForecast,
 };
