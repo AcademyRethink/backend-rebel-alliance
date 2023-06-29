@@ -1,6 +1,6 @@
 type StagesWithName = {
   id?: number;
-  name: string;
+  stage: string;
   culture: string;
   order: number;
 };
