@@ -24,7 +24,7 @@ const show = async (
   try {
     const farmId: number = parseInt(req.params.farmId);
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUser(farmId);
+      await plantingsService.getllPlantingsOfAFarm(farmId);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -102,7 +102,7 @@ const showByPlot = async (
     const plotId: number = parseInt(req.params.plotId);
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByPlot(farmId, plotId);
+      await plantingsService.getAllPlantingsOfAFarmByPlot(farmId, plotId);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -119,7 +119,7 @@ const showByDate = async (
     const plantingDate: string = req.params.plantingDate;
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByDate(farmId, plantingDate);
+      await plantingsService.getAllPlantingsOfAFarmByDate(farmId, plantingDate);
     res.status(200).send(plantings);
   } catch (error: unknown) {
     next(error);
@@ -137,7 +137,7 @@ const showByPlotAndDate = async (
     const plantingDate: string = req.params.plantingDate;
 
     const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByPlotAndByDate(
+      await plantingsService.getAllPlantingsOfAFarmByPlotAndByDate(
         farmId,
         plotId,
         plantingDate

@@ -24,7 +24,7 @@ const selectAllPlantings = (): Promise<PlantingsWithNames[]> =>
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id");
 
-const selectAllPlantingsOfAUser = (id: number): Promise<PlantingsWithNames[]> =>
+const selectAllPlantingsOfAFarm = (id: number): Promise<PlantingsWithNames[]> =>
   knexInstance("planting")
     .where({ "planting.farm_id": id })
     .select(
@@ -59,7 +59,7 @@ const updatePlanting = (
 const deletePlanting = (id: number): Promise<number> =>
   knexInstance("planting").delete().where({ id });
 
-const selectAllPlantingsOfAUserByPlot = (
+const selectAllPlantingsOfAFarmByPlot = (
   farmId: number,
   plotId: number
 ): Promise<PlantingsWithNames[]> =>
@@ -79,7 +79,7 @@ const selectAllPlantingsOfAUserByPlot = (
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id");
 
-const selectAllPlantingsOfAUserByDate = (
+const selectAllPlantingsOfAFarmByDate = (
   farmId: number,
   date: string
 ): Promise<PlantingsWithNames[]> =>
@@ -99,7 +99,7 @@ const selectAllPlantingsOfAUserByDate = (
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id");
 
-const selectAllPlantingsOfAUserByPlotAndByDate = (
+const selectAllPlantingsOfAFarmByPlotAndByDate = (
   farmId: number,
   plotId: number,
   date: string
@@ -125,12 +125,12 @@ const selectAllPlantingsOfAUserByPlotAndByDate = (
     .join("farm", "farm.id", "=", "planting.farm_id");
 export default {
   selectAllPlantings,
-  selectAllPlantingsOfAUser,
+  selectAllPlantingsOfAFarm,
   insertPlanting,
   selectId,
   updatePlanting,
   deletePlanting,
-  selectAllPlantingsOfAUserByPlot,
-  selectAllPlantingsOfAUserByDate,
-  selectAllPlantingsOfAUserByPlotAndByDate,
+  selectAllPlantingsOfAFarmByPlot,
+  selectAllPlantingsOfAFarmByDate,
+  selectAllPlantingsOfAFarmByPlotAndByDate,
 };

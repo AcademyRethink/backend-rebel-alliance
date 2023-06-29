@@ -26,20 +26,20 @@ describe("Plantings Tests", () => {
       });
     }
   });
-  it("Read All Plantings of a User", async () => {
+  it("Read All Plantings of a Farm", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUser")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarm")
       .mockResolvedValueOnce([plantingData]);
     const result: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAUser(1);
+      await plantingsService.getllPlantingsOfAFarm(1);
     expect(result).toMatchObject([plantingData]);
   });
   it("Plantings or farm not found", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUser")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarm")
       .mockResolvedValueOnce([]);
     try {
-      await plantingsService.getllPlantingsOfAUser(0);
+      await plantingsService.getllPlantingsOfAFarm(0);
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not found or there are no plantations",
@@ -102,20 +102,20 @@ describe("Plantings Tests", () => {
       });
     }
   });
-  it("Read All Plantings of a User By Plot", async () => {
+  it("Read All Plantings of a Farm By Plot", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByPlot")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByPlot")
       .mockResolvedValueOnce([plantingData]);
     const result: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByPlot(1, 1);
+      await plantingsService.getAllPlantingsOfAFarmByPlot(1, 1);
     expect(result).toMatchObject([plantingData]);
   });
-  it("Farm not found or there are no plantations - Plantings of a User By Plot", async () => {
+  it("Farm not found or there are no plantations - Plantings of a Farm By Plot", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByPlot")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByPlot")
       .mockResolvedValueOnce([]);
     try {
-      await plantingsService.getAllPlantingsOfAUserByPlot(10, 10);
+      await plantingsService.getAllPlantingsOfAFarmByPlot(10, 10);
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not found or there are no plantations",
@@ -123,20 +123,20 @@ describe("Plantings Tests", () => {
       });
     }
   });
-  it("Read All Plantings of a User By Date", async () => {
+  it("Read All Plantings of a Farm By Date", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByDate")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByDate")
       .mockResolvedValueOnce([plantingData]);
     const result: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByDate(1, "2023-06-26");
+      await plantingsService.getAllPlantingsOfAFarmByDate(1, "2023-06-26");
     expect(result).toMatchObject([plantingData]);
   });
   it("Farm not found or there are no plantations - Plantings of a User By Date", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByDate")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByDate")
       .mockResolvedValueOnce([]);
     try {
-      await plantingsService.getAllPlantingsOfAUserByDate(10, "2023-10-26");
+      await plantingsService.getAllPlantingsOfAFarmByDate(10, "2023-10-26");
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not found or there are no plantations",
@@ -144,24 +144,24 @@ describe("Plantings Tests", () => {
       });
     }
   });
-  it("Read All Plantings of a User By Plot and by date", async () => {
+  it("Read All Plantings of a Farm By Plot and by date", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByPlotAndByDate")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByPlotAndByDate")
       .mockResolvedValueOnce([plantingData]);
     const result: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAUserByPlotAndByDate(
+      await plantingsService.getAllPlantingsOfAFarmByPlotAndByDate(
         1,
         1,
         "2023-06-26"
       );
     expect(result).toMatchObject([plantingData]);
   });
-  it("Farm not found or there are no plantations - Plantings of a User By Plot and by date", async () => {
+  it("Farm not found or there are no plantations - Plantings of a Farm By Plot and by date", async () => {
     jest
-      .spyOn(plantingsRepository, "selectAllPlantingsOfAUserByPlotAndByDate")
+      .spyOn(plantingsRepository, "selectAllPlantingsOfAFarmByPlotAndByDate")
       .mockResolvedValueOnce([]);
     try {
-      await plantingsService.getAllPlantingsOfAUserByPlotAndByDate(
+      await plantingsService.getAllPlantingsOfAFarmByPlotAndByDate(
         10,
         10,
         "2023-10-26"

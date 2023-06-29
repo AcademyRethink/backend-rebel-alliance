@@ -14,11 +14,11 @@ const getAllPlantings = async (): Promise<PlantingsWithNames[]> => {
   return plantings;
 };
 
-const getllPlantingsOfAUser = async (
+const getllPlantingsOfAFarm = async (
   id: number
 ): Promise<PlantingsWithNames[]> => {
   const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAUser(id);
+    await plantingsRepository.selectAllPlantingsOfAFarm(id);
   if (!plantings.length) {
     throw makeError({
       message: "Farm not found or there are no plantations",
@@ -90,12 +90,12 @@ const deletePlanting = async (id: number): Promise<string> => {
   return "Planting has benn deleted";
 };
 
-const getAllPlantingsOfAUserByPlot = async (
+const getAllPlantingsOfAFarmByPlot = async (
   farmId: number,
   plotId: number
 ): Promise<PlantingsWithNames[]> => {
   const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAUserByPlot(farmId, plotId);
+    await plantingsRepository.selectAllPlantingsOfAFarmByPlot(farmId, plotId);
   if (!plantings.length) {
     throw makeError({
       message: "Farm not found or there are no plantations",
@@ -105,12 +105,12 @@ const getAllPlantingsOfAUserByPlot = async (
   return plantings;
 };
 
-const getAllPlantingsOfAUserByDate = async (
+const getAllPlantingsOfAFarmByDate = async (
   farmId: number,
   date: string
 ): Promise<PlantingsWithNames[]> => {
   const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAUserByDate(farmId, date);
+    await plantingsRepository.selectAllPlantingsOfAFarmByDate(farmId, date);
   if (!plantings.length) {
     throw makeError({
       message: "Farm not found or there are no plantations",
@@ -120,13 +120,13 @@ const getAllPlantingsOfAUserByDate = async (
   return plantings;
 };
 
-const getAllPlantingsOfAUserByPlotAndByDate = async (
+const getAllPlantingsOfAFarmByPlotAndByDate = async (
   farmId: number,
   plotId: number,
   date: string
 ): Promise<PlantingsWithNames[]> => {
   const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAUserByPlotAndByDate(
+    await plantingsRepository.selectAllPlantingsOfAFarmByPlotAndByDate(
       farmId,
       plotId,
       date
@@ -154,12 +154,12 @@ const selectId = async (
 
 export default {
   getAllPlantings,
-  getllPlantingsOfAUser,
+  getllPlantingsOfAFarm,
   postPlanting,
   updatePlanting,
   deletePlanting,
-  getAllPlantingsOfAUserByPlot,
-  getAllPlantingsOfAUserByDate,
-  getAllPlantingsOfAUserByPlotAndByDate,
+  getAllPlantingsOfAFarmByPlot,
+  getAllPlantingsOfAFarmByDate,
+  getAllPlantingsOfAFarmByPlotAndByDate,
   selectId,
 };
