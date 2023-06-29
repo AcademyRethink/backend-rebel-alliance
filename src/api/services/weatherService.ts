@@ -57,7 +57,7 @@ const upTo30DaysForecast = async (
 ) => {
   const daysParam = days ? parseInt(days as string) : 0;
   if (daysParam > 30)
-    throw makeError({ message: "Days must be in 1 - 16 interval", status: 400 });
+    throw makeError({ message: "Days must be in 1 - 30 interval", status: 400 });
 
   const response = await weatherApi.getUpTo30DaysForecast(
     city,
