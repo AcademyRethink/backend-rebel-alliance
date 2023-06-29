@@ -1,4 +1,9 @@
 import { QueryType } from "../../types/queryType";
+import {
+  CurrentWeather,
+  DailyWeather,
+  HourlyWeather,
+} from "../../types/weatherTypes";
 import { makeError } from "../middlewares/errorHandler";
 import weatherApi from "../weatherApi";
 
@@ -6,9 +11,8 @@ const current = async (
   city: QueryType,
   state?: QueryType,
   country?: QueryType
-) => {
-  const response = await weatherApi.getCurrentWeather(city, state, country);
-  return response;
+): Promise<CurrentWeather> => {
+  return await weatherApi.getCurrentWeather(city, state, country);
 };
 
 const hourlyForecast = async (
@@ -16,18 +20,15 @@ const hourlyForecast = async (
   state?: QueryType,
   country?: QueryType,
   hours?: QueryType
-) => {
-  const hoursParam = hours ? parseInt(hours as string) : 0;
+): Promise<HourlyWeather> => {
+  const hoursParam: number = hours ? parseInt(hours as string) : 0;
   if (hoursParam > 96)
-    throw makeError({ message: "Hours must be in 1 - 96 interval", status: 400 });
+    throw makeError({
+      message: "Hours must be in 1 - 96 interval",
+      status: 400,
+    });
 
-  const response = await weatherApi.get4DaysHourlyForecast(
-    city,
-    state,
-    country,
-    hours
-  );
-  return response;
+  return await weatherApi.get4DaysHourlyForecast(city, state, country, hours);
 };
 
 const upTo16DaysForecast = async (
@@ -35,18 +36,15 @@ const upTo16DaysForecast = async (
   state?: QueryType,
   country?: QueryType,
   days?: QueryType
-) => {
-  const daysParam = days ? parseInt(days as string) : 0;
+): Promise<DailyWeather> => {
+  const daysParam: number = days ? parseInt(days as string) : 0;
   if (daysParam > 16)
-    throw makeError({ message: "Days must be in 1 - 16 interval", status: 400 });
+    throw makeError({
+      message: "Days must be in 1 - 16 interval",
+      status: 400,
+    });
 
-  const response = await weatherApi.getUpTo16DaysForecast(
-    city,
-    state,
-    country,
-    days
-  );
-  return response;
+  return await weatherApi.getUpTo16DaysForecast(city, state, country, days);
 };
 
 const upTo30DaysForecast = async (
@@ -54,18 +52,15 @@ const upTo30DaysForecast = async (
   state?: QueryType,
   country?: QueryType,
   days?: QueryType
-) => {
-  const daysParam = days ? parseInt(days as string) : 0;
+): Promise<DailyWeather> => {
+  const daysParam: number = days ? parseInt(days as string) : 0;
   if (daysParam > 30)
-    throw makeError({ message: "Days must be in 1 - 30 interval", status: 400 });
+    throw makeError({
+      message: "Days must be in 1 - 30 interval",
+      status: 400,
+    });
 
-  const response = await weatherApi.getUpTo30DaysForecast(
-    city,
-    state,
-    country,
-    days
-  );
-  return response;
+  return await weatherApi.getUpTo30DaysForecast(city, state, country, days);
 };
 
 export default {

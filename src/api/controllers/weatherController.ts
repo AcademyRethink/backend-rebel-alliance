@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import weathterService from "../services/weatherService";
+import {
+  CurrentWeather,
+  DailyWeather,
+  HourlyWeather,
+} from "../../types/weatherTypes";
 
 const getCurrentWeather = async (
   req: Request,
@@ -8,7 +13,11 @@ const getCurrentWeather = async (
 ): Promise<void> => {
   try {
     const { city, state, country } = req.query;
-    const response = await weathterService.current(city, state, country);
+    const response: CurrentWeather = await weathterService.current(
+      city,
+      state,
+      country
+    );
     res.status(200).send(response);
   } catch (error) {
     next(error);
@@ -22,7 +31,7 @@ const getHourlyForecast = async (
 ): Promise<void> => {
   try {
     const { city, state, country, hours } = req.query;
-    const response = await weathterService.hourlyForecast(
+    const response: HourlyWeather = await weathterService.hourlyForecast(
       city,
       state,
       country,
@@ -41,7 +50,7 @@ const getDailyForecast = async (
 ): Promise<void> => {
   try {
     const { city, state, country, days } = req.query;
-    const response = await weathterService.upTo16DaysForecast(
+    const response: DailyWeather = await weathterService.upTo16DaysForecast(
       city,
       state,
       country,
@@ -60,7 +69,7 @@ const getMonthForecast = async (
 ): Promise<void> => {
   try {
     const { city, state, country, days } = req.query;
-    const response = await weathterService.upTo30DaysForecast(
+    const response: DailyWeather = await weathterService.upTo30DaysForecast(
       city,
       state,
       country,

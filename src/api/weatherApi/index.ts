@@ -5,28 +5,33 @@ import {
   defaultParameters,
 } from "./apiConnection";
 import { QueryType } from "../../types/queryType";
+import {
+  CurrentWeather,
+  DailyWeather,
+  HourlyWeather,
+} from "../../types/weatherTypes";
 
-const makeLocale = (
+const makeLocation = (
   cityName: QueryType,
   stateName?: QueryType,
   countryName?: QueryType
-) => {
+): string => {
   return countryName
-    ? `${cityName}, ${stateName}, ${countryName}`
+    ? (`${cityName}, ${stateName}, ${countryName}` as string)
     : stateName
-    ? `${cityName}, ${stateName}`
-    : cityName;
+    ? (`${cityName}, ${stateName}` as string)
+    : (cityName as string);
 };
 
 const getCurrentWeather = async (
   cityName: QueryType,
   stateName?: QueryType,
   countryName?: QueryType
-) => {
-  const locale = makeLocale(cityName, stateName, countryName);
+): Promise<CurrentWeather> => {
+  const location: string = makeLocation(cityName, stateName, countryName);
 
   const response = await currentWeatherApi.get(
-    `?q=${locale}&${defaultParameters}`
+    `?q=${location}&${defaultParameters}`
   );
   return response.data;
 };
@@ -36,11 +41,11 @@ const get4DaysHourlyForecast = async (
   stateName?: QueryType,
   countryName?: QueryType,
   numberOfHours: QueryType = "24" // 1 - 16
-) => {
-  const locale = makeLocale(cityName, stateName, countryName);
+): Promise<HourlyWeather> => {
+  const location: string = makeLocation(cityName, stateName, countryName);
 
   const response = await forecastProWeatherApi.get(
-    `/hourly?q=${locale}&${defaultParameters}&cnt=${numberOfHours}`
+    `/hourly?q=${location}&${defaultParameters}&cnt=${numberOfHours}`
   );
   return response.data;
 };
@@ -50,11 +55,11 @@ const getUpTo16DaysForecast = async (
   stateName?: QueryType,
   countryName?: QueryType,
   numberOfDays: QueryType = "7" // 1 - 16
-) => {
-  const locale = makeLocale(cityName, stateName, countryName);
+): Promise<DailyWeather> => {
+  const location: string = makeLocation(cityName, stateName, countryName);
 
   const response = await forecastWeatherApi.get(
-    `/daily?q=${locale}&${defaultParameters}&cnt=${numberOfDays}`
+    `/daily?q=${location}&${defaultParameters}&cnt=${numberOfDays}`
   );
   return response.data;
 };
@@ -64,11 +69,11 @@ const getUpTo30DaysForecast = async (
   stateName?: QueryType,
   countryName?: QueryType,
   numberOfDays: QueryType = "7" // 1 - 16
-) => {
-  const locale = makeLocale(cityName, stateName, countryName);
+): Promise<DailyWeather> => {
+  const location: string = makeLocation(cityName, stateName, countryName);
 
   const response = await forecastProWeatherApi.get(
-    `/climate?q=${locale}&${defaultParameters}&cnt=${numberOfDays}`
+    `/climate?q=${location}&${defaultParameters}&cnt=${numberOfDays}`
   );
   return response.data;
 };

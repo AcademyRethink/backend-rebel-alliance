@@ -2,8 +2,6 @@ import axios from "axios";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// Api doc -> https://openweathermap.org/api
-
 const parameters = {
   units: "metric",
   lang: "pt_br",
