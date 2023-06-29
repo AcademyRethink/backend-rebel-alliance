@@ -4,22 +4,22 @@ import middleware from "../middlewares/weatherQueryValidator";
 
 const router: Router = Router();
 
-router.use(
+router.get(
   "/current",
   middleware.weatherCityQueryValidator,
   weatherController.getCurrentWeather
 );
-router.use(
+router.get(
   "/hourly",
   middleware.weatherCityQueryValidator,
   weatherController.getHourlyForecast
 );
-router.use(
+router.get(
   "/daily",
   middleware.weatherCityQueryValidator,
   weatherController.getDailyForecast
 );
-router.use(
+router.get(
   "/month",
   middleware.weatherCityQueryValidator,
   weatherController.getMonthForecast
