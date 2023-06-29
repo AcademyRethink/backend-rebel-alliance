@@ -5,11 +5,11 @@ const getCurrentWeather = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { city, state, country } = req.query;
     const response = await weathterService.current(city, state, country);
-    res.send(response);
+    res.status(200).send(response);
   } catch (error) {
     next(error);
   }
@@ -19,7 +19,7 @@ const getHourlyForecast = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { city, state, country, hours } = req.query;
     const response = await weathterService.hourlyForecast(
@@ -28,7 +28,7 @@ const getHourlyForecast = async (
       country,
       hours
     );
-    res.send(response);
+    res.status(200).send(response);
   } catch (error) {
     next(error);
   }
@@ -38,7 +38,7 @@ const getDailyForecast = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { city, state, country, days } = req.query;
     const response = await weathterService.upTo16DaysForecast(
@@ -47,7 +47,7 @@ const getDailyForecast = async (
       country,
       days
     );
-    res.send(response);
+    res.status(200).send(response);
   } catch (error) {
     next(error);
   }
@@ -57,7 +57,7 @@ const getMonthForecast = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { city, state, country, days } = req.query;
     const response = await weathterService.upTo30DaysForecast(
@@ -66,7 +66,7 @@ const getMonthForecast = async (
       country,
       days
     );
-    res.send(response);
+    res.status(200).send(response);
   } catch (error) {
     next(error);
   }
