@@ -151,4 +151,58 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
 
     expect(result).toMatchObject([mockedHarvestWithNames]);
   });
+
+  it("Get Harvests of the farm by harvest date", async () => {
+    jest
+      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest
+      .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
+      .mockResolvedValueOnce([mockedHarvestWithNames]);
+
+    const result = await harvestService.getHarvestsOfTheFarmByDate(
+      1,
+      "2023-06-28"
+    );
+
+    expect(result).toMatchObject([mockedHarvestWithNames]);
+  });
+
+  it("Error test, farm does not exist", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(undefined);
+    jest
+      .spyOn(plotRepository, "selectByIdWhithoutJoin")
+      .mockResolvedValueOnce([mockedFarmWhithIds]);
+
+    jest
+      .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
+      .mockResolvedValueOnce([mockedHarvestWithNames]);
+
+    try {
+      await harvestService.getHarvestsOfTheFarmByPlotId(1, 1);
+    } catch (error) {
+      expect(error).toMatchObject({ message: "Farm Not Found", status: 400 });
+    }
+  });
+
+  it("Error test, plot does not exist", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest
+      .spyOn(plotRepository, "selectByIdWhithoutJoin")
+      .mockResolvedValueOnce(undefined);
+
+    jest
+      .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
+      .mockResolvedValueOnce([mockedHarvestWithNames]);
+
+    try {
+      await harvestService.getHarvestsOfTheFarmByPlotId(1, 1);
+    } catch (error) {
+      expect(error).toMatchObject({ message: "Plot Not Found", status: 400 });
+    }
+  });
 });
