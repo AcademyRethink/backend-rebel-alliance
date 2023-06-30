@@ -18,30 +18,24 @@ const plantingPathValidatorByFarm = async (
   }
 };
 
-const plantingPathValidatorByPlot = async (
+const plantingQueryValidator = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const pathPlantingPlot = parseInt(req.params.plotId);
-    const pathPlantingPlotSchema = number().required("Plot id is required");
-    await pathPlantingPlotSchema.validate(pathPlantingPlot, hasTrueStrict);
-    next();
-  } catch (error: unknown) {
-    next(error);
-  }
-};
+    const farm = req.query.farm ? Number(req.query.farm) : undefined;
+    const plot = req.query.plot ? Number(req.query.plot) : undefined;
+    const date = req.query.date;
+    const query = { farm, plot, date };
 
-const plantingPathValidatorByDate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const pathPlantingDate = req.params.plantingDate;
-    const pathPlantingDateSchema = string().required("Data id required");
-    await pathPlantingDateSchema.validate(pathPlantingDate, hasTrueStrict);
+    const querySchema = object({
+      farm: number(),
+      plot: number(),
+      date: string(),
+    });
+    await querySchema.validate(query, hasTrueStrict);
+
     next();
   } catch (error: unknown) {
     next(error);
@@ -72,7 +66,6 @@ const plantingsDataValidator = async (
 
 export default {
   plantingPathValidatorByFarm,
+  plantingQueryValidator,
   plantingsDataValidator,
-  plantingPathValidatorByPlot,
-  plantingPathValidatorByDate,
 };

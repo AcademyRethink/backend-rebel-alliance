@@ -2,28 +2,25 @@ import {
   ColumnId,
   PlantingsWithIds,
   PlantingsWithNames,
+  WhereType,
+  QueryStringOrNumber,
 } from "../../types/plantingTypes";
 import plantingsRepository from "../repositories/plantingsRepository";
 import { makeError } from "../middlewares/errorHandler";
 
-const getAllPlantings = async (): Promise<PlantingsWithNames[]> => {
-  const plantings = await plantingsRepository.selectAllPlantings();
+const getAllPlantings = async (
+  farm: QueryStringOrNumber,
+  plot: QueryStringOrNumber,
+  date: QueryStringOrNumber
+) => {
+  const where: WhereType = {};
+  if (farm) where["planting.farm_id"] = Number(farm);
+  if (plot) where["planting.plot_id"] = Number(plot);
+  if (date) where["planting.date"] = date;
+
+  const plantings = await plantingsRepository.selectAllPlantings(where);
   if (!plantings.length) {
     throw makeError({ message: "Plantings not found", status: 400 });
-  }
-  return plantings;
-};
-
-const getllPlantingsOfAFarm = async (
-  id: number
-): Promise<PlantingsWithNames[]> => {
-  const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAFarm(id);
-  if (!plantings.length) {
-    throw makeError({
-      message: "Farm not found or there are no plantations",
-      status: 400,
-    });
   }
   return plantings;
 };
@@ -90,55 +87,6 @@ const deletePlanting = async (id: number): Promise<string> => {
   return "Planting has benn deleted";
 };
 
-const getAllPlantingsOfAFarmByPlot = async (
-  farmId: number,
-  plotId: number
-): Promise<PlantingsWithNames[]> => {
-  const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAFarmByPlot(farmId, plotId);
-  if (!plantings.length) {
-    throw makeError({
-      message: "Farm not found or there are no plantations",
-      status: 400,
-    });
-  }
-  return plantings;
-};
-
-const getAllPlantingsOfAFarmByDate = async (
-  farmId: number,
-  date: string
-): Promise<PlantingsWithNames[]> => {
-  const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAFarmByDate(farmId, date);
-  if (!plantings.length) {
-    throw makeError({
-      message: "Farm not found or there are no plantations",
-      status: 400,
-    });
-  }
-  return plantings;
-};
-
-const getAllPlantingsOfAFarmByPlotAndByDate = async (
-  farmId: number,
-  plotId: number,
-  date: string
-): Promise<PlantingsWithNames[]> => {
-  const plantings: PlantingsWithNames[] =
-    await plantingsRepository.selectAllPlantingsOfAFarmByPlotAndByDate(
-      farmId,
-      plotId,
-      date
-    );
-  if (!plantings.length) {
-    throw makeError({
-      message: "Farm not found or there are no plantations",
-      status: 400,
-    });
-  }
-  return plantings;
-};
 const selectId = async (
   tableName: string,
   columnName: string,
@@ -154,12 +102,8 @@ const selectId = async (
 
 export default {
   getAllPlantings,
-  getllPlantingsOfAFarm,
   postPlanting,
   updatePlanting,
   deletePlanting,
-  getAllPlantingsOfAFarmByPlot,
-  getAllPlantingsOfAFarmByDate,
-  getAllPlantingsOfAFarmByPlotAndByDate,
   selectId,
 };

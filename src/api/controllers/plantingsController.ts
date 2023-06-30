@@ -8,25 +8,10 @@ const index = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantings();
+    const { farm, plot, date } = req.query;
+    const plantings = await plantingsService.getAllPlantings(farm, plot, date);
     res.status(200).send(plantings);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
-
-const show = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const farmId: number = parseInt(req.params.farmId);
-    const plantings: PlantingsWithNames[] =
-      await plantingsService.getllPlantingsOfAFarm(farmId);
-    res.status(200).send(plantings);
-  } catch (error: unknown) {
+  } catch (error) {
     next(error);
   }
 };
@@ -92,68 +77,9 @@ const remove = async (
   }
 };
 
-const showByPlot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const farmId: number = parseInt(req.params.farmId);
-    const plotId: number = parseInt(req.params.plotId);
-
-    const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAFarmByPlot(farmId, plotId);
-    res.status(200).send(plantings);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
-
-const showByDate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const farmId: number = parseInt(req.params.farmId);
-    const plantingDate: string = req.params.plantingDate;
-
-    const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAFarmByDate(farmId, plantingDate);
-    res.status(200).send(plantings);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
-
-const showByPlotAndDate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const farmId: number = parseInt(req.params.farmId);
-    const plotId: number = parseInt(req.params.plotId);
-    const plantingDate: string = req.params.plantingDate;
-
-    const plantings: PlantingsWithNames[] =
-      await plantingsService.getAllPlantingsOfAFarmByPlotAndByDate(
-        farmId,
-        plotId,
-        plantingDate
-      );
-    res.status(200).send(plantings);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
 export default {
   index,
-  show,
   insert,
   update,
   remove,
-  showByPlot,
-  showByDate,
-  showByPlotAndDate,
 };

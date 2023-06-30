@@ -1,3 +1,5 @@
+import QueryString from "qs";
+
 type PlantingsWithIds = {
   id?: number;
   date?: string;
@@ -22,4 +24,24 @@ type ColumnId = {
   id: number;
 };
 
-export { PlantingsWithIds, PlantingsWithNames, ColumnId };
+type WhereType = {
+  "planting.farm_id"?: QueryStringOrNumber;
+  "planting.plot_id"?: QueryStringOrNumber;
+  "planting.date"?: QueryStringOrNumber;
+};
+
+type QueryStringOrNumber =
+  | number
+  | string
+  | string[]
+  | QueryString.ParsedQs
+  | QueryString.ParsedQs[]
+  | undefined;
+
+export {
+  PlantingsWithIds,
+  PlantingsWithNames,
+  ColumnId,
+  WhereType,
+  QueryStringOrNumber,
+};
