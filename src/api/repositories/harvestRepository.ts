@@ -91,6 +91,10 @@ const selectFromFarmByDateWithJoin = async (
     .join("users", "users.id", "=", "harvest.user_id")
     .join("farm", "farm.id", "=", "harvest.farm_id")
     .where({ "harvest.farm_id": farmId, "harvest.date": harvestDate });
+  harvests.map((item) => {
+    item.date = item.date.toISOString();
+    return item;
+  });
 
   return harvests;
 };
@@ -117,6 +121,10 @@ const selectFromFarmByDateAndPlotWithJoin = async (
       "harvest.date": harvestDate,
     });
 
+  harvests.map((item) => {
+    item.date = item.date.toISOString();
+    return item;
+  });
   return harvests;
 };
 

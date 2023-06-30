@@ -8,7 +8,7 @@ import {
 
 export const mockedHarvestWithIds: HarvestWhithIDsOfFKs = {
   id: 2,
-  date: "2023-06-28T03:00:00.000Z",
+  date: new Date("2023-06-28"),
   bags: 40,
   plot_id: 1,
   user_id: 1,
@@ -16,7 +16,7 @@ export const mockedHarvestWithIds: HarvestWhithIDsOfFKs = {
 };
 export const mockedHarvestWithNames: HarvestWhithNamesOfFKs = {
   id: 2,
-  date: "2023-06-28T03:00:00.000Z",
+  date: new Date("2023-06-28"),
   bags: 40,
   plot_name: "Baixada Mineria",
   user_name: "Jose",

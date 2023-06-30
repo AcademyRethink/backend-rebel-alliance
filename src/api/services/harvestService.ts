@@ -55,6 +55,12 @@ const getHarvestsOfTheFarmByPlotId = async (
   const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
 
+  if (findPlot.farm_id != findFarm.id)
+    throw makeError({
+      message: "Plot does not belong to the farm",
+      status: 400,
+    });
+
   const harvests = await harvestRepository.selectFromFarmByPlotIdWithJoin(
     farmID,
     plotId
@@ -85,6 +91,7 @@ const getHarvestOfTheFarmByDateAndPlot = async (
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
+
   const findFarm = await farmRepository.selectByIdWithoutJoin(farmID);
   if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
 
@@ -151,9 +158,9 @@ export default {
   deleteHarvest,
 };
 
-harvestRepository
-  .selectAllOfTheFarmWithJoin(1)
-  .then((item) => console.log(item))
-  .catch((error) => {
-    console.log(error);
-  });
+// harvestRepository
+//   .selectAllOfTheFarmWithJoin(1)
+//   .then((item) => console.log(item))
+//   .catch((error) => {
+//     console.log(error);
+//   });

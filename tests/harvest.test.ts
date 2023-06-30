@@ -28,7 +28,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       .mockResolvedValueOnce(mockedHarvestWithIds);
 
     const result = await harvestService.registerNewHarvest({
-      date: "2023-06-28T03:00:00.000Z",
+      date: new Date("2023-06-28T03:00:00.000Z"),
       bags: 40,
       plot_name: "Baixada Mineria",
       user_name: "Jose",
@@ -53,7 +53,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
     try {
       await harvestService.registerNewHarvest({
-        date: "2023-06-28T03:00:00.000Z",
+        date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
         plot_name: "Baixada Mineria",
         user_name: "Jose",
@@ -80,7 +80,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
     try {
       await harvestService.registerNewHarvest({
-        date: "2023-06-28T03:00:00.000Z",
+        date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
         plot_name: "Baixada Mineria",
         user_name: "Jose",
@@ -107,7 +107,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
     try {
       await harvestService.registerNewHarvest({
-        date: "2023-06-28T03:00:00.000Z",
+        date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
         plot_name: "Baixada Mineria",
         user_name: "Jose",
@@ -129,6 +129,7 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
 
     expect(result).toMatchObject([mockedHarvestWithNames]);
   });
+
   it("Farm does not have harvests", async () => {
     jest
       .spyOn(harvestRepository, "selectAllOfTheFarmWithJoin")
@@ -141,7 +142,11 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
 
   it("Get Harvests of the farm by plot id", async () => {
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(mockedFarmWhithIds);
+
+    jest
+      .spyOn(plotRepository, "selectByIdWhithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
     jest
       .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
@@ -154,8 +159,13 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
 
   it("Get Harvests of the farm by harvest date", async () => {
     jest
+      .spyOn(plotRepository, "selectByIdWhithoutJoin")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
+
+    jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
+
     jest
       .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
       .mockResolvedValueOnce([mockedHarvestWithNames]);
@@ -165,7 +175,53 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
       "2023-06-28"
     );
 
-    expect(result).toMatchObject([mockedHarvestWithNames]);
+    expect(result).toMatchObject([
+      {
+        date: "2023-06-28T03:00:00.000Z",
+        bags: 40,
+        plot_name: "Baixada Mineria",
+        user_name: "Jose",
+        farm_name: "Fazenda Rebel Alliance",
+      },
+    ]);
+  });
+
+  it("Get Harvests of the farm by plot and harvest date", async () => {
+    jest
+      .spyOn(plotRepository, "selectByIdWhithoutJoin")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
+
+    jest
+      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .mockResolvedValueOnce(mockedFarmWhithIds);
+
+    jest
+      .spyOn(harvestRepository, "selectFromFarmByPlotIdWithJoin")
+      .mockResolvedValueOnce([
+        {
+          date: new Date("2023-06-28T03:00:00.000Z"),
+          bags: 40,
+          plot_name: "Baixada Mineria",
+          user_name: "Jose",
+          farm_name: "Fazenda Rebel Alliance",
+        },
+      ]);
+
+    const result = await harvestService.getHarvestOfTheFarmByDateAndPlot(
+      1,
+      1,
+      "2023-06-28"
+    );
+
+    expect(result).toMatchObject([
+      {
+        date: "2023-06-28T03:00:00.000Z",
+        bags: 40,
+        plot_name: "Baixada Mineria",
+        user_name: "Jose",
+        farm_name: "Fazenda Rebel Alliance",
+      },
+    ]);
   });
 
   it("Error test, farm does not exist", async () => {
