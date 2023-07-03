@@ -3,7 +3,9 @@ import config from "../../../knexfile";
 import { PlotWhithIDsOfFKs } from "../../types";
 const knexInstance = knex(config);
 
-const selectByIdWhithoutJoin = async (plotId: number) => {
+const selectByIdWhithoutJoin = async (
+  plotId: number
+): Promise<PlotWhithIDsOfFKs | undefined> => {
   const plot = await knexInstance("plot").select("*").where({ id: plotId });
 
   return plot[0];
