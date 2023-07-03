@@ -6,7 +6,7 @@ const router: Router = Router();
 
 router.get("/farm/:id", middleware.idValidator, plotController.index);
 router.post("/", middleware.plotDataValidator, plotController.insert);
-router.patch(
+router.put(
   "/:id",
   middleware.idValidator,
   middleware.plotDataValidator,
