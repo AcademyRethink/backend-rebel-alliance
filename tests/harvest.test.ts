@@ -224,12 +224,5 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
     } catch (error) {
       expect(error).toMatchObject({ message: "Plot Not Found", status: 400 });
     }
-
-    // try {
-    //   await harvestService.getHarvestsOfTheFarmByPlotId(1, 1);
-    // } catch (error) {
-
-    //
-    // }
   });
 });

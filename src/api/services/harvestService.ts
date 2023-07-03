@@ -157,10 +157,3 @@ export default {
   updateHarvest,
   deleteHarvest,
 };
-
-// harvestRepository
-//   .selectAllOfTheFarmWithJoin(1)
-//   .then((item) => console.log(item))
-//   .catch((error) => {
-//     console.log(error);
-//   });
