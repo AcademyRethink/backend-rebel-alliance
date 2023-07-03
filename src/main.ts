@@ -14,5 +14,3 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(3000, () => {
   console.log("Ta funcionando");
 });
-
-export default app;
