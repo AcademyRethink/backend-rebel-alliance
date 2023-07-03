@@ -108,30 +108,55 @@ const updateHarvest = async (
   harvestID: number,
   harvestData: HarvestWhithNamesOfFKs
 ) => {
+  const newData = await harvestRepository.selectFromAllByIdWithoutJoin(
+    harvestID
+  ); // pega os dados antigos e vai atualizando pra depois inserir
+
+  if (!newData) throw makeError({ message: "Harvest Not Found", status: 400 });
+
   if (harvestData.plot_name) {
-    const findPlot = await plotRepository.selectByNameWhithoutJoin(
+    const findNewPlot = await plotRepository.selectByNameWhithoutJoin(
       harvestData.plot_name
     );
-    if (!findPlot)
+    if (!findNewPlot)
       throw makeError({ message: "New Plot Not Found", status: 400 });
+
+    newData.plot_id = findNewPlot.id;
   }
   if (harvestData.user_name) {
-    const findUser = await userRepository.selectByNameWithoutJoin(
+    const findNewUser = await userRepository.selectByNameWithoutJoin(
       harvestData.user_name!
     );
-    if (!findUser)
+    if (!findNewUser)
       throw makeError({ message: "New User Not Found", status: 400 });
-  }
 
+    newData.user_id = findNewUser.id;
+  }
   if (harvestData.farm_name) {
-    const findFarm = await farmRepository.selectByNameWhithoutJoin(
+    const findNewFarm = await farmRepository.selectByNameWhithoutJoin(
       harvestData.farm_name
     );
-    if (!findFarm)
+    if (!findNewFarm)
       throw makeError({ message: "New Farm Not Found", status: 400 });
+
+    newData.farm_id = findNewFarm.id;
   }
 
-  const newData = harvestData;
+  //parte para verificar se o plot realmente pertence a fazenda por segurança
+
+  const checkFarm = await farmRepository.selectByIdWithoutJoin(
+    newData.farm_id!
+  );
+  const checkPlot = await plotRepository.selectByIdWhithoutJoin(
+    newData.plot_id!
+  );
+
+  if (checkFarm?.id !== checkPlot?.id) {
+    throw makeError({
+      message: "Plot does not belong to the farm",
+      status: 400,
+    });
+  }
 
   const newHarvestData = await harvestRepository.updateHarvest(
     harvestID,

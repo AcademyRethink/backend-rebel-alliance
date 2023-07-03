@@ -16,7 +16,7 @@ const selectByNameWhithoutJoin = async (
 ): Promise<PlotWhithIDsOfFKs | undefined> => {
   const plot = await knexInstance("plot")
     .select("*")
-    .where("name", "like", `%${plotName}%`);
+    .where("name", "ilike", `%${plotName}%`);
 
   return plot[0];
 };

@@ -13,6 +13,16 @@ const insert = async (
   return newHarvest[0];
 };
 
+const selectFromAllByIdWithoutJoin = async (
+  harvestId: number
+): Promise<HarvestWhithIDsOfFKs | undefined> => {
+  const harvests = await knexInstance("harvest")
+    .select("*")
+    .where({ "harvest.id": harvestId });
+
+  return harvests[0];
+};
+
 const selectAllOfTheFarmWithJoin = async (
   farmId: number
 ): Promise<HarvestWhithNamesOfFKs[]> => {
@@ -153,6 +163,7 @@ const deleteHarvest = async (harvestId: number): Promise<boolean> => {
 
 export default {
   insert,
+  selectFromAllByIdWithoutJoin,
   selectAllOfTheFarmWithJoin,
   selectFromFarmByIdWithJoin,
   selectFromFarmByPlotIdWithJoin,

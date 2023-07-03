@@ -93,7 +93,9 @@ const updateHarvestOfTheFarm = async (
     const newHarvest = await harvestService.updateHarvest(id, newHarvestData);
 
     res.status(200).json(newHarvest);
-  } catch (error: unknown) {}
+  } catch (error: unknown) {
+    next(error);
+  }
 };
 
 const deleteHarvest = async (
