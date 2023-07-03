@@ -4,4 +4,9 @@ type PlotWhithIDsOfFKs = {
   farm_id?: number;
 };
 
-export { PlotWhithIDsOfFKs };
+type PlotWithFarmName = {
+  name: string;
+  farm: string;
+};
+
+export { PlotWhithIDsOfFKs, PlotWithFarmName };

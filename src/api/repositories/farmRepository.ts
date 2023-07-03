@@ -18,7 +18,7 @@ const selectByNameWhithoutJoin = async (
 ): Promise<FarmWhithIDsOfFKs> => {
   const farm: FarmWhithIDsOfFKs[] = await knexInstance("farm")
     .select("*")
-    .where("name", "like", `%${farmName}%`);
+    .where("name", "ilike", `%${farmName}%`);
 
   return farm[0];
 };

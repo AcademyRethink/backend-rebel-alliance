@@ -1,6 +1,6 @@
 type FarmWhithIDsOfFKs = {
   id?: number;
-  cpnj?: string;
+  cnpj?: string;
   name?: string;
   phone?: string;
   address_id?: number;
