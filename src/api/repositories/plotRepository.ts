@@ -43,11 +43,13 @@ const deletePlot = async (id: number): Promise<PlotWhithIDsOfFKs> => {
 const selectPlotByIdAndFarmId = async (
   id: number,
   farm_id: number
-): Promise<PlotWhithIDsOfFKs> => {
+): Promise<PlotWhithIDsOfFKs | undefined> => {
   return (await knexInstance("plot").select("*").where({ id, farm_id }))[0];
 };
 
-const selectByIdWhithoutJoin = async (plotId: number) => {
+const selectByIdWhithoutJoin = async (
+  plotId: number
+): Promise<PlotWhithIDsOfFKs | undefined> => {
   const plot: PlotWhithIDsOfFKs[] = await knexInstance("plot")
     .select("*")
     .where({ id: plotId });
@@ -55,7 +57,9 @@ const selectByIdWhithoutJoin = async (plotId: number) => {
   return plot[0];
 };
 
-const selectByNameWhithoutJoin = async (plotName: string) => {
+const selectByNameWhithoutJoin = async (
+  plotName: string
+): Promise<PlotWhithIDsOfFKs | undefined> => {
   const plot: PlotWhithIDsOfFKs[] = await knexInstance("plot")
     .select("*")
     .where("name", "ilike", `%${plotName}%`);

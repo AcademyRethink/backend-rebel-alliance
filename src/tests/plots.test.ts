@@ -6,10 +6,12 @@ import farmRepository from "../api/repositories/farmRepository";
 
 describe("Get all plots of the farm", () => {
   it("Should return all plots of the informated farm", async () => {
-    jest.spyOn(farmRepository, "selectByIdWithoutJoin").mockResolvedValue(farm);
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(farm);
     jest
       .spyOn(plotRepository, "selectPlotsByFarmId")
-      .mockResolvedValue(allPlots);
+      .mockResolvedValueOnce(allPlots);
 
     expect(await plotService.getPlotsInFarm(1)).toMatchObject([plot]);
   });
@@ -17,8 +19,7 @@ describe("Get all plots of the farm", () => {
   it("Should throw an error if the informated farm does not exist", async () => {
     jest
       .spyOn(farmRepository, "selectByIdWithoutJoin")
-      .mockResolvedValue(allFarms[1]);
-    jest.spyOn(plotRepository, "selectPlotsByFarmId").mockResolvedValue([plot]);
+      .mockResolvedValueOnce(undefined);
 
     try {
       await plotService.getPlotsInFarm(5);
@@ -32,12 +33,12 @@ describe("Insert a new plot on farm", () => {
   it("Should return the inserted plot", async () => {
     jest
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(allPlots[1]);
+      .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(farm);
+      .mockResolvedValueOnce(farm);
 
-    jest.spyOn(plotRepository, "insertPlot").mockResolvedValue(plot);
+    jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(plot);
 
     expect(
       await plotService.postPlot({ name: "plotName", farm: "farmName" })
@@ -47,12 +48,7 @@ describe("Insert a new plot on farm", () => {
   it("Should throw an error if the plot already exists", async () => {
     jest
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(allPlots[0]);
-    jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(farm);
-
-    jest.spyOn(plotRepository, "insertPlot").mockResolvedValue(plot);
+      .mockResolvedValueOnce(plot);
 
     try {
       await plotService.postPlot({ name: "plotName", farm: "farmName" });
@@ -64,12 +60,10 @@ describe("Insert a new plot on farm", () => {
   it("Should throw an error if the farm does not exist", async () => {
     jest
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(allPlots[1]);
+      .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(allFarms[1]);
-
-    jest.spyOn(plotRepository, "insertPlot").mockResolvedValue(plot);
+      .mockResolvedValueOnce(undefined);
 
     try {
       await plotService.postPlot({ name: "plotName", farm: "farmName" });
@@ -83,12 +77,12 @@ describe("Update a plot on farm", () => {
   it("Should return the updated plot", async () => {
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(farm);
+      .mockResolvedValueOnce(farm);
     jest
       .spyOn(plotRepository, "selectPlotByIdAndFarmId")
-      .mockResolvedValue(allPlots[0]);
+      .mockResolvedValueOnce(plot);
 
-    jest.spyOn(plotRepository, "updatePlot").mockResolvedValue(plot);
+    jest.spyOn(plotRepository, "updatePlot").mockResolvedValueOnce(plot);
 
     expect(
       await plotService.updatePlot(1, { name: "plotName", farm: "farmName" })
@@ -98,12 +92,7 @@ describe("Update a plot on farm", () => {
   it("Should throw an error if the farm does not exist", async () => {
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(allFarms[1]);
-    jest
-      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
-      .mockResolvedValue(allPlots[0]);
-
-    jest.spyOn(plotRepository, "updatePlot").mockResolvedValue(plot);
+      .mockResolvedValueOnce(undefined);
 
     try {
       await plotService.updatePlot(1, { name: "plotName", farm: "farmName" });
@@ -115,12 +104,10 @@ describe("Update a plot on farm", () => {
   it("Should throw an error if the plot does not exist or does not belong to the farm", async () => {
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValue(farm);
+      .mockResolvedValueOnce(farm);
     jest
       .spyOn(plotRepository, "selectPlotByIdAndFarmId")
-      .mockResolvedValue(allPlots[1]);
-
-    jest.spyOn(plotRepository, "updatePlot").mockResolvedValue(plot);
+      .mockResolvedValueOnce(undefined);
 
     try {
       await plotService.updatePlot(1, { name: "plotName", farm: "farmName" });
@@ -137,9 +124,9 @@ describe("Delete a plot of the farm", () => {
   it("Should return the deleted plot of the farm", async () => {
     jest
       .spyOn(plotRepository, "selectByIdWhithoutJoin")
-      .mockResolvedValue(plot);
+      .mockResolvedValueOnce(plot);
 
-    jest.spyOn(plotRepository, "deletePlot").mockResolvedValue(plot);
+    jest.spyOn(plotRepository, "deletePlot").mockResolvedValueOnce(plot);
 
     expect(await plotService.deletePlot(1)).toMatchObject(plot);
   });
@@ -147,9 +134,7 @@ describe("Delete a plot of the farm", () => {
   it("Should throw an error if the informated plot id does not exist", async () => {
     jest
       .spyOn(plotRepository, "selectByIdWhithoutJoin")
-      .mockResolvedValue(allPlots[1]);
-
-    jest.spyOn(plotRepository, "deletePlot").mockResolvedValue(plot);
+      .mockResolvedValueOnce(undefined);
 
     try {
       await plotService.deletePlot(1);
