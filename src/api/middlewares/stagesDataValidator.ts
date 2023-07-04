@@ -9,7 +9,7 @@ const stagesPathValidatorByCulture = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const pathStages: number = parseInt(req.params.id);
+    const pathStages = Number(req.params.id);
     const pathStagesSchema = number().required("Id is required");
     await pathStagesSchema.validate(pathStages, hasTrueStrict);
     next();

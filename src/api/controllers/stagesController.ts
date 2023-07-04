@@ -21,7 +21,7 @@ const show = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
+    const id = Number(req.params.id);
     const stages: StagesWithName[] = await stagesService.getAllStagesOfACulture(
       id
     );
