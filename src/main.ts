@@ -12,6 +12,8 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Bem vindo ao Dashboard da Rebel Alliance");
 });
+app.use("/", router);
+app.use(errorHandler);
 
 app.use("/", router);
 app.use(errorHandler);
