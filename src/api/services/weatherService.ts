@@ -21,7 +21,7 @@ const hourlyForecast = async (
   country?: QueryType,
   hours?: QueryType
 ): Promise<HourlyWeather> => {
-  const hoursParam: number = hours ? parseInt(hours as string) : 0;
+  const hoursParam: number = hours ? Number(hours as string) : 0;
   if (hoursParam > 96)
     throw makeError({
       message: "Hours must be in 1 - 96 interval",
@@ -37,7 +37,7 @@ const upTo16DaysForecast = async (
   country?: QueryType,
   days?: QueryType
 ): Promise<DailyWeather> => {
-  const daysParam: number = days ? parseInt(days as string) : 0;
+  const daysParam: number = days ? Number(days as string) : 0;
   if (daysParam > 16)
     throw makeError({
       message: "Days must be in 1 - 16 interval",
@@ -53,7 +53,7 @@ const upTo30DaysForecast = async (
   country?: QueryType,
   days?: QueryType
 ): Promise<DailyWeather> => {
-  const daysParam: number = days ? parseInt(days as string) : 0;
+  const daysParam: number = days ? Number(days as string) : 0;
   if (daysParam > 30)
     throw makeError({
       message: "Days must be in 1 - 30 interval",

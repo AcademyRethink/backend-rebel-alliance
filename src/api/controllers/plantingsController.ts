@@ -45,7 +45,7 @@ const update = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
+    const id = Number(req.params.id);
     const { date, saplings, plot, stage, user, farm }: PlantingsWithNames =
       req.body;
     const planting: PlantingsWithNames = {
@@ -69,7 +69,7 @@ const remove = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
+    const id = Number(req.params.id);
     const deletePlanting = await plantingsService.deletePlanting(id);
     res.send(deletePlanting);
   } catch (error: unknown) {
