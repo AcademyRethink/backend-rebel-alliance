@@ -27,7 +27,7 @@ const plotDataValidator = async (
     const plot = req.body;
     const plotDataSchema = object({
       name: string().required("Name is required!"),
-      farm: string().required("Farm name is required!"),
+      farm_id: number().required("Farm id is required!"),
     });
     await plotDataSchema.validate(plot, hasTrueStrict);
     next();

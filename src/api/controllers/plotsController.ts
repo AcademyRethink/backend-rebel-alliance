@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { PlotWithFarmName, PlotWhithIDsOfFKs } from "../../types/plotTypes";
+import { PlotWhithIDsOfFKs } from "../../types/plotTypes";
 import plotService from "../services/plotsService";
 
 const index = async (
@@ -8,7 +8,7 @@ const index = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const farm_id: number = parseInt(req.params.id);
+    const farm_id = Number(req.params.id);
     const allPlotsOnFarm: PlotWhithIDsOfFKs[] =
       await plotService.getPlotsInFarm(farm_id);
     res.status(200).send(allPlotsOnFarm);
@@ -23,8 +23,8 @@ const insert = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, farm } = req.body;
-    const plot: PlotWithFarmName = { name, farm };
+    const { name, farm_id } = req.body;
+    const plot: PlotWhithIDsOfFKs = { name, farm_id };
     const newPlot: PlotWhithIDsOfFKs = await plotService.postPlot(plot);
     res.status(200).send(newPlot);
   } catch (error) {
@@ -38,8 +38,8 @@ const update = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
-    const plot: PlotWithFarmName = req.body;
+    const id = Number(req.params.id);
+    const plot: PlotWhithIDsOfFKs = req.body;
     const updatedPlot: PlotWhithIDsOfFKs = await plotService.updatePlot(
       id,
       plot
@@ -56,7 +56,7 @@ const remove = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id: number = parseInt(req.params.id);
+    const id = Number(req.params.id);
     const deletedPlot: PlotWhithIDsOfFKs = await plotService.deletePlot(id);
     res.status(200).send({
       message: "The following Plot was deleted with success",

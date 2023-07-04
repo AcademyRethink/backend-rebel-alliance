@@ -1,4 +1,4 @@
-import { PlotWhithIDsOfFKs, PlotWithFarmName } from "../../types/plotTypes";
+import { PlotWhithIDsOfFKs } from "../../types/plotTypes";
 import plotRepository from "../repositories/plotRepository";
 import farmRepository from "../repositories/farmRepository";
 import { makeError } from "../middlewares/errorHandler";
@@ -16,14 +16,16 @@ const getPlotsInFarm = async (
   return await plotRepository.selectPlotsByFarmId(farm_id);
 };
 
-const postPlot = async (plot: PlotWithFarmName): Promise<PlotWhithIDsOfFKs> => {
+const postPlot = async (
+  plot: PlotWhithIDsOfFKs
+): Promise<PlotWhithIDsOfFKs> => {
   const existsPlot: PlotWhithIDsOfFKs | undefined =
-    await plotRepository.selectByNameWhithoutJoin(plot.name);
+    await plotRepository.selectByNameWhithoutJoin(plot.name!);
   if (existsPlot)
     throw makeError({ message: "The plot already exists!", status: 400 });
 
   const farm: FarmWhithIDsOfFKs | undefined =
-    await farmRepository.selectByNameWhithoutJoin(plot.farm);
+    await farmRepository.selectByIdWithoutJoin(plot.farm_id!);
   if (!farm)
     throw makeError({ message: "The farm doesn't exist!", status: 400 });
 
@@ -38,10 +40,10 @@ const postPlot = async (plot: PlotWithFarmName): Promise<PlotWhithIDsOfFKs> => {
 
 const updatePlot = async (
   id: number,
-  plot: PlotWithFarmName
+  plot: PlotWhithIDsOfFKs
 ): Promise<PlotWhithIDsOfFKs> => {
   const farm: FarmWhithIDsOfFKs | undefined =
-    await farmRepository.selectByNameWhithoutJoin(plot.farm);
+    await farmRepository.selectByIdWithoutJoin(plot.farm_id!);
   if (!farm)
     throw makeError({ message: "The farm does not exist!", status: 400 });
 
