@@ -4,7 +4,8 @@ dotenv.config();
 
 const config: Knex.Config = {
   client: "pg",
-  connection: process.env.PG_CONNECTION_STRING,
+  connection:
+    "postgres://postgres:@FeedQUEM2023@db.butcagyhctuhddxzrgqy.supabase.co:6543/postgres",
   migrations: {
     directory: "src/api/database",
   },
