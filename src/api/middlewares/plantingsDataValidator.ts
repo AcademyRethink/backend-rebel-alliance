@@ -9,8 +9,8 @@ const plantingPathValidatorByFarm = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const pathPlanting = parseInt(req.params.farmId);
-    const pathPlantingSchema = number().required("Farm id is required");
+    const pathPlanting = parseInt(req.params.id);
+    const pathPlantingSchema = number().required("Id is required");
     await pathPlantingSchema.validate(pathPlanting, hasTrueStrict);
     next();
   } catch (error: unknown) {
