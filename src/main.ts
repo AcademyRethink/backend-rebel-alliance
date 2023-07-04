@@ -15,6 +15,9 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/", router);
 app.use(errorHandler);
 
+app.use("/", router);
+app.use(errorHandler);
+
 app.listen(3000, () => {
   console.log("Ta funcionando");
 });
