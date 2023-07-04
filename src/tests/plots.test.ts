@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import plotRepository from "../api/repositories/plotRepository";
-import { allFarms, allPlots, farm, plot } from "./mockPlots";
+import { allPlots, farm, plot } from "./mockPlots";
 import plotService from "../api/services/plotsService";
 import farmRepository from "../api/repositories/farmRepository";
 
@@ -41,7 +41,7 @@ describe("Insert a new plot on farm", () => {
     jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(plot);
 
     expect(
-      await plotService.postPlot({ name: "plotName", farm: "farmName" })
+      await plotService.postPlot({ name: "plotName", farm_id: 1 })
     ).toMatchObject(plot);
   });
 
@@ -51,7 +51,7 @@ describe("Insert a new plot on farm", () => {
       .mockResolvedValueOnce(plot);
 
     try {
-      await plotService.postPlot({ name: "plotName", farm: "farmName" });
+      await plotService.postPlot({ name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({ message: "The plot already exists!" });
     }
@@ -66,7 +66,7 @@ describe("Insert a new plot on farm", () => {
       .mockResolvedValueOnce(undefined);
 
     try {
-      await plotService.postPlot({ name: "plotName", farm: "farmName" });
+      await plotService.postPlot({ name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({ message: "The farm doesn't exist!" });
     }
@@ -85,7 +85,7 @@ describe("Update a plot on farm", () => {
     jest.spyOn(plotRepository, "updatePlot").mockResolvedValueOnce(plot);
 
     expect(
-      await plotService.updatePlot(1, { name: "plotName", farm: "farmName" })
+      await plotService.updatePlot(1, { name: "plotName", farm_id: 1 })
     ).toMatchObject(plot);
   });
 
@@ -95,7 +95,7 @@ describe("Update a plot on farm", () => {
       .mockResolvedValueOnce(undefined);
 
     try {
-      await plotService.updatePlot(1, { name: "plotName", farm: "farmName" });
+      await plotService.updatePlot(1, { name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({ message: "The farm does not exist!" });
     }
@@ -110,7 +110,7 @@ describe("Update a plot on farm", () => {
       .mockResolvedValueOnce(undefined);
 
     try {
-      await plotService.updatePlot(1, { name: "plotName", farm: "farmName" });
+      await plotService.updatePlot(1, { name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({
         message:

@@ -15,4 +15,3 @@ export const farm: FarmWhithIDsOfFKs = {
 };
 
 export const allPlots: PlotWhithIDsOfFKs[] = [plot];
-export const allFarms: FarmWhithIDsOfFKs[] = [farm];

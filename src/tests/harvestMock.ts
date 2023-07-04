@@ -4,7 +4,7 @@ import {
   HarvestWhithNamesOfFKs,
   PlotWhithIDsOfFKs,
   UsersWhithIDsOfFKs,
-} from "../src/types";
+} from "../types";
 
 export const mockedHarvestWithIds: HarvestWhithIDsOfFKs = {
   id: 2,
@@ -42,7 +42,7 @@ export const mockedPlotWhithIds: PlotWhithIDsOfFKs = {
 
 export const mockedFarmWhithIds: FarmWhithIDsOfFKs = {
   id: 1,
-  cpnj: "00000000000000",
+  cnpj: "00000000000000",
   name: "Fazenda Rebel Alliance",
   phone: "3333333333",
   address_id: 1,

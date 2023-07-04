@@ -21,3 +21,5 @@ app.use(errorHandler);
 app.listen(3000, () => {
   console.log("Ta funcionando");
 });
+
+export default app
