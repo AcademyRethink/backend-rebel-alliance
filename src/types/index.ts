@@ -5,7 +5,7 @@ import {
 
 import { FarmWhithIDsOfFKs } from "./farmTypes";
 import { PlotWhithIDsOfFKs } from "./plotTypes";
-import { UsersWhithIDsOfFKs } from "./usersTypes";
+import { UsersWhithIDsOfFKs, UsersWhithNamesOfFKs } from "./usersTypes";
 
 type ErrorType = {
   message: string;
@@ -20,4 +20,5 @@ export {
   FarmWhithIDsOfFKs,
   PlotWhithIDsOfFKs,
   UsersWhithIDsOfFKs,
+  UsersWhithNamesOfFKs,
 };
