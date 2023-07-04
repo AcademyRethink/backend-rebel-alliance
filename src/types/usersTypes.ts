@@ -1,6 +1,6 @@
 type UsersWhithIDsOfFKs = {
   id?: number;
-  cpf_cnpj?: number;
+  cpf_cnpj?: string;
   name?: string;
   celphone?: string;
   email?: string;
@@ -9,4 +9,15 @@ type UsersWhithIDsOfFKs = {
   farm_id?: number;
 };
 
-export { UsersWhithIDsOfFKs };
+type UsersWhithCnpjOfFKs = {
+  id?: number;
+  cpf_cnpj?: string;
+  name?: string;
+  celphone?: string;
+  email?: string;
+  password?: string;
+  userType?: string;
+  farm_cnpj?: string;
+};
+
+export { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs };

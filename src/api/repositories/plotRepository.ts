@@ -18,4 +18,4 @@ const selectByNameWhithoutJoin = async (plotName: string) => {
   return plot[0];
 };
 
-export { selectByIdWhithoutJoin, selectByNameWhithoutJoin };
+export default { selectByIdWhithoutJoin, selectByNameWhithoutJoin };

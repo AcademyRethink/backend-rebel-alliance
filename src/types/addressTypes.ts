@@ -1,4 +1,6 @@
-type Adress = {
+import { number } from "yup";
+
+type Address = {
   id?: number;
   street?: string;
   number?: number;
@@ -10,4 +12,4 @@ type Adress = {
   reference_point?: string;
 };
 
-export { Adress };
+export { Address };

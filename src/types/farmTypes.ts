@@ -1,9 +1,24 @@
 type FarmWhithIDsOfFKs = {
   id?: number;
-  cpnj?: string;
+  cnpj?: string;
   name?: string;
   phone?: string;
   address_id?: number;
 };
 
-export { FarmWhithIDsOfFKs };
+type FarmWhithAddress = {
+  id?: number;
+  cnpj?: string;
+  name?: string;
+  phone?: string;
+  street?: string;
+  number?: number;
+  complement?: string;
+  neighborhood?: string;
+  city?: string;
+  state?: string;
+  cep?: string;
+  reference_point?: string;
+};
+
+export { FarmWhithIDsOfFKs, FarmWhithAddress };
