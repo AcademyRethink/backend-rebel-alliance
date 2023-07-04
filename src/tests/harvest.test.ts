@@ -1,9 +1,9 @@
 import { describe, expect, jest } from "@jest/globals";
-import harvestService from "../src/api/services/harvestService";
-import harvestRepository from "../src/api/repositories/harvestRepository";
-import plotRepository from "../src/api/repositories/plotRepository";
-import userRepository from "../src/api/repositories/userRepository";
-import farmRepository from "../src/api/repositories/farmRepository";
+import harvestService from "../api/services/harvestService";
+import harvestRepository from "../api/repositories/harvestRepository";
+import plotRepository from "../api/repositories/plotRepository";
+import userRepository from "../api/repositories/userRepository";
+import farmRepository from "../api/repositories/farmRepository";
 import {
   mockedPlotWhithIds,
   mockedFarmWhithIds,
