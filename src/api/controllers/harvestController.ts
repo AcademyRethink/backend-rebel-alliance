@@ -13,7 +13,7 @@ const insert = async (req: Request, res: Response, next: NextFunction) => {
 
 const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.farmid);
+    const id = Number(req.params.farmid);
     const harvests = await harvestService.getAllHarvestsOfTheFarm(id);
     res.status(200).json(harvests);
   } catch (error: unknown) {
@@ -27,8 +27,8 @@ const getHarvestsOfTheFarmByPlotId = async (
   next: NextFunction
 ) => {
   try {
-    const farID = parseInt(req.params.farmid);
-    const plotID = parseInt(req.params.plotid);
+    const farID = Number(req.params.farmid);
+    const plotID = Number(req.params.plotid);
 
     const harvests = await harvestService.getHarvestsOfTheFarmByPlotId(
       farID,
@@ -46,7 +46,7 @@ const getHarvestsOfTheFarmByDate = async (
   next: NextFunction
 ) => {
   try {
-    const farmID = parseInt(req.params.farmid);
+    const farmID = Number(req.params.farmid);
     const harvestDate = req.params.harvestdate;
 
     const harvests = await harvestService.getHarvestsOfTheFarmByDate(
@@ -66,8 +66,8 @@ const getHarvestOfTheFarmByDateAndPlot = async (
   next: NextFunction
 ) => {
   try {
-    const farmID = parseInt(req.params.farmid);
-    const plotId = parseInt(req.params.plotid);
+    const farmID = Number(req.params.farmid);
+    const plotId = Number(req.params.plotid);
     const harvestDate = req.params.harvestdate;
 
     const harvests = await harvestService.getHarvestOfTheFarmByDateAndPlot(
@@ -88,7 +88,7 @@ const updateHarvestOfTheFarm = async (
   next: NextFunction
 ) => {
   try {
-    const id = parseInt(req.params.harvestid);
+    const id = Number(req.params.harvestid);
     const newHarvestData = req.body;
     const newHarvest = await harvestService.updateHarvest(id, newHarvestData);
 
@@ -104,7 +104,7 @@ const deleteHarvest = async (
   next: NextFunction
 ) => {
   try {
-    const id = parseInt(req.params.harvestid);
+    const id = Number(req.params.harvestid);
     const deleteStatus = await harvestService.deleteHarvest(id);
     res.status(200).json(deleteStatus);
   } catch (error: unknown) {
