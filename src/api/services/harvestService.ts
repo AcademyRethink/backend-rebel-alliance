@@ -1,5 +1,5 @@
 import harvestRepository from "../repositories/harvestRepository";
-import userRepository from "../repositories/userRepository";
+import usersRepository from "../repositories/usersRepository";
 import plotRepository from "../repositories/plotRepository";
 import farmRepository from "../repositories/farmRepository";
 import { HarvestWhithNamesOfFKs, HarvestWhithIDsOfFKs } from "../../types";
@@ -11,7 +11,7 @@ const registerNewHarvest = async (
   const findPlot = await plotRepository.selectByNameWhithoutJoin(
     harvest.plot_name!
   );
-  const findUser = await userRepository.selectByNameWithoutJoin(
+  const findUser = await usersRepository.selectByNameWithoutJoin(
     harvest.user_name!
   );
   const findFarm = await farmRepository.selectByNameWhithoutJoin(
@@ -124,7 +124,7 @@ const updateHarvest = async (
     newData.plot_id = findNewPlot.id;
   }
   if (harvestData.user_name) {
-    const findNewUser = await userRepository.selectByNameWithoutJoin(
+    const findNewUser = await usersRepository.selectByNameWithoutJoin(
       harvestData.user_name!
     );
     if (!findNewUser)
