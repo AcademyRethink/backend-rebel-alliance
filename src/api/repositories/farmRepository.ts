@@ -43,12 +43,16 @@ const selectByNameWhithoutJoin = async (
   return farm[0];
 };
 
-const updateFarm = async (farmData: FarmWhithIDsOfFKs, farmId: number) => {
+const updateFarm = async (
+  farmData: FarmWhithIDsOfFKs,
+  farmId: number
+): Promise<FarmWhithIDsOfFKs> => {
   const updatedFarm = await knexInstance("farm")
     .update(farmData)
-    .where({ id: farmId });
+    .where({ id: farmId })
+    .returning(["id", "cnpj", "name", "phone", "address_id"]);
 
-  return updatedFarm;
+  return updatedFarm[0];
 };
 
 const deleteFarm = async (farmId: number) => {

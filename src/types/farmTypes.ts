@@ -1,3 +1,5 @@
+import { Address } from "./addressTypes";
+
 type FarmWhithIDsOfFKs = {
   id?: number;
   cnpj?: string;
@@ -11,14 +13,7 @@ type FarmWhithAddress = {
   cnpj?: string;
   name?: string;
   phone?: string;
-  street?: string;
-  number?: number;
-  complement?: string;
-  neighborhood?: string;
-  city?: string;
-  state?: string;
-  cep?: string;
-  reference_point?: string;
+  address?: Address;
 };
 
 export { FarmWhithIDsOfFKs, FarmWhithAddress };

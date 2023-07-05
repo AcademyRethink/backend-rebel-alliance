@@ -1,10 +1,6 @@
 import usersRepository from "../repositories/usersRepository";
 import farmRepository from "../repositories/farmRepository";
-import {
-  FarmWhithIDsOfFKs,
-  UsersWhithIDsOfFKs,
-  UsersWhithNamesOfFKs,
-} from "../../types";
+import { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs } from "../../types";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { makeError } from "../middlewares/errorHandler";
@@ -15,8 +11,8 @@ dotenv.config();
 const mySecret = process.env.SECRET || "K7s9P3x2Y5";
 
 const registerUser = async (
-  user: UsersWhithNamesOfFKs
-): Promise<{ newUser: UsersWhithNamesOfFKs; token: string }> => {
+  user: UsersWhithCnpjOfFKs
+): Promise<{ newUser: UsersWhithCnpjOfFKs; token: string }> => {
   const saltRounds = Number(process.env.SALT) ?? 10;
 
   const existingUser = await usersRepository.selectByCpfOrCnpjWithoutJoin(
@@ -30,16 +26,16 @@ const registerUser = async (
     });
   }
 
-  // const existingFarm = await farmRepository.selectByNameWhithoutJoin(
-  //   user.farm_id!
-  // );
+  const existingFarm = await farmRepository.selectByCnpjWithoutJoin(
+    user.farm_cnpj!
+  );
 
-  // if (!existingFarm) {
-  //   throw makeError({
-  //     message: "Farm not Found",
-  //     status: 400,
-  //   });
-  // }
+  if (!existingFarm) {
+    throw makeError({
+      message: "Farm not Found",
+      status: 400,
+    });
+  }
 
   const newUserData: UsersWhithIDsOfFKs = {
     cpf_cnpj: user.cpf_cnpj,
@@ -48,7 +44,7 @@ const registerUser = async (
     email: user.email,
     password: await bcrypt.hash(user.password!, saltRounds),
     userType: user.userType,
-    farm_id: user.farm_id,
+    farm_id: existingFarm.id,
   };
 
   const newUser = await usersRepository.insertNewUser(newUserData);
@@ -58,8 +54,6 @@ const registerUser = async (
     mySecret,
     { expiresIn: "1d" }
   );
-
-  localStorage.setItem("token", token);
 
   return { newUser, token };
 };
@@ -89,18 +83,12 @@ const authenticateUser = async (user: UsersWhithIDsOfFKs) => {
   }
 
   const token = jwt.sign(
-    { id: selectedUser.id, userType: selectedUser.userType },
+    { cpf_cnpj: selectedUser.cpf_cnpj, userType: selectedUser.userType },
     mySecret,
     { expiresIn: "1d" }
   );
 
-  localStorage.setItem("token", token);
-
-  return { selectedUser, token };
-};
-
-const logoutUser = () => {
-  localStorage.removeItem("token");
+  return token;
 };
 
 const findUserById = async (id: number) => {
@@ -144,10 +132,12 @@ const findUserByName = async (name: string) => {
   return findUser;
 };
 
-const updateUserById = async (userId: number, user: UsersWhithIDsOfFKs) => {
+const updateUserById = async (userId: number, user: UsersWhithCnpjOfFKs) => {
   const saltRounds = Number(process.env.SALT) ?? 10;
 
   const existingUser = await usersRepository.selectByIdWithoutJoin(userId);
+
+  const { farm_cnpj, password, ...newData }: any = user;
 
   if (!existingUser) {
     throw makeError({
@@ -156,17 +146,27 @@ const updateUserById = async (userId: number, user: UsersWhithIDsOfFKs) => {
     });
   }
 
-  const newUserData: UsersWhithIDsOfFKs = {
-    cpf_cnpj: user.cpf_cnpj,
-    name: user.name,
-    celphone: user.celphone,
-    email: user.email,
-    password: await bcrypt.hash(user.password!, saltRounds),
-    userType: user.userType,
-    farm_id: user.farm_id,
-  };
+  if (farm_cnpj) {
+    const existingFarm = await farmRepository.selectByCnpjWithoutJoin(
+      farm_cnpj
+    );
 
-  await usersRepository.updateUser(newUserData, userId);
+    if (!existingFarm) {
+      throw makeError({
+        message: "Farm not Found",
+        status: 400,
+      });
+    }
+
+    newData.farm_id = existingFarm.id;
+  }
+
+  if (password) {
+    const newPassword = await bcrypt.hash(password, saltRounds);
+    newData.password = newPassword;
+  }
+
+  await usersRepository.updateUser(newData, userId);
   const updatedUser = await usersRepository.selectByIdWithoutJoin(userId);
 
   return updatedUser;

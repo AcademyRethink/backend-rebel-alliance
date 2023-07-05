@@ -1,18 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import knex from "knex";
-import config from "../../../knexfile";
+
 import addressService from "../services/addressService";
-
-const knexInstance = knex(config);
-
-const insert = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const newAddress = await addressService.registerAddress(req.body);
-    res.status(201).json(newAddress);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
 
 const showById = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -48,16 +36,6 @@ const showByStreet = async (
   }
 };
 
-const update = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const id = Number(req.params.addressid);
-    const updatedAddress = await addressService.updateAddressById(id, req.body);
-    res.status(201).json(updatedAddress);
-  } catch (error: unknown) {
-    next(error);
-  }
-};
-
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.addressid);
@@ -70,10 +48,8 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
-  insert,
   showById,
   showByCep,
   showByStreet,
-  update,
   remove,
 };

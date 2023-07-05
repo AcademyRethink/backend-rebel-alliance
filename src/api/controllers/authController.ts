@@ -1,14 +1,19 @@
-import express, { NextFunction, Request, Response } from "express";
-import knex from "knex";
-import config from "../../../knexfile";
+import { NextFunction, Request, Response } from "express";
 import authService from "../services/authService";
-
-const knexInstance = knex(config);
 
 const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newUser = await authService.registerUser(req.body);
     res.status(201).json(newUser);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = await authService.authenticateUser(req.body);
+    res.status(201).json(token);
   } catch (error: unknown) {
     next(error);
   }
@@ -71,6 +76,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 
 export default {
   insert,
+  login,
   showById,
   showByCpfOrCnpj,
   showByName,

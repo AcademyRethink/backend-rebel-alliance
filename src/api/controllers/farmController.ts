@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import knex from "knex";
-import config from "../../../knexfile";
 import farmService from "../services/farmService";
-
-const knexInstance = knex(config);
 
 const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -46,8 +42,10 @@ const showByName = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = Number(req.params.farmid);
-    const updatedFarm = await farmService.updateFarmById(req.body, id);
+    const updatedFarm = await farmService.updateFarmById(
+      req.body,
+      req.params.farmcnpj
+    );
     res.status(201).json(updatedFarm);
   } catch (error: unknown) {
     next(error);

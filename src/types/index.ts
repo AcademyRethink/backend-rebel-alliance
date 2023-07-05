@@ -3,7 +3,7 @@ import {
   HarvestWhithNamesOfFKs,
 } from "../types/harvestTypes";
 
-import { UsersWhithIDsOfFKs, UsersWhithNamesOfFKs } from "./usersTypes";
+import { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs } from "./usersTypes";
 import { FarmWhithIDsOfFKs, FarmWhithAddress } from "./farmTypes";
 import { Address } from "./addressTypes";
 import { PlotWhithIDsOfFKs } from "./plotTypes";
@@ -19,7 +19,7 @@ export {
   HarvestWhithIDsOfFKs,
   HarvestWhithNamesOfFKs,
   UsersWhithIDsOfFKs,
-  UsersWhithNamesOfFKs,
+  UsersWhithCnpjOfFKs,
   FarmWhithIDsOfFKs,
   FarmWhithAddress,
   Address,

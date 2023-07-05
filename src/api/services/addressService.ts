@@ -103,36 +103,3 @@ export default {
   updateAddressById,
   deleteAddressById,
 };
-
-// deleteAddressById(3)
-//   .then((item) => {
-//     console.log(item);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-// updateAddressById(5, {
-//   street: "zababaubazabazaba",
-//   number: 24,
-//   complement: "complemento",
-//   neighborhood: "nsei",
-//   city: "cidade",
-//   state: "aafolou",
-//   cep: "cep",
-//   reference_point: "aaaaaaaaa",
-// })
-//   .then((item) => {
-//     console.log(item);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-// findAddressByCep("30720580")
-//   .then((item) => {
-//     console.log(item);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
