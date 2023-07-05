@@ -1,6 +1,6 @@
 import { Router } from "express";
 import harvestController from "../controllers/harvestController";
-import dataValidator from "../middlewares/dataValidator";
+import dataValidator from "../middlewares/harvestDataValidator";
 
 const harvestRouter: Router = Router();
 

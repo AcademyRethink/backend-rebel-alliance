@@ -34,7 +34,7 @@ const selectByIdWithoutJoin = async (
 
 const selectByCpfOrCnpjWithoutJoin = async (
   userCpfOrCnpj: string
-): Promise<UsersWhithIDsOfFKs> => {
+): Promise<UsersWhithIDsOfFKs | undefined> => {
   const user: UsersWhithIDsOfFKs[] = await knexInstance("users")
     .select("*")
     .where("cpf_cnpj", userCpfOrCnpj);
@@ -44,7 +44,7 @@ const selectByCpfOrCnpjWithoutJoin = async (
 
 const selectByNameWithoutJoin = async (
   userName: string
-): Promise<UsersWhithIDsOfFKs> => {
+): Promise<UsersWhithIDsOfFKs | undefined> => {
   const user: UsersWhithIDsOfFKs[] = await knexInstance("users")
     .select("*")
     .where("name", "like", `%${userName}%`);

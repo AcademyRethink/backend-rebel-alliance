@@ -2,7 +2,7 @@ import { describe, expect, jest } from "@jest/globals";
 import harvestService from "../api/services/harvestService";
 import harvestRepository from "../api/repositories/harvestRepository";
 import plotRepository from "../api/repositories/plotRepository";
-import userRepository from "../api/repositories/userRepository";
+import usersRepository from "../api/repositories/usersRepository";
 import farmRepository from "../api/repositories/farmRepository";
 import {
   mockedPlotWhithIds,
@@ -18,7 +18,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(usersRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
@@ -42,7 +42,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(undefined);
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(usersRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
@@ -69,7 +69,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(usersRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
@@ -96,7 +96,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       .spyOn(plotRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(usersRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
