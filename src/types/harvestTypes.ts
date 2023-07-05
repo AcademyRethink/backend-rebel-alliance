@@ -1,6 +1,6 @@
 type HarvestWhithIDsOfFKs = {
   id?: number;
-  date?: string;
+  date?: Date;
   bags?: number;
   plot_id?: number;
   user_id?: number;
@@ -9,11 +9,11 @@ type HarvestWhithIDsOfFKs = {
 
 type HarvestWhithNamesOfFKs = {
   id?: number;
-  date?: string;
+  date?: Date;
   bags?: number;
-  plot_name?: number;
+  plot_name?: string;
   user_name?: string;
-  farm_name?: number;
+  farm_name?: string;
 };
 
 export { HarvestWhithIDsOfFKs, HarvestWhithNamesOfFKs };

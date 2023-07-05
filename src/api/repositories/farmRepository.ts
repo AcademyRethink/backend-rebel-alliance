@@ -25,7 +25,7 @@ const selectByCnpjWithoutJoin = async (
 
 const selectByIdWithoutJoin = async (
   farmId: number
-): Promise<FarmWhithIDsOfFKs> => {
+): Promise<FarmWhithIDsOfFKs | undefined> => {
   const farm: FarmWhithIDsOfFKs[] = await knexInstance("farm")
     .select("*")
     .where({ id: farmId });
@@ -35,10 +35,10 @@ const selectByIdWithoutJoin = async (
 
 const selectByNameWhithoutJoin = async (
   farmName: string
-): Promise<FarmWhithIDsOfFKs> => {
+): Promise<FarmWhithIDsOfFKs | undefined> => {
   const farm: FarmWhithIDsOfFKs[] = await knexInstance("farm")
     .select("*")
-    .where("name", "like", `%${farmName}%`);
+    .where("name", "ilike", `%${farmName}%`);
 
   return farm[0];
 };

@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from "express";
+import { router } from "./api/routes";
 import * as dotenv from "dotenv";
 import cors from "cors";
 import { errorHandler } from "./api/middlewares/errorHandler";
-import { router } from "./api/routes";
 
 dotenv.config();
 const app: Express = express();
@@ -15,6 +15,11 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/", router);
 app.use(errorHandler);
 
+app.use("/", router);
+app.use(errorHandler);
+
 app.listen(3000, () => {
   console.log("Ta funcionando");
 });
+
+export default app
