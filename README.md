@@ -13,11 +13,11 @@
 :small_blue_diamond: [Squad](#squad)
 
 
-### Descrição do projeto ✍️
+### Descrição do projeto 
 
 Desenvolvimento de uma API para gerenciamento de plantações de café
 
-### Funcionalidades 🔧
+### Funcionalidades 
 
 - Gereciamento de usuários
 - Gerenciamento de fazendas
@@ -30,7 +30,7 @@ Desenvolvimento de uma API para gerenciamento de plantações de café
 
 >Para mais detalhes de rotas e funcionalidades: [Documentação API](https://docs.google.com/document/d/102ZZbmlU8LY9_RFKkPquUC4aj4eb8DZm72hfu0Bdgj4/edit)
 
-### Iniciar ✔️
+### Iniciar 
 
 Pré-requisitos:
 * Git
@@ -74,11 +74,11 @@ npm start
 
 Abra http://localhost:3000 no seu navegador 
 
-### Testes 🧪
+### Testes 
 
 * A cobertura de testes atual é de `82%`
 
-### Tecnologias utilizadas 👨‍💻
+### Tecnologias utilizadas 
 - [Node](https://nodejs.org/en)
 - [Typescrit](https://www.typescriptlang.org/)
 - [Express](https://expressjs.com/)
@@ -90,7 +90,7 @@ Abra http://localhost:3000 no seu navegador
 
 >Para mais detalhes de linguagem e tecnologias utilizadas: [Documentação Técnica](https://docs.google.com/document/d/1Sriv2o5rSRV0hk43Ewk64vQ6elVtazbR/edit)
 
-### Squad ⚡
+### Squad 
 
 <div align="center">
   <img src="https://github.com/AcademyRethink/backend-rebel-alliance/assets/124922051/b21a6f5d-e441-46fd-bb56-fa9b848988dc" alt="Ana" width="60" height="60">
