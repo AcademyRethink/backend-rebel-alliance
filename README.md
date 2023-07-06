@@ -79,7 +79,7 @@ Abra http://localhost:3000 no seu navegador
 * A cobertura de testes atual é de `82%`
 
 ### Tecnologias utilizadas 👨‍💻
-- [Node](https://www.php.net/)
+- [Node](https://nodejs.org/en)
 - [Typescrit](https://www.typescriptlang.org/)
 - [Express](https://expressjs.com/)
 - [Knex](https://knexjs.org/)
