@@ -2,6 +2,19 @@ import { NextFunction, Request, Response } from "express";
 
 import addressService from "../services/addressService";
 
+const showAllAddresses = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const allAddresses = await addressService.getAllAddresses();
+    res.status(200).json(allAddresses);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
 const showById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.addressid);
@@ -48,6 +61,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
+  showAllAddresses,
   showById,
   showByCep,
   showByStreet,

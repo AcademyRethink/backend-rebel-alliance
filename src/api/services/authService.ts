@@ -1,14 +1,27 @@
 import usersRepository from "../repositories/usersRepository";
 import farmRepository from "../repositories/farmRepository";
+import { makeError } from "../middlewares/errorHandler";
 import { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs } from "../../types";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import { makeError } from "../middlewares/errorHandler";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
 
 const mySecret = process.env.SECRET || "K7s9P3x2Y5";
+
+const getAllUsers = async () => {
+  const users = await usersRepository.index();
+
+  if (!users) {
+    throw makeError({
+      message: "Error getting Users",
+      status: 400,
+    });
+  }
+
+  return users;
+};
 
 const registerUser = async (
   user: UsersWhithCnpjOfFKs
@@ -190,6 +203,7 @@ const deleteUserById = async (id: number) => {
 };
 
 export default {
+  getAllUsers,
   registerUser,
   authenticateUser,
   findUserById,

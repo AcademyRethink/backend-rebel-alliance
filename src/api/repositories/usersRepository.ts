@@ -4,6 +4,12 @@ import { UsersWhithIDsOfFKs } from "../../types";
 
 const knexInstance = knex(config);
 
+const index = async (): Promise<UsersWhithIDsOfFKs[]> => {
+  const users: UsersWhithIDsOfFKs[] = await knexInstance("users").select("*");
+
+  return users;
+};
+
 const insertNewUser = async (
   userData: UsersWhithIDsOfFKs
 ): Promise<UsersWhithIDsOfFKs> => {
@@ -70,6 +76,7 @@ const deleteUser = async (userId: number) => {
 };
 
 export default {
+  index,
   insertNewUser,
   selectByCpfOrCnpjWithoutJoin,
   selectByIdWithoutJoin,

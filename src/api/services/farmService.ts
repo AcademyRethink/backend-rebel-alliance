@@ -3,6 +3,19 @@ import { Address, FarmWhithAddress, FarmWhithIDsOfFKs } from "../../types";
 import { makeError } from "../middlewares/errorHandler";
 import addressRepository from "../repositories/addressRepository";
 
+const getAllFarms = async () => {
+  const farms = await farmRepository.index();
+
+  if (!farms) {
+    throw makeError({
+      message: "Error getting Farms",
+      status: 400,
+    });
+  }
+
+  return farms;
+};
+
 const registerFarm = async (
   farm: FarmWhithAddress
 ): Promise<FarmWhithIDsOfFKs> => {
@@ -125,6 +138,7 @@ const deleteFarmById = async (id: number) => {
 };
 
 export default {
+  getAllFarms,
   registerFarm,
   findFarmById,
   findFarmByCnpj,

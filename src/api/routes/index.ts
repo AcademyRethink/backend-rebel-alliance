@@ -12,8 +12,8 @@ const router: Router = Router();
 
 router.use("/weather", weatherRoutes);
 router.use("/harvests", harvestRouter);
-router.use("/user", userRoutes);
-router.use("/farm", farmRoutes);
+router.use("/users", userRoutes);
+router.use("/farms", farmRoutes);
 router.use("/address", addressRoutes);
 router.use("/plots", plotRoutes);
 router.use("/plantings", plantingRoutes);

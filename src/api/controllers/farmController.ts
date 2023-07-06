@@ -1,6 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import farmService from "../services/farmService";
 
+const showAllFarms = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const allFarms = await farmService.getAllFarms();
+    res.status(200).json(allFarms);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
 const insert = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newFarm = await farmService.registerFarm(req.body);
@@ -64,6 +77,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
+  showAllFarms,
   insert,
   showById,
   showByCnpj,

@@ -4,20 +4,21 @@ import userDataValidator from "../middlewares/userDataValidator";
 
 const userRoutes: Router = Router();
 
+userRoutes.get("/", authController.showAllUsers);
+userRoutes.get("/login", authController.login);
+userRoutes.get("/:userid", authController.showById);
+userRoutes.get("/cpforcnpj/:usercpforcnpj", authController.showByCpfOrCnpj);
+userRoutes.get("/name/:username", authController.showByName);
 userRoutes.post(
   "/",
   userDataValidator.userDataValidator,
   authController.insert
 );
-userRoutes.get("/login", authController.login);
-userRoutes.get("/id/:userid", authController.showById);
-userRoutes.get("/cpforcnpj/:usercpforcnpj", authController.showByCpfOrCnpj);
-userRoutes.get("/name/:username", authController.showByName);
 userRoutes.patch(
   "/id/:userid",
   userDataValidator.userPatchDataValidator,
   authController.update
 );
-userRoutes.delete("/id/:userid", authController.remove);
+userRoutes.delete("/:userid", authController.remove);
 
 export { userRoutes };

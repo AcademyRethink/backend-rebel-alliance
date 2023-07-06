@@ -4,6 +4,12 @@ import { Address } from "../../types";
 
 const knexInstance = knex(config);
 
+const index = async (): Promise<Address[]> => {
+  const addresses: Address[] = await knexInstance("address").select("*");
+
+  return addresses;
+};
+
 const insertNewAddress = async (addressData: Address): Promise<Address> => {
   const newAddress = await knexInstance("address")
     .insert(addressData)
@@ -64,6 +70,7 @@ const deleteAddress = async (addressId: number) => {
 };
 
 export default {
+  index,
   insertNewAddress,
   selectByIdWithoutJoin,
   selectByStreetWithoutJoin,

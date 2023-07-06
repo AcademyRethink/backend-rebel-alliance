@@ -1,7 +1,13 @@
 import knex from "knex";
 import config from "../../../knexfile";
-import { FarmWhithIDsOfFKs } from "../../types";
+import { FarmWhithAddress, FarmWhithIDsOfFKs } from "../../types";
 const knexInstance = knex(config);
+
+const index = async (): Promise<FarmWhithAddress[]> => {
+  const farms: FarmWhithAddress[] = await knexInstance("farm").select("*");
+
+  return farms;
+};
 
 const insertNewFarm = async (
   farmData: FarmWhithIDsOfFKs
@@ -62,6 +68,7 @@ const deleteFarm = async (farmId: number) => {
 };
 
 export default {
+  index,
   insertNewFarm,
   selectByCnpjWithoutJoin,
   selectByIdWithoutJoin,

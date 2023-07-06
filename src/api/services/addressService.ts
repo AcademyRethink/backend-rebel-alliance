@@ -3,6 +3,19 @@ import { Address } from "../../types";
 import { makeError } from "../middlewares/errorHandler";
 import { number } from "yup";
 
+const getAllAddresses = async () => {
+  const addresses = await addressRepository.index();
+
+  if (!addresses) {
+    throw makeError({
+      message: "Error getting Addresses",
+      status: 400,
+    });
+  }
+
+  return addresses;
+};
+
 const registerAddress = async (address: Address): Promise<Address> => {
   const newAddress = await addressRepository.insertNewAddress(address);
   return newAddress;
@@ -96,6 +109,7 @@ const deleteAddressById = async (id: number) => {
 };
 
 export default {
+  getAllAddresses,
   registerAddress,
   findAddressById,
   findAddressByStreet,
