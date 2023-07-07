@@ -27,7 +27,9 @@ const insertNewAddress = async (addressData: Address): Promise<Address> => {
   return newAddress[0];
 };
 
-const selectByIdWithoutJoin = async (addressId: number): Promise<Address> => {
+const selectByIdWithoutJoin = async (
+  addressId: number
+): Promise<Address | undefined> => {
   const address: Address[] = await knexInstance("address")
     .select("*")
     .where({ id: addressId });
@@ -37,7 +39,7 @@ const selectByIdWithoutJoin = async (addressId: number): Promise<Address> => {
 
 const selectByStreetWithoutJoin = async (
   addressStreet: string
-): Promise<Address> => {
+): Promise<Address | undefined> => {
   const address: Address[] = await knexInstance("address")
     .select("*")
     .where("street", "like", `%${addressStreet}%`);
@@ -45,7 +47,9 @@ const selectByStreetWithoutJoin = async (
   return address[0];
 };
 
-const selectByCepWithoutJoin = async (addressCep: string): Promise<Address> => {
+const selectByCepWithoutJoin = async (
+  addressCep: string
+): Promise<Address | undefined> => {
   const address: Address[] = await knexInstance("address")
     .select("*")
     .where("cep", addressCep);

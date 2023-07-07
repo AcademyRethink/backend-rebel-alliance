@@ -1,12 +1,11 @@
 import addressRepository from "../repositories/addressRepository";
 import { Address } from "../../types";
 import { makeError } from "../middlewares/errorHandler";
-import { number } from "yup";
 
 const getAllAddresses = async () => {
   const addresses = await addressRepository.index();
 
-  if (!addresses) {
+  if (!addresses[0]) {
     throw makeError({
       message: "Error getting Addresses",
       status: 400,
