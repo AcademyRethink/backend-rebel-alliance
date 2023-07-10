@@ -13,7 +13,7 @@ const getAllFarms = async () => {
     });
   }
 
-  const teste = farms.map(async (farm: FarmWhithIDsOfFKs) => {
+  const result = farms.map(async (farm: FarmWhithIDsOfFKs) => {
     const { addressId, ...address }: any =
       await addressRepository.selectByIdWithoutJoin(farm.address_id!);
 
@@ -26,7 +26,7 @@ const getAllFarms = async () => {
     };
   });
 
-  return await Promise.all(teste);
+  return await Promise.all(result);
 };
 
 const registerFarm = async (
