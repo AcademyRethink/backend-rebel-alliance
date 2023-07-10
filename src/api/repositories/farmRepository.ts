@@ -21,7 +21,7 @@ const insertNewFarm = async (
 
 const selectByCnpjWithoutJoin = async (
   farmCnpj: string
-): Promise<FarmWhithIDsOfFKs> => {
+): Promise<FarmWhithIDsOfFKs | undefined> => {
   const farm: FarmWhithIDsOfFKs[] = await knexInstance("farm")
     .select("*")
     .where("cnpj", farmCnpj);

@@ -30,7 +30,7 @@ const insertNewUser = async (
 
 const selectByIdWithoutJoin = async (
   userId: number
-): Promise<UsersWhithIDsOfFKs> => {
+): Promise<UsersWhithIDsOfFKs | undefined> => {
   const user: UsersWhithIDsOfFKs[] = await knexInstance("users")
     .select("*")
     .where({ id: userId });
