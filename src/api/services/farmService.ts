@@ -13,7 +13,20 @@ const getAllFarms = async () => {
     });
   }
 
-  return farms;
+  const teste = farms.map(async (farm: FarmWhithIDsOfFKs) => {
+    const { addressId, ...address }: any =
+      await addressRepository.selectByIdWithoutJoin(farm.address_id!);
+
+    return {
+      id: farm.id,
+      cpnj: farm.cnpj,
+      name: farm.name,
+      phone: farm.phone,
+      address: address,
+    };
+  });
+
+  return await Promise.all(teste);
 };
 
 const registerFarm = async (
@@ -50,7 +63,18 @@ const registerFarm = async (
 
   const newFarm = await farmRepository.insertNewFarm(newFarmData);
 
-  return newFarm;
+  const { addressId, ...address }: any =
+    await addressRepository.selectByIdWithoutJoin(newFarm.address_id!);
+
+  const result = {
+    id: newFarm.id,
+    cpnj: newFarm.cnpj,
+    name: newFarm.name,
+    phone: newFarm.phone,
+    address: address,
+  };
+
+  return result;
 };
 
 const findFarmById = async (id: number) => {
@@ -63,7 +87,18 @@ const findFarmById = async (id: number) => {
     });
   }
 
-  return findFarm;
+  const { addressId, ...address }: any =
+    await addressRepository.selectByIdWithoutJoin(findFarm.address_id!);
+
+  const result = {
+    id: findFarm.id,
+    cpnj: findFarm.cnpj,
+    name: findFarm.name,
+    phone: findFarm.phone,
+    address: address,
+  };
+
+  return result;
 };
 
 const findFarmByCnpj = async (cnpj: string) => {
@@ -76,7 +111,18 @@ const findFarmByCnpj = async (cnpj: string) => {
     });
   }
 
-  return findFarm;
+  const { addressId, ...address }: any =
+    await addressRepository.selectByIdWithoutJoin(findFarm.address_id!);
+
+  const result = {
+    id: findFarm.id,
+    cpnj: findFarm.cnpj,
+    name: findFarm.name,
+    phone: findFarm.phone,
+    address: address,
+  };
+
+  return result;
 };
 
 const findFarmByName = async (name: string) => {
@@ -89,7 +135,18 @@ const findFarmByName = async (name: string) => {
     });
   }
 
-  return findFarm;
+  const { addressId, ...address }: any =
+    await addressRepository.selectByIdWithoutJoin(findFarm.address_id!);
+
+  const result = {
+    id: findFarm.id,
+    cpnj: findFarm.cnpj,
+    name: findFarm.name,
+    phone: findFarm.phone,
+    address: address,
+  };
+
+  return result;
 };
 
 const updateFarmById = async (farm: FarmWhithAddress, farmCnpj: string) => {
@@ -117,7 +174,18 @@ const updateFarmById = async (farm: FarmWhithAddress, farmCnpj: string) => {
     existingFarm.id!
   );
 
-  return updatedFarm;
+  const { addressId, ...address }: any =
+    await addressRepository.selectByIdWithoutJoin(updatedFarm.address_id!);
+
+  const result = {
+    id: updatedFarm.id,
+    cpnj: updatedFarm.cnpj,
+    name: updatedFarm.name,
+    phone: updatedFarm.phone,
+    address: address,
+  };
+
+  return result;
 };
 
 const deleteFarmById = async (id: number) => {
