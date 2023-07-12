@@ -55,7 +55,7 @@ const showByName = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const updatedFarm = await farmService.updateFarmById(
+    const updatedFarm = await farmService.updateFarmByCnpj(
       req.body,
       req.params.farmcnpj
     );

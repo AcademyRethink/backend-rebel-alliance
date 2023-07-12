@@ -4,8 +4,11 @@ import { FarmWhithAddress, FarmWhithIDsOfFKs } from "../../types";
 const knexInstance = knex(config);
 
 const index = async (): Promise<FarmWhithAddress[]> => {
-  const farms: FarmWhithAddress[] = await knexInstance("farm").select("*");
+  const farms: FarmWhithAddress[] = await knexInstance("farm")
+    .select("*", "address.id as addressId", "farm.id as id")
+    .join("address", "farm.address_id", "=", "address.id");
 
+  console.log({ farms });
   return farms;
 };
 

@@ -13,25 +13,34 @@ const getAllFarms = async () => {
     });
   }
 
-  const result = farms.map(async (farm: FarmWhithIDsOfFKs) => {
-    const { addressId, ...address }: any =
-      await addressRepository.selectByIdWithoutJoin(farm.address_id!);
+  const result = farms.map((farm: any) => {
+    const address = {
+      street: farm.street,
+      number: farm.number,
+      complement: farm.complement,
+      neighborhood: farm.neighborhood,
+      city: farm.city,
+      state: farm.state,
+      cep: farm.cep,
+      reference_point: farm.reference_point,
+    };
 
     return {
       id: farm.id,
-      cpnj: farm.cnpj,
+      cnpj: farm.cnpj,
       name: farm.name,
       phone: farm.phone,
-      address: address,
+      address,
     };
   });
 
-  return await Promise.all(result);
+  return result;
 };
 
 const registerFarm = async (
   farm: FarmWhithAddress
 ): Promise<FarmWhithIDsOfFKs> => {
+  //registra a fazenda junto do endereço
   const existingFarm = await farmRepository.selectByCnpjWithoutJoin(farm.cnpj!);
 
   if (existingFarm) {
@@ -68,7 +77,7 @@ const registerFarm = async (
 
   const result = {
     id: newFarm.id,
-    cpnj: newFarm.cnpj,
+    cnpj: newFarm.cnpj,
     name: newFarm.name,
     phone: newFarm.phone,
     address: address,
@@ -92,7 +101,7 @@ const findFarmById = async (id: number) => {
 
   const result = {
     id: findFarm.id,
-    cpnj: findFarm.cnpj,
+    cnpj: findFarm.cnpj,
     name: findFarm.name,
     phone: findFarm.phone,
     address: address,
@@ -116,7 +125,7 @@ const findFarmByCnpj = async (cnpj: string) => {
 
   const result = {
     id: findFarm.id,
-    cpnj: findFarm.cnpj,
+    cnpj: findFarm.cnpj,
     name: findFarm.name,
     phone: findFarm.phone,
     address: address,
@@ -140,7 +149,7 @@ const findFarmByName = async (name: string) => {
 
   const result = {
     id: findFarm.id,
-    cpnj: findFarm.cnpj,
+    cnpj: findFarm.cnpj,
     name: findFarm.name,
     phone: findFarm.phone,
     address: address,
@@ -149,7 +158,8 @@ const findFarmByName = async (name: string) => {
   return result;
 };
 
-const updateFarmById = async (farm: FarmWhithAddress, farmCnpj: string) => {
+const updateFarmByCnpj = async (farm: FarmWhithAddress, farmCnpj: string) => {
+  //Atualiza a fazenda junto do endereço
   const existingFarm = await farmRepository.selectByCnpjWithoutJoin(farmCnpj);
 
   const newFarmData = farm;
@@ -179,7 +189,7 @@ const updateFarmById = async (farm: FarmWhithAddress, farmCnpj: string) => {
 
   const result = {
     id: updatedFarm.id,
-    cpnj: updatedFarm.cnpj,
+    cnpj: updatedFarm.cnpj,
     name: updatedFarm.name,
     phone: updatedFarm.phone,
     address: address,
@@ -193,7 +203,7 @@ const deleteFarmById = async (id: number) => {
 
   if (!existingFarm) {
     throw makeError({
-      message: "Farm not found",
+      message: "Farm not Found",
       status: 404,
     });
   }
@@ -211,6 +221,6 @@ export default {
   findFarmById,
   findFarmByCnpj,
   findFarmByName,
-  updateFarmById,
+  updateFarmByCnpj,
   deleteFarmById,
 };
