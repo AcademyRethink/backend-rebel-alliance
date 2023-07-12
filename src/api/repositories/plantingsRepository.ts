@@ -55,6 +55,17 @@ const selectId = (
 ): Promise<Array<ColumnId>> =>
   knexInstance(tableName).select("id").where(columnName, "ilike", value);
 
+const selectIdByNameAndByFarmId = async (
+  tableName: string,
+  columnName: string,
+  value: string,
+  farm_id: number
+): Promise<Array<ColumnId>> =>
+  knexInstance(tableName)
+    .select("id")
+    .where(columnName, "ilike", value)
+    .andWhere({ farm_id });
+
 const selectPlanting = (planting_id: number): Promise<PlantingsWithIds[]> =>
   knexInstance("planting").select("*").where({ id: planting_id });
 
@@ -75,6 +86,7 @@ export default {
   selectAllPlantingsInPlotWithHarvests,
   insertPlanting,
   selectId,
+  selectIdByNameAndByFarmId,
   selectPlanting,
   updatePlanting,
   deletePlanting,

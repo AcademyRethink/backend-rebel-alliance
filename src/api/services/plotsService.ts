@@ -31,15 +31,15 @@ const getPlotsInFarmWithPlatingData = async (
 const postPlot = async (
   plot: PlotWhithIDsOfFKs
 ): Promise<PlotWhithIDsOfFKs> => {
-  const existsPlot: PlotWhithIDsOfFKs | undefined =
-    await plotRepository.selectByNameWhithoutJoin(plot.name!);
-  if (existsPlot)
-    throw makeError({ message: "The plot already exists!", status: 400 });
-
   const farm: FarmWhithIDsOfFKs | undefined =
     await farmRepository.selectByIdWithoutJoin(plot.farm_id!);
   if (!farm)
     throw makeError({ message: "The farm doesn't exist!", status: 400 });
+
+  const existsPlot: PlotWhithIDsOfFKs | undefined =
+    await plotRepository.selectByNameAndFarmID(plot.farm_id!, plot.name!);
+  if (existsPlot)
+    throw makeError({ message: "The plot already exists!", status: 400 });
 
   const newPlot: PlotWhithIDsOfFKs = { name: plot.name, farm_id: farm.id };
 

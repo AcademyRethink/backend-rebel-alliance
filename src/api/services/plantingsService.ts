@@ -40,10 +40,20 @@ const getAllPlantingsByPlotWithHarvestCount = async (
 
 const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
-  const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
   const userId: number | null = await selectId("users", "cpf_cnpj", user);
   const farmId: number | null = await selectId("farm", "name", farm);
+
+  const existsPLot = farmId
+    ? await plantingsRepository.selectIdByNameAndByFarmId(
+        "plot",
+        "name",
+        plot,
+        farmId
+      )
+    : [];
+
+  const plotId: number | null = existsPLot.length ? existsPLot[0].id : null;
 
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
@@ -72,10 +82,20 @@ const updatePlanting = async (
   planting: PlantingsWithNames
 ): Promise<string> => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
-  const plotId: number | null = await selectId("plot", "name", plot);
   const stageId: number | null = await selectId("stages", "stage", stage);
   const userId: number | null = await selectId("users", "cpf_cnpj", user);
   const farmId: number | null = await selectId("farm", "name", farm);
+
+  const existsPLot = farmId
+    ? await plantingsRepository.selectIdByNameAndByFarmId(
+        "plot",
+        "name",
+        plot,
+        farmId
+      )
+    : [];
+
+  const plotId: number | null = existsPLot.length ? existsPLot[0].id : null;
 
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
@@ -85,7 +105,7 @@ const updatePlanting = async (
       farm_id: farmId,
       ...data,
     };
-    
+
     if (planting.active) await updateLastActivePlanting(plotId);
 
     await plantingsRepository.updatePlanting(id, formatedPlanting);

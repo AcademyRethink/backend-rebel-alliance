@@ -59,11 +59,11 @@ describe("Get plots of the farm with plating data", () => {
 describe("Insert a new plot on farm", () => {
   it("Should return the inserted plot", async () => {
     jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(undefined);
-    jest
       .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(farm);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(undefined);
 
     jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(plot);
 
@@ -72,22 +72,7 @@ describe("Insert a new plot on farm", () => {
     ).toMatchObject(plot);
   });
 
-  it("Should throw an error if the plot already exists", async () => {
-    jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(plot);
-
-    try {
-      await plotService.postPlot({ name: "plotName", farm_id: 1 });
-    } catch (error) {
-      expect(error).toMatchObject({ message: "The plot already exists!" });
-    }
-  });
-
   it("Should throw an error if the farm does not exist", async () => {
-    jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(undefined);
@@ -96,6 +81,21 @@ describe("Insert a new plot on farm", () => {
       await plotService.postPlot({ name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({ message: "The farm doesn't exist!" });
+    }
+  });
+
+  it("Should throw an error if the plot already exists", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(farm);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(plot);
+
+    try {
+      await plotService.postPlot({ name: "plotName", farm_id: 1 });
+    } catch (error) {
+      expect(error).toMatchObject({ message: "The plot already exists!" });
     }
   });
 });

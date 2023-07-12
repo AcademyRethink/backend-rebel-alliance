@@ -86,6 +86,17 @@ const selectByNameWhithoutJoin = async (
   return plot[0];
 };
 
+const selectByNameAndFarmID = async (
+  farm_id: number,
+  plotName: string
+): Promise<PlotWhithIDsOfFKs | undefined> => {
+  const plot: PlotWhithIDsOfFKs[] = await knexInstance("plot")
+    .select("*")
+    .where({ farm_id })
+    .andWhere("name", "ilike", `%${plotName}%`);
+  return plot[0];
+};
+
 export default {
   selectPlotsByFarmId,
   selectPlotByFarmIdWithJoin,
@@ -95,4 +106,7 @@ export default {
   selectPlotByIdAndFarmId,
   selectByIdWhithoutJoin,
   selectByNameWhithoutJoin,
+  selectByNameAndFarmID,
 };
+
+// selectByNameAndFarmID(2, "plot").then(console.log).catch(console.log);

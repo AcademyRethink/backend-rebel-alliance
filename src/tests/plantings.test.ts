@@ -65,6 +65,13 @@ describe("Plantings Tests", () => {
   it("Create a planting", async () => {
     jest.spyOn(plantingsRepository, "selectId").mockResolvedValue([{ id: 1 }]);
     jest
+      .spyOn(plantingsRepository, "selectIdByNameAndByFarmId")
+      .mockResolvedValue([{ id: 1 }]);
+    jest
+      .spyOn(plantingsRepository, "selectLastActivePlantingOnPlot")
+      .mockResolvedValueOnce([plantingData]);
+    jest.spyOn(plantingsRepository, "updatePlanting").mockResolvedValueOnce(1);
+    jest
       .spyOn(plantingsRepository, "insertPlanting")
       .mockResolvedValueOnce([1]);
     const result: string = await plantingsService.postPlanting(plantingData);
@@ -83,6 +90,9 @@ describe("Plantings Tests", () => {
   });
   it("Update a planting", async () => {
     jest.spyOn(plantingsRepository, "selectId").mockResolvedValue([{ id: 1 }]);
+    jest
+      .spyOn(plantingsRepository, "selectIdByNameAndByFarmId")
+      .mockResolvedValue([{ id: 1 }]);
     jest.spyOn(plantingsRepository, "updatePlanting").mockResolvedValueOnce(1);
     const result: string = await plantingsService.updatePlanting(
       1,

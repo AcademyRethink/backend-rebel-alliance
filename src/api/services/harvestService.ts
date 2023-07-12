@@ -9,9 +9,6 @@ import plantingsRepository from "../repositories/plantingsRepository";
 const registerNewHarvest = async (
   harvest: HarvestWhithNamesOfFKs
 ): Promise<HarvestWhithIDsOfFKs> => {
-  const findPlot = await plotRepository.selectByNameWhithoutJoin(
-    harvest.plot_name!
-  );
   const findUser = await usersRepository.selectByNameWithoutJoin(
     harvest.user_name!
   );
@@ -22,11 +19,16 @@ const registerNewHarvest = async (
     harvest.planting_id!
   );
 
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+
+  const findPlot = await plotRepository.selectByNameAndFarmID(
+    findFarm.id!,
+    harvest.plot_name!
+  );
+
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
 
   if (!findUser) throw makeError({ message: "User Not Found", status: 400 });
-
-  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
 
   if (!findPlating.length)
     throw makeError({ message: "Planting Not Found", status: 400 });
