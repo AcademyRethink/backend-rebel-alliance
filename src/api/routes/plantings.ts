@@ -5,6 +5,11 @@ import middleware from "../middlewares/plantingsDataValidator";
 const router: Router = Router();
 
 router.get("/", middleware.plantingQueryValidator, plantingsController.index);
+router.get(
+  "/plot/:id",
+  middleware.plantingPathValidatorByFarm,
+  plantingsController.show
+);
 router.post("/", middleware.plantingsDataValidator, plantingsController.insert);
 router.put(
   "/:id",

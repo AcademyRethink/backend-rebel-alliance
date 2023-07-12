@@ -14,6 +14,7 @@ const harvestDataValidator = async (
       plot_name: string().required(),
       user_name: string().required(),
       farm_name: string().required(),
+      planting_id: number().required(),
     });
     await harvestSchema.validate(harvestData);
     next();

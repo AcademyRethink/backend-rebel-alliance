@@ -27,6 +27,8 @@ harvestRouter.get(
   harvestController.getHarvestOfTheFarmByDateAndPlot
 );
 
+harvestRouter.get("/planting/:id", harvestController.showByPlating);
+
 harvestRouter.patch(
   "/:harvestid",
   dataValidator.harvestPatchDataValidator,

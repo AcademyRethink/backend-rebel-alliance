@@ -4,6 +4,7 @@ import plotRepository from "../repositories/plotRepository";
 import farmRepository from "../repositories/farmRepository";
 import { HarvestWhithNamesOfFKs, HarvestWhithIDsOfFKs } from "../../types";
 import { makeError } from "../middlewares/errorHandler";
+import plantingsRepository from "../repositories/plantingsRepository";
 
 const registerNewHarvest = async (
   harvest: HarvestWhithNamesOfFKs
@@ -17,6 +18,9 @@ const registerNewHarvest = async (
   const findFarm = await farmRepository.selectByNameWhithoutJoin(
     harvest.farm_name!
   );
+  const findPlating = await plantingsRepository.selectPlanting(
+    harvest.planting_id!
+  );
 
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
 
@@ -24,12 +28,16 @@ const registerNewHarvest = async (
 
   if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
 
+  if (!findPlating.length)
+    throw makeError({ message: "Planting Not Found", status: 400 });
+
   const newHarvestData: HarvestWhithIDsOfFKs = {
     date: harvest.date,
     bags: harvest.bags,
     plot_id: findPlot.id,
     user_id: findUser.id,
     farm_id: findFarm.id,
+    planting_id: findPlating[0].id,
   };
 
   const newHarvest = await harvestRepository.insert(newHarvestData);
@@ -67,6 +75,12 @@ const getHarvestsOfTheFarmByPlotId = async (
   );
 
   return harvests;
+};
+
+const getHarvestByPlantingId = async (
+  plantingId: number
+): Promise<HarvestWhithIDsOfFKs[]> => {
+  return await harvestRepository.selectHarvestsByPlatingId(plantingId);
 };
 
 const getHarvestsOfTheFarmByDate = async (
@@ -176,6 +190,7 @@ const deleteHarvest = async (harvestId: number) => {
 export default {
   registerNewHarvest,
   getAllHarvestsOfTheFarm,
+  getHarvestByPlantingId,
   getHarvestsOfTheFarmByPlotId,
   getHarvestsOfTheFarmByDate,
   getHarvestOfTheFarmByDateAndPlot,

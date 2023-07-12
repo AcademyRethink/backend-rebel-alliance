@@ -4,9 +4,12 @@ import {
   PlantingsWithNames,
   WhereType,
   QueryStringOrNumber,
+  PlantingsWithHarvestCount,
 } from "../../types/plantingTypes";
 import plantingsRepository from "../repositories/plantingsRepository";
 import { makeError } from "../middlewares/errorHandler";
+import plotRepository from "../repositories/plotRepository";
+import { PlotWhithIDsOfFKs } from "../../types";
 
 const getAllPlantings = async (
   farm: QueryStringOrNumber,
@@ -25,6 +28,16 @@ const getAllPlantings = async (
   return plantings;
 };
 
+const getAllPlantingsByPlotWithHarvestCount = async (
+  plotId: number
+): Promise<PlantingsWithHarvestCount[]> => {
+  const existsPlot: PlotWhithIDsOfFKs | undefined =
+    await plotRepository.selectByIdWhithoutJoin(plotId);
+  if (!existsPlot) throw makeError({ message: "Plot not found", status: 400 });
+
+  return await plantingsRepository.selectAllPlantingsInPlotWithHarvests(plotId);
+};
+
 const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
   const { plot, stage, user, farm, ...data }: PlantingsWithNames = planting;
   const plotId: number | null = await selectId("plot", "name", plot);
@@ -40,6 +53,9 @@ const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
       farm_id: farmId,
       ...data,
     };
+
+    // atualiza o ultimo plantio ativo para inativo
+    await updateLastActivePlanting(plotId);
 
     await plantingsRepository.insertPlanting(formatedPlanting);
     return "Registered planting";
@@ -69,6 +85,8 @@ const updatePlanting = async (
       farm_id: farmId,
       ...data,
     };
+    
+    if (planting.active) await updateLastActivePlanting(plotId);
 
     await plantingsRepository.updatePlanting(id, formatedPlanting);
     return "Planting has been updated";
@@ -100,8 +118,22 @@ const selectId = async (
   return result.length > 0 ? result[0].id : null;
 };
 
+// atualiza o ultimo plantio ativo para inativo
+const updateLastActivePlanting = async (plotId: number) => {
+  const lastActivePlatings =
+    await plantingsRepository.selectLastActivePlantingOnPlot(plotId);
+  if (lastActivePlatings.length) {
+    lastActivePlatings[0].active = false;
+    await plantingsRepository.updatePlanting(
+      lastActivePlatings[0].id!,
+      lastActivePlatings[0]
+    );
+  }
+};
+
 export default {
   getAllPlantings,
+  getAllPlantingsByPlotWithHarvestCount,
   postPlanting,
   updatePlanting,
   deletePlanting,

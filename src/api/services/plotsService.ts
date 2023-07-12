@@ -1,4 +1,4 @@
-import { PlotWhithIDsOfFKs } from "../../types/plotTypes";
+import { PlotWhithIDsOfFKs, PlotWithPlatingData } from "../../types/plotTypes";
 import plotRepository from "../repositories/plotRepository";
 import farmRepository from "../repositories/farmRepository";
 import { makeError } from "../middlewares/errorHandler";
@@ -14,6 +14,18 @@ const getPlotsInFarm = async (
     throw makeError({ message: "The farm does not exist!", status: 400 });
 
   return await plotRepository.selectPlotsByFarmId(farm_id);
+};
+
+const getPlotsInFarmWithPlatingData = async (
+  farm_id: number
+): Promise<PlotWithPlatingData[]> => {
+  const existsFarm: FarmWhithIDsOfFKs | undefined =
+    await farmRepository.selectByIdWithoutJoin(farm_id);
+
+  if (!existsFarm)
+    throw makeError({ message: "The farm does not exist!", status: 400 });
+
+  return await plotRepository.selectPlotByFarmIdWithJoin(farm_id);
 };
 
 const postPlot = async (
@@ -81,4 +93,10 @@ const deletePlot = async (id: number): Promise<PlotWhithIDsOfFKs> => {
   }
 };
 
-export default { getPlotsInFarm, postPlot, updatePlot, deletePlot };
+export default {
+  getPlotsInFarm,
+  getPlotsInFarmWithPlatingData,
+  postPlot,
+  updatePlot,
+  deletePlot,
+};

@@ -21,6 +21,20 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const showByPlating = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = Number(req.params.id);
+    const harvests = await harvestService.getHarvestByPlantingId(id);
+    res.status(200).json(harvests);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
 const getHarvestsOfTheFarmByPlotId = async (
   req: Request,
   res: Response,
@@ -115,6 +129,7 @@ const deleteHarvest = async (
 export default {
   insert,
   index,
+  showByPlating,
   getHarvestsOfTheFarmByPlotId,
   getHarvestsOfTheFarmByDate,
   getHarvestOfTheFarmByDateAndPlot,
