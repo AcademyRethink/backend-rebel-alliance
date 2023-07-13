@@ -16,6 +16,21 @@ const index = async (
   }
 };
 
+const show = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const plotId = Number(req.params.id);
+    const plantings =
+      await plantingsService.getAllPlantingsByPlotWithHarvestCount(plotId);
+    res.status(200).send(plantings);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const insert = async (
   req: Request,
   res: Response,
@@ -46,8 +61,15 @@ const update = async (
 ): Promise<void> => {
   try {
     const id = Number(req.params.id);
-    const { date, saplings, plot, stage, user, farm }: PlantingsWithNames =
-      req.body;
+    const {
+      date,
+      saplings,
+      plot,
+      stage,
+      user,
+      farm,
+      active,
+    }: PlantingsWithNames = req.body;
     const planting: PlantingsWithNames = {
       date,
       saplings,
@@ -55,6 +77,7 @@ const update = async (
       stage,
       user,
       farm,
+      active,
     };
     const updatePlanting = await plantingsService.updatePlanting(id, planting);
     res.send(updatePlanting);
@@ -79,6 +102,7 @@ const remove = async (
 
 export default {
   index,
+  show,
   insert,
   update,
   remove,

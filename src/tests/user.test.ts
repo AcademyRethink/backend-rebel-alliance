@@ -64,6 +64,9 @@ describe("Users Tests", () => {
   });
   it("Farm not Found", async () => {
     jest
+      .spyOn(usersRepository, "selectByCpfOrCnpjWithoutJoin")
+      .mockResolvedValueOnce(undefined);
+    jest
       .spyOn(farmRepository, "selectByCnpjWithoutJoin")
       .mockResolvedValueOnce(undefined);
     try {

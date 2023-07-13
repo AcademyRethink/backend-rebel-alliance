@@ -4,6 +4,8 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import { errorHandler } from "./api/middlewares/errorHandler";
 
+const port = 3000;
+
 dotenv.config();
 const app: Express = express();
 app.use(cors());
@@ -15,6 +17,6 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/", router);
 app.use(errorHandler);
 
-app.listen(3000, () => {
-  console.log("Ta funcionando");
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

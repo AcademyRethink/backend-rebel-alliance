@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { PlotWhithIDsOfFKs } from "../../types/plotTypes";
+import { PlotWhithIDsOfFKs, PlotWithPlatingData } from "../../types/plotTypes";
 import plotService from "../services/plotsService";
 
 const index = async (
@@ -11,6 +11,21 @@ const index = async (
     const farm_id = Number(req.params.id);
     const allPlotsOnFarm: PlotWhithIDsOfFKs[] =
       await plotService.getPlotsInFarm(farm_id);
+    res.status(200).send(allPlotsOnFarm);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const indexWithPlatingData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const farm_id = Number(req.params.id);
+    const allPlotsOnFarm: PlotWithPlatingData[] =
+      await plotService.getPlotsInFarmWithPlatingData(farm_id);
     res.status(200).send(allPlotsOnFarm);
   } catch (error) {
     next(error);
@@ -67,4 +82,4 @@ const remove = async (
   }
 };
 
-export default { index, insert, update, remove };
+export default { index, indexWithPlatingData, insert, update, remove };

@@ -8,6 +8,7 @@ type PlantingsWithIds = {
   stages_id?: number;
   user_id?: number;
   farm_id?: number;
+  active?: boolean;
 };
 
 type PlantingsWithNames = {
@@ -18,6 +19,16 @@ type PlantingsWithNames = {
   stage: string;
   user: string;
   farm: string;
+  active?: boolean;
+};
+
+type PlantingsWithHarvestCount = {
+  plot_id: number;
+  planting_id: number;
+  date: string;
+  saplings: number;
+  active: boolean;
+  harvests: string;
 };
 
 type ColumnId = {
@@ -41,6 +52,7 @@ type QueryStringOrNumber =
 export {
   PlantingsWithIds,
   PlantingsWithNames,
+  PlantingsWithHarvestCount,
   ColumnId,
   WhereType,
   QueryStringOrNumber,

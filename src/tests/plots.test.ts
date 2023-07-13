@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import plotRepository from "../api/repositories/plotRepository";
-import { allPlots, farm, plot } from "./mockPlots";
+import { allPlots, farm, plot, plotWitPlating } from "./mockPlots";
 import plotService from "../api/services/plotsService";
 import farmRepository from "../api/repositories/farmRepository";
 
@@ -29,14 +29,41 @@ describe("Get all plots of the farm", () => {
   });
 });
 
-describe("Insert a new plot on farm", () => {
-  it("Should return the inserted plot", async () => {
-    jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(undefined);
+describe("Get plots of the farm with plating data", () => {
+  it("Should return all plots of the informated farm with active planting data", async () => {
     jest
       .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(farm);
+    jest
+      .spyOn(plotRepository, "selectPlotByFarmIdWithJoin")
+      .mockResolvedValueOnce([plotWitPlating]);
+
+    expect(await plotService.getPlotsInFarmWithPlatingData(1)).toMatchObject([
+      plotWitPlating,
+    ]);
+  });
+
+  it("Should throw an error if the informated farm does not exist", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(undefined);
+
+    try {
+      await plotService.getPlotsInFarmWithPlatingData(5);
+    } catch (error) {
+      expect(error).toMatchObject({ message: "The farm does not exist!" });
+    }
+  });
+});
+
+describe("Insert a new plot on farm", () => {
+  it("Should return the inserted plot", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(farm);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(undefined);
 
     jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(plot);
 
@@ -45,22 +72,7 @@ describe("Insert a new plot on farm", () => {
     ).toMatchObject(plot);
   });
 
-  it("Should throw an error if the plot already exists", async () => {
-    jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(plot);
-
-    try {
-      await plotService.postPlot({ name: "plotName", farm_id: 1 });
-    } catch (error) {
-      expect(error).toMatchObject({ message: "The plot already exists!" });
-    }
-  });
-
   it("Should throw an error if the farm does not exist", async () => {
-    jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(undefined);
@@ -69,6 +81,21 @@ describe("Insert a new plot on farm", () => {
       await plotService.postPlot({ name: "plotName", farm_id: 1 });
     } catch (error) {
       expect(error).toMatchObject({ message: "The farm doesn't exist!" });
+    }
+  });
+
+  it("Should throw an error if the plot already exists", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(farm);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(plot);
+
+    try {
+      await plotService.postPlot({ name: "plotName", farm_id: 1 });
+    } catch (error) {
+      expect(error).toMatchObject({ message: "The plot already exists!" });
     }
   });
 });

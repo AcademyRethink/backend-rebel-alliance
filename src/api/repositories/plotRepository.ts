@@ -1,6 +1,6 @@
 import knex from "knex";
 import config from "../../../knexfile";
-import { PlotWhithIDsOfFKs } from "../../types";
+import { PlotWithPlatingData, PlotWhithIDsOfFKs } from "../../types/plotTypes";
 const knexInstance = knex(config);
 
 const selectPlotsByFarmId = async (
@@ -12,6 +12,26 @@ const selectPlotsByFarmId = async (
 
   return plot;
 };
+
+const selectPlotByFarmIdWithJoin = (
+  farm_id: number
+): Promise<PlotWithPlatingData[]> =>
+  knexInstance("plot")
+    .select(
+      "plot.farm_id",
+      "plot.id as plot_id",
+      "plot.name as plot_name",
+      "planting.id as planting_id",
+      "planting.date as planting_date",
+      "planting.saplings",
+      "stages.stage"
+    )
+    .join("planting", "plot.id", "=", "planting.plot_id")
+    .join("stages", "stages.id", "=", "planting.stages_id")
+    .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
+    .where({ "plot.farm_id": farm_id, "planting.active": true })
+    .groupBy("plot.id", "planting.id", "stages.stage")
+    .count("harvest.id as harvests");
 
 const insertPlot = async (
   plot: PlotWhithIDsOfFKs
@@ -66,12 +86,27 @@ const selectByNameWhithoutJoin = async (
   return plot[0];
 };
 
+const selectByNameAndFarmID = async (
+  farm_id: number,
+  plotName: string
+): Promise<PlotWhithIDsOfFKs | undefined> => {
+  const plot: PlotWhithIDsOfFKs[] = await knexInstance("plot")
+    .select("*")
+    .where({ farm_id })
+    .andWhere("name", "ilike", `%${plotName}%`);
+  return plot[0];
+};
+
 export default {
   selectPlotsByFarmId,
+  selectPlotByFarmIdWithJoin,
   insertPlot,
   updatePlot,
   deletePlot,
   selectPlotByIdAndFarmId,
   selectByIdWhithoutJoin,
   selectByNameWhithoutJoin,
+  selectByNameAndFarmID,
 };
+
+// selectByNameAndFarmID(2, "plot").then(console.log).catch(console.log);

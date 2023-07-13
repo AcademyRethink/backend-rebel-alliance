@@ -16,16 +16,16 @@ describe("Tests farm service functions", () => {
       .mockResolvedValueOnce(undefined);
 
     jest
+      .spyOn(addressRepository, "insertNewAddress")
+      .mockResolvedValueOnce(mockAddress);
+
+    jest
       .spyOn(farmRepository, "insertNewFarm")
       .mockResolvedValueOnce(mockFarmWithAddress);
 
     jest
       .spyOn(addressRepository, "selectByIdWithoutJoin")
       .mockResolvedValue(mockAddress);
-
-    jest
-      .spyOn(addressRepository, "insertNewAddress")
-      .mockResolvedValueOnce(mockAddress);
 
     const result = await farmService.registerFarm(mockFarmWithAddressResult);
 
@@ -88,6 +88,8 @@ describe("Tests farm service functions", () => {
       .spyOn(farmRepository, "selectByCnpjWithoutJoin")
       .mockResolvedValueOnce(mockFarmWithAddress);
 
+    jest.spyOn(addressRepository, "updateAddress").mockResolvedValueOnce(1);
+
     jest
       .spyOn(farmRepository, "updateFarm")
       .mockResolvedValueOnce(mockFarmWithAddress);
@@ -95,8 +97,6 @@ describe("Tests farm service functions", () => {
     jest
       .spyOn(addressRepository, "selectByIdWithoutJoin")
       .mockResolvedValue(mockAddress);
-
-    jest.spyOn(addressRepository, "updateAddress").mockResolvedValueOnce(1);
 
     const result = await farmService.updateFarmByCnpj(
       mockFarmWithAddressResult,
@@ -107,6 +107,9 @@ describe("Tests farm service functions", () => {
   });
 
   it("delete farm by id", async () => {
+    jest
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
+      .mockResolvedValueOnce(mockFarmWithAddress);
     jest.spyOn(farmRepository, "deleteFarm").mockResolvedValueOnce(1);
 
     const result = await farmService.deleteFarmById(1);

@@ -2,7 +2,7 @@ import { describe, expect, jest } from "@jest/globals";
 import harvestService from "../api/services/harvestService";
 import harvestRepository from "../api/repositories/harvestRepository";
 import plotRepository from "../api/repositories/plotRepository";
-import usersRepository from "../api/repositories/usersRepository";
+import userRepository from "../api/repositories/usersRepository";
 import farmRepository from "../api/repositories/farmRepository";
 import {
   mockedPlotWhithIds,
@@ -11,18 +11,23 @@ import {
   mockedHarvestWithNames,
   mockedUserWhithIds,
 } from "./harvestMock";
+import plantingsRepository from "../api/repositories/plantingsRepository";
+import { plantingData } from "./mockPlantings";
 
 describe("Harvest Services Tests - registerNewHarvest Function", () => {
   it("Resgister a harvest", async () => {
     jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(mockedPlotWhithIds);
-    jest
-      .spyOn(usersRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest
+      .spyOn(plantingsRepository, "selectPlanting")
+      .mockResolvedValueOnce([plantingData]);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
       .mockResolvedValueOnce(mockedHarvestWithIds);
@@ -39,14 +44,17 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
   });
   it("Resgister fail because plot does not exist", async () => {
     jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(undefined);
-    jest
-      .spyOn(usersRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest
+      .spyOn(plantingsRepository, "selectPlanting")
+      .mockResolvedValueOnce([plantingData]);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(undefined);
     jest
       .spyOn(harvestRepository, "insert")
       .mockResolvedValueOnce(mockedHarvestWithIds);
@@ -66,14 +74,17 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
   it("Resgister fail because user does not exist", async () => {
     jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(mockedPlotWhithIds);
-    jest
-      .spyOn(usersRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(undefined);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest
+      .spyOn(plantingsRepository, "selectPlanting")
+      .mockResolvedValueOnce([plantingData]);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
       .mockResolvedValueOnce(mockedHarvestWithIds);
@@ -93,14 +104,17 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
   it("Resgister fail because Farm does not exist", async () => {
     jest
-      .spyOn(plotRepository, "selectByNameWhithoutJoin")
-      .mockResolvedValueOnce(mockedPlotWhithIds);
-    jest
-      .spyOn(usersRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByNameWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
       .spyOn(farmRepository, "selectByNameWhithoutJoin")
       .mockResolvedValueOnce(undefined);
+    jest
+      .spyOn(plantingsRepository, "selectPlanting")
+      .mockResolvedValueOnce([plantingData]);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
       .mockResolvedValueOnce(mockedHarvestWithIds);
@@ -117,10 +131,41 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       expect(error).toMatchObject({ message: "Farm Not Found", status: 400 });
     }
   });
+
+  it("Resgister fail because Planting does not exist", async () => {
+    jest
+      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .mockResolvedValueOnce(mockedUserWhithIds);
+    jest
+      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .mockResolvedValueOnce(mockedFarmWhithIds);
+    jest.spyOn(plantingsRepository, "selectPlanting").mockResolvedValueOnce([]);
+    jest
+      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .mockResolvedValueOnce(mockedPlotWhithIds);
+    jest
+      .spyOn(harvestRepository, "insert")
+      .mockResolvedValueOnce(mockedHarvestWithIds);
+
+    try {
+      await harvestService.registerNewHarvest({
+        date: new Date("2023-06-28T03:00:00.000Z"),
+        bags: 40,
+        plot_name: "Baixada Mineria",
+        user_name: "Jose",
+        farm_name: "Fazenda Rebel Alliance",
+      });
+    } catch (error) {
+      expect(error).toMatchObject({
+        message: "Planting Not Found",
+        status: 400,
+      });
+    }
+  });
 });
 
 describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
-  it("Return all Harvests os teh farm", async () => {
+  it("Return all Harvests os the farm", async () => {
     jest
       .spyOn(harvestRepository, "selectAllOfTheFarmWithJoin")
       .mockResolvedValueOnce([mockedHarvestWithNames]);
@@ -128,6 +173,16 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
     const result = await harvestService.getAllHarvestsOfTheFarm(1);
 
     expect(result).toMatchObject([mockedHarvestWithNames]);
+  });
+
+  it("Return all Harvests of the plating", async () => {
+    jest
+      .spyOn(harvestRepository, "selectHarvestsByPlatingId")
+      .mockResolvedValueOnce([mockedHarvestWithIds]);
+
+    const result = await harvestService.getHarvestByPlantingId(1);
+
+    expect(result).toMatchObject([mockedHarvestWithIds]);
   });
 
   it("Farm does not have harvests", async () => {
