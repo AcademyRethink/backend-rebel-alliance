@@ -3,9 +3,10 @@ import {
   HarvestWhithNamesOfFKs,
 } from "../types/harvestTypes";
 
-import { FarmWhithIDsOfFKs } from "./farmTypes";
+import { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs } from "./usersTypes";
+import { FarmWhithIDsOfFKs, FarmWhithAddress } from "./farmTypes";
+import { Address } from "./addressTypes";
 import { PlotWhithIDsOfFKs } from "./plotTypes";
-import { UsersWhithIDsOfFKs, UsersWhithNamesOfFKs } from "./usersTypes";
 
 type ErrorType = {
   message: string;
@@ -17,8 +18,10 @@ export {
   ErrorType,
   HarvestWhithIDsOfFKs,
   HarvestWhithNamesOfFKs,
-  FarmWhithIDsOfFKs,
-  PlotWhithIDsOfFKs,
   UsersWhithIDsOfFKs,
-  UsersWhithNamesOfFKs,
+  UsersWhithCnpjOfFKs,
+  FarmWhithIDsOfFKs,
+  FarmWhithAddress,
+  Address,
+  PlotWhithIDsOfFKs,
 };
