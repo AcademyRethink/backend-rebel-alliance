@@ -9,7 +9,7 @@ type UsersWhithIDsOfFKs = {
   farm_id?: number;
 };
 
-type UsersWhithNamesOfFKs = {
+type UsersWhithCnpjOfFKs = {
   id?: number;
   cpf_cnpj?: string;
   name?: string;
@@ -17,7 +17,7 @@ type UsersWhithNamesOfFKs = {
   email?: string;
   password?: string;
   userType?: string;
-  farm_name?: string;
+  farm_cnpj?: string;
 };
 
-export { UsersWhithIDsOfFKs, UsersWhithNamesOfFKs };
+export { UsersWhithIDsOfFKs, UsersWhithCnpjOfFKs };
