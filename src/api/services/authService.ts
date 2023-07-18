@@ -16,7 +16,7 @@ const getAllUsers = async () => {
   if (!users) {
     throw makeError({
       message: "Error getting Users",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -35,7 +35,7 @@ const registerUser = async (
   if (existingUser) {
     throw makeError({
       message: "User already registered",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -46,7 +46,7 @@ const registerUser = async (
   if (!existingFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -79,7 +79,7 @@ const authenticateUser = async (user: UsersWhithIDsOfFKs) => {
   if (!selectedUser) {
     throw makeError({
       message: "User not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -91,7 +91,7 @@ const authenticateUser = async (user: UsersWhithIDsOfFKs) => {
   if (!verifyPassword) {
     throw makeError({
       message: "Wrong Password",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -110,7 +110,7 @@ const findUserById = async (id: number) => {
   if (!findUser) {
     throw makeError({
       message: "User not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -125,7 +125,7 @@ const findUserByCpfOrCnpj = async (cpfOrCnpj: string) => {
   if (!findUser) {
     throw makeError({
       message: "User not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -138,7 +138,7 @@ const findUserByName = async (name: string) => {
   if (!findUser) {
     throw makeError({
       message: "User not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -155,7 +155,7 @@ const updateUserById = async (userId: number, user: UsersWhithCnpjOfFKs) => {
   if (!existingUser) {
     throw makeError({
       message: "User not Found",
-      status: 404,
+      status: 200,
     });
   }
 
@@ -167,7 +167,7 @@ const updateUserById = async (userId: number, user: UsersWhithCnpjOfFKs) => {
     if (!existingFarm) {
       throw makeError({
         message: "Farm not Found",
-        status: 400,
+        status: 200,
       });
     }
 
@@ -191,7 +191,7 @@ const deleteUserById = async (id: number) => {
   if (!existingUser) {
     throw makeError({
       message: "User not found",
-      status: 404,
+      status: 200,
     });
   }
 

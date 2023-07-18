@@ -22,7 +22,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Error getting Users",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -58,7 +58,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User already registered",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -74,7 +74,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -97,7 +97,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -110,7 +110,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Wrong Password",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -130,7 +130,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -150,7 +150,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -170,7 +170,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -208,7 +208,7 @@ describe("Users Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "User not found",
-        status: 404,
+        status: 200,
       });
     }
   });

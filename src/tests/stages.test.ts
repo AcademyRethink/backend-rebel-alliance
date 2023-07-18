@@ -18,7 +18,7 @@ describe("Stages Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Culture not found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -40,7 +40,7 @@ describe("Stages Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Culture not found",
-        status: 400,
+        status: 200,
       });
     }
   });

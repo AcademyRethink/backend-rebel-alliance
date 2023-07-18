@@ -141,7 +141,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm already registered",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -153,7 +153,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Error getting Farms",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -168,7 +168,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -183,7 +183,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -198,7 +198,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -223,7 +223,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 404,
+        status: 200,
       });
     }
   });
@@ -238,7 +238,7 @@ describe("Tests errors of farm service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Farm not Found",
-        status: 404,
+        status: 200,
       });
     }
   });

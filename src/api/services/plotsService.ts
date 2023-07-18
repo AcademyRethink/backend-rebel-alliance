@@ -11,7 +11,7 @@ const getPlotsInFarm = async (
     await farmRepository.selectByIdWithoutJoin(farm_id);
 
   if (!existsFarm)
-    throw makeError({ message: "The farm does not exist!", status: 400 });
+    throw makeError({ message: "The farm does not exist!", status: 200 });
 
   return await plotRepository.selectPlotsByFarmId(farm_id);
 };
@@ -23,7 +23,7 @@ const getPlotsInFarmWithPlatingData = async (
     await farmRepository.selectByIdWithoutJoin(farm_id);
 
   if (!existsFarm)
-    throw makeError({ message: "The farm does not exist!", status: 400 });
+    throw makeError({ message: "The farm does not exist!", status: 200 });
 
   return await plotRepository.selectPlotByFarmIdWithJoin(farm_id);
 };
@@ -34,12 +34,12 @@ const postPlot = async (
   const farm: FarmWhithIDsOfFKs | undefined =
     await farmRepository.selectByIdWithoutJoin(plot.farm_id!);
   if (!farm)
-    throw makeError({ message: "The farm doesn't exist!", status: 400 });
+    throw makeError({ message: "The farm doesn't exist!", status: 200 });
 
   const existsPlot: PlotWhithIDsOfFKs | undefined =
     await plotRepository.selectByNameAndFarmID(plot.farm_id!, plot.name!);
   if (existsPlot)
-    throw makeError({ message: "The plot already exists!", status: 400 });
+    throw makeError({ message: "The plot already exists!", status: 200 });
 
   const newPlot: PlotWhithIDsOfFKs = { name: plot.name, farm_id: farm.id };
 
@@ -57,7 +57,7 @@ const updatePlot = async (
   const farm: FarmWhithIDsOfFKs | undefined =
     await farmRepository.selectByIdWithoutJoin(plot.farm_id!);
   if (!farm)
-    throw makeError({ message: "The farm does not exist!", status: 400 });
+    throw makeError({ message: "The farm does not exist!", status: 200 });
 
   const existsPlot: PlotWhithIDsOfFKs | undefined =
     await plotRepository.selectPlotByIdAndFarmId(id, farm.id!);
@@ -65,7 +65,7 @@ const updatePlot = async (
     throw makeError({
       message:
         "The plot does not exist or does not belong to the indicated farm!",
-      status: 400,
+      status: 200,
     });
 
   try {
@@ -83,7 +83,7 @@ const deletePlot = async (id: number): Promise<PlotWhithIDsOfFKs> => {
   if (!existsPlot)
     throw makeError({
       message: "The plot does not exist!",
-      status: 400,
+      status: 200,
     });
 
   try {

@@ -68,7 +68,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
         farm_name: "Fazenda Rebel Alliance",
       });
     } catch (error) {
-      expect(error).toMatchObject({ message: "Plot Not Found", status: 400 });
+      expect(error).toMatchObject({ message: "Plot Not Found", status: 200 });
     }
   });
 
@@ -98,7 +98,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
         farm_name: "Fazenda Rebel Alliance",
       });
     } catch (error) {
-      expect(error).toMatchObject({ message: "User Not Found", status: 400 });
+      expect(error).toMatchObject({ message: "User Not Found", status: 200 });
     }
   });
 
@@ -128,7 +128,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
         farm_name: "Fazenda Rebel Alliance",
       });
     } catch (error) {
-      expect(error).toMatchObject({ message: "Farm Not Found", status: 400 });
+      expect(error).toMatchObject({ message: "Farm Not Found", status: 200 });
     }
   });
 
@@ -158,7 +158,7 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Planting Not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -259,7 +259,7 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
     try {
       await harvestService.getHarvestsOfTheFarmByPlotId(1, 1);
     } catch (error) {
-      expect(error).toMatchObject({ message: "Farm Not Found", status: 400 });
+      expect(error).toMatchObject({ message: "Farm Not Found", status: 200 });
       jest.clearAllMocks();
     }
   });
@@ -277,7 +277,7 @@ describe("Harvest Services Tests - getHarvestsOfTheFarm Functions", () => {
 
       await harvestService.getHarvestsOfTheFarmByPlotId(1, 7);
     } catch (error) {
-      expect(error).toMatchObject({ message: "Plot Not Found", status: 400 });
+      expect(error).toMatchObject({ message: "Plot Not Found", status: 200 });
     }
   });
 });

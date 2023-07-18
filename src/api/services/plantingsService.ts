@@ -23,7 +23,7 @@ const getAllPlantings = async (
 
   const plantings = await plantingsRepository.selectAllPlantings(where);
   if (!plantings.length) {
-    throw makeError({ message: "Plantings not found", status: 400 });
+    throw makeError({ message: "Plantings not found", status: 200 });
   }
   return plantings;
 };
@@ -33,7 +33,7 @@ const getAllPlantingsByPlotWithHarvestCount = async (
 ): Promise<PlantingsWithHarvestCount[]> => {
   const existsPlot: PlotWhithIDsOfFKs | undefined =
     await plotRepository.selectByIdWhithoutJoin(plotId);
-  if (!existsPlot) throw makeError({ message: "Plot not found", status: 400 });
+  if (!existsPlot) throw makeError({ message: "Plot not found", status: 200 });
 
   return await plantingsRepository.selectAllPlantingsInPlotWithHarvests(plotId);
 };
@@ -72,7 +72,7 @@ const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
   } else {
     throw makeError({
       message: "Some ID can not found",
-      status: 400,
+      status: 200,
     });
   }
 };
@@ -113,7 +113,7 @@ const updatePlanting = async (
   } else {
     throw makeError({
       message: "Some ID can not found",
-      status: 400,
+      status: 200,
     });
   }
 };
@@ -121,7 +121,7 @@ const updatePlanting = async (
 const deletePlanting = async (id: number): Promise<string> => {
   const planting: number = await plantingsRepository.deletePlanting(id);
   if (!planting)
-    throw makeError({ message: "Planting not found", status: 400 });
+    throw makeError({ message: "Planting not found", status: 200 });
   return "Planting has benn deleted";
 };
 

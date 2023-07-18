@@ -19,19 +19,19 @@ const registerNewHarvest = async (
     harvest.planting_id!
   );
 
-  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 200 });
 
   const findPlot = await plotRepository.selectByNameAndFarmID(
     findFarm.id!,
     harvest.plot_name!
   );
 
-  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
+  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 200 });
 
-  if (!findUser) throw makeError({ message: "User Not Found", status: 400 });
+  if (!findUser) throw makeError({ message: "User Not Found", status: 200 });
 
   if (!findPlating.length)
-    throw makeError({ message: "Planting Not Found", status: 400 });
+    throw makeError({ message: "Planting Not Found", status: 200 });
 
   const newHarvestData: HarvestWhithIDsOfFKs = {
     date: harvest.date,
@@ -60,15 +60,15 @@ const getHarvestsOfTheFarmByPlotId = async (
   plotId: number
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const findFarm = await farmRepository.selectByIdWithoutJoin(farmID);
-  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 200 });
 
   const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
-  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
+  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 200 });
 
   if (findPlot.farm_id != findFarm.id)
     throw makeError({
       message: "Plot does not belong to the farm",
-      status: 400,
+      status: 200,
     });
 
   const harvests = await harvestRepository.selectFromFarmByPlotIdWithJoin(
@@ -90,7 +90,7 @@ const getHarvestsOfTheFarmByDate = async (
   harvestDate: string
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const findFarm = await farmRepository.selectByIdWithoutJoin(farmID);
-  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 200 });
 
   const harvests = await harvestRepository.selectFromFarmByDateWithJoin(
     farmID,
@@ -106,10 +106,10 @@ const getHarvestOfTheFarmByDateAndPlot = async (
   harvestDate: string
 ): Promise<HarvestWhithNamesOfFKs[]> => {
   const findPlot = await plotRepository.selectByIdWhithoutJoin(plotId);
-  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 400 });
+  if (!findPlot) throw makeError({ message: "Plot Not Found", status: 200 });
 
   const findFarm = await farmRepository.selectByIdWithoutJoin(farmID);
-  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 400 });
+  if (!findFarm) throw makeError({ message: "Farm Not Found", status: 200 });
 
   const harvests = await harvestRepository.selectFromFarmByDateAndPlotWithJoin(
     farmID,
@@ -128,14 +128,14 @@ const updateHarvest = async (
     harvestID
   ); // pega os dados antigos e vai atualizando pra depois inserir
 
-  if (!newData) throw makeError({ message: "Harvest Not Found", status: 400 });
+  if (!newData) throw makeError({ message: "Harvest Not Found", status: 200 });
 
   if (harvestData.plot_name) {
     const findNewPlot = await plotRepository.selectByNameWhithoutJoin(
       harvestData.plot_name
     );
     if (!findNewPlot)
-      throw makeError({ message: "New Plot Not Found", status: 400 });
+      throw makeError({ message: "New Plot Not Found", status: 200 });
 
     newData.plot_id = findNewPlot.id;
   }
@@ -144,7 +144,7 @@ const updateHarvest = async (
       harvestData.user_name!
     );
     if (!findNewUser)
-      throw makeError({ message: "New User Not Found", status: 400 });
+      throw makeError({ message: "New User Not Found", status: 200 });
 
     newData.user_id = findNewUser.id;
   }
@@ -153,7 +153,7 @@ const updateHarvest = async (
       harvestData.farm_name
     );
     if (!findNewFarm)
-      throw makeError({ message: "New Farm Not Found", status: 400 });
+      throw makeError({ message: "New Farm Not Found", status: 200 });
 
     newData.farm_id = findNewFarm.id;
   }
@@ -170,7 +170,7 @@ const updateHarvest = async (
   if (checkFarm?.id !== checkPlot?.id) {
     throw makeError({
       message: "Plot does not belong to the farm",
-      status: 400,
+      status: 200,
     });
   }
 

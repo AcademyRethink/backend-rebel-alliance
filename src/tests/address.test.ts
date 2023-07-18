@@ -112,7 +112,7 @@ describe("Test errors of address service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Error getting Addresses",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -127,7 +127,7 @@ describe("Test errors of address service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Address not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -142,7 +142,7 @@ describe("Test errors of address service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Address not Found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -166,7 +166,7 @@ describe("Test errors of address service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Address not Found",
-        status: 404,
+        status: 200,
       });
     }
   });
@@ -181,7 +181,7 @@ describe("Test errors of address service functions", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Address not found",
-        status: 404,
+        status: 200,
       });
     }
   });

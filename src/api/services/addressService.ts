@@ -8,7 +8,7 @@ const getAllAddresses = async () => {
   if (!addresses[0]) {
     throw makeError({
       message: "Error getting Addresses",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -26,7 +26,7 @@ const findAddressById = async (id: number) => {
   if (!findAddress) {
     throw makeError({
       message: "Address not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -39,7 +39,7 @@ const findAddressByStreet = async (street: string) => {
   if (!findAddress) {
     throw makeError({
       message: "Address not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -52,7 +52,7 @@ const findAddressByCep = async (cep: string) => {
   if (!findAddress) {
     throw makeError({
       message: "Address not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -67,7 +67,7 @@ const updateAddressById = async (addressId: number, address: Address) => {
   if (!existingAddress) {
     throw makeError({
       message: "Address not Found",
-      status: 404,
+      status: 200,
     });
   }
 
@@ -96,7 +96,7 @@ const deleteAddressById = async (id: number) => {
   if (!existingAddress) {
     throw makeError({
       message: "Address not found",
-      status: 404,
+      status: 200,
     });
   }
 

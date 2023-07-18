@@ -25,7 +25,7 @@ const hourlyForecast = async (
   if (hoursParam > 96)
     throw makeError({
       message: "Hours must be in 1 - 96 interval",
-      status: 400,
+      status: 200,
     });
 
   return await weatherApi.get4DaysHourlyForecast(city, state, country, hours);
@@ -41,7 +41,7 @@ const upTo16DaysForecast = async (
   if (daysParam > 16)
     throw makeError({
       message: "Days must be in 1 - 16 interval",
-      status: 400,
+      status: 200,
     });
 
   return await weatherApi.getUpTo16DaysForecast(city, state, country, days);
@@ -57,7 +57,7 @@ const upTo30DaysForecast = async (
   if (daysParam > 30)
     throw makeError({
       message: "Days must be in 1 - 30 interval",
-      status: 400,
+      status: 200,
     });
 
   return await weatherApi.getUpTo30DaysForecast(city, state, country, days);

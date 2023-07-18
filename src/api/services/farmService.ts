@@ -9,7 +9,7 @@ const getAllFarms = async () => {
   if (!farms) {
     throw makeError({
       message: "Error getting Farms",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -46,7 +46,7 @@ const registerFarm = async (
   if (existingFarm) {
     throw makeError({
       message: "Farm already registered",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -92,7 +92,7 @@ const findFarmById = async (id: number) => {
   if (!findFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -116,7 +116,7 @@ const findFarmByCnpj = async (cnpj: string) => {
   if (!findFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -140,7 +140,7 @@ const findFarmByName = async (name: string) => {
   if (!findFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 400,
+      status: 200,
     });
   }
 
@@ -167,7 +167,7 @@ const updateFarmByCnpj = async (farm: FarmWhithAddress, farmCnpj: string) => {
   if (!existingFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 404,
+      status: 200,
     });
   }
 
@@ -204,7 +204,7 @@ const deleteFarmById = async (id: number) => {
   if (!existingFarm) {
     throw makeError({
       message: "Farm not Found",
-      status: 404,
+      status: 200,
     });
   }
 

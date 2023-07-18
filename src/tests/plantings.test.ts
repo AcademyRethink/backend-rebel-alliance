@@ -43,7 +43,7 @@ describe("Plantings Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Plantings not found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -57,7 +57,7 @@ describe("Plantings Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Plot not found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -84,7 +84,7 @@ describe("Plantings Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Some ID can not found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -107,7 +107,7 @@ describe("Plantings Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Some ID can not found",
-        status: 400,
+        status: 200,
       });
     }
   });
@@ -123,7 +123,7 @@ describe("Plantings Tests", () => {
     } catch (error) {
       expect(error).toMatchObject({
         message: "Planting not found",
-        status: 400,
+        status: 200,
       });
     }
   });
