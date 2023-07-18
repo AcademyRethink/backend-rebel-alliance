@@ -5,7 +5,7 @@ import userDataValidator from "../middlewares/userDataValidator";
 const userRoutes: Router = Router();
 
 userRoutes.get("/", authController.showAllUsers);
-userRoutes.get("/login", authController.login);
+userRoutes.post("/login", authController.login);
 userRoutes.get("/:userid", authController.showById);
 userRoutes.get("/cpforcnpj/:usercpforcnpj", authController.showByCpfOrCnpj);
 userRoutes.get("/name/:username", authController.showByName);
