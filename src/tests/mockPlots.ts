@@ -1,4 +1,5 @@
 import { FarmWhithIDsOfFKs, PlotWhithIDsOfFKs } from "../types";
+import { PlotWithPlatingData } from "../types/plotTypes";
 
 export const plot: PlotWhithIDsOfFKs = {
   id: 5,
@@ -6,7 +7,7 @@ export const plot: PlotWhithIDsOfFKs = {
   farm_id: 2,
 };
 
-export const plotWitPlating = {
+export const plotWitPlating: PlotWithPlatingData = {
   farm_id: 1,
   plot_id: 1,
   plot_name: "Plot",
@@ -14,6 +15,7 @@ export const plotWitPlating = {
   planting_date: "2023-06-26T03:00:00.000Z",
   saplings: 40,
   stage: "Florada",
+  stage_order: 3,
   harvests: "2",
 };
 

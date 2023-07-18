@@ -12,6 +12,7 @@ type PlotWithPlatingData = {
   planting_date: string;
   saplings: number;
   stage: string;
+  stage_order: number;
   harvests: string;
 };
 

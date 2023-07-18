@@ -24,13 +24,14 @@ const selectPlotByFarmIdWithJoin = (
       "planting.id as planting_id",
       "planting.date as planting_date",
       "planting.saplings",
-      "stages.stage"
+      "stages.stage",
+      "stages.order as stage_order"
     )
     .join("planting", "plot.id", "=", "planting.plot_id")
     .join("stages", "stages.id", "=", "planting.stages_id")
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
     .where({ "plot.farm_id": farm_id, "planting.active": true })
-    .groupBy("plot.id", "planting.id", "stages.stage")
+    .groupBy("plot.id", "planting.id", "stages.stage", "stages.order")
     .count("harvest.id as harvests");
 
 const insertPlot = async (
