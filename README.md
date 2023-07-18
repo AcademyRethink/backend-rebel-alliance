@@ -76,7 +76,7 @@ Abra http://localhost:3000 no seu navegador
 
 ### Testes 
 
-* A cobertura de testes atual é de `82%`
+* A cobertura de testes atual é de `88%`
 
 ### Tecnologias utilizadas 
 - [Node](https://nodejs.org/en)
