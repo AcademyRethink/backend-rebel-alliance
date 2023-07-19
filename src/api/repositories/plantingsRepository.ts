@@ -14,6 +14,24 @@ const selectLastActivePlantingOnPlot = (
 ): Promise<PlantingsWithIds[]> =>
   knexInstance("planting").select("*").where({ plot_id, active: true });
 
+const selectAPlanting = (id: number) =>
+  knexInstance("planting")
+    .select(
+      "planting.id",
+      "planting.date",
+      "planting.saplings",
+      "plot.name as plot",
+      "stages.stage as stage",
+      "users.name as user",
+      "farm.name as farm",
+      "planting.active"
+    )
+    .join("plot", "plot.id", "=", "planting.plot_id")
+    .join("stages", "stages.id", "=", "planting.stages_id")
+    .join("users", "users.id", "=", "planting.user_id")
+    .join("farm", "farm.id", "=", "planting.farm_id")
+    .where({ "planting.id": id });
+
 const selectAllPlantings = (where: WhereType) =>
   knexInstance("planting")
     .select(
@@ -82,6 +100,7 @@ const deletePlanting = (id: number): Promise<number> =>
 
 export default {
   selectLastActivePlantingOnPlot,
+  selectAPlanting,
   selectAllPlantings,
   selectAllPlantingsInPlotWithHarvests,
   insertPlanting,

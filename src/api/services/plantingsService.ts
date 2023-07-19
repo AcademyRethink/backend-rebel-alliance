@@ -28,6 +28,14 @@ const getAllPlantings = async (
   return plantings;
 };
 
+const getAPlanting = async (id: number) => {
+  const planting = await plantingsRepository.selectAPlanting(id);
+  if (!planting.length) {
+    throw makeError({ message: "Planting not found", status: 200 });
+  }
+  return planting;
+};
+
 const getAllPlantingsByPlotWithHarvestCount = async (
   plotId: number
 ): Promise<PlantingsWithHarvestCount[]> => {
@@ -153,6 +161,7 @@ const updateLastActivePlanting = async (plotId: number) => {
 
 export default {
   getAllPlantings,
+  getAPlanting,
   getAllPlantingsByPlotWithHarvestCount,
   postPlanting,
   updatePlanting,

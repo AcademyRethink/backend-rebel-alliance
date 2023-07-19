@@ -16,6 +16,20 @@ const index = async (
   }
 };
 
+const showPlanting = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const id = Number(req.params.id);
+    const planting = await plantingsService.getAPlanting(id);
+    res.status(200).send(planting);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const show = async (
   req: Request,
   res: Response,
@@ -102,6 +116,7 @@ const remove = async (
 
 export default {
   index,
+  showPlanting,
   show,
   insert,
   update,

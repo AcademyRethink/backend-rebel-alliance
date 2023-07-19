@@ -10,6 +10,7 @@ router.get(
   middleware.plantingPathValidatorByFarm,
   plantingsController.show
 );
+router.get("/:id", plantingsController.showPlanting);
 router.post("/", middleware.plantingsDataValidator, plantingsController.insert);
 router.put(
   "/:id",
