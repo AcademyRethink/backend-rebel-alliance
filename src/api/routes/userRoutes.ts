@@ -6,6 +6,7 @@ const userRoutes: Router = Router();
 
 userRoutes.get("/", authController.showAllUsers);
 userRoutes.post("/login", authController.login);
+userRoutes.post("/validatetoken", authController.vaidateToken);
 userRoutes.get("/:userid", authController.showById);
 userRoutes.get("/cpforcnpj/:usercpforcnpj", authController.showByCpfOrCnpj);
 userRoutes.get("/name/:username", authController.showByName);

@@ -32,6 +32,19 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const vaidateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const response = await authService.validateToken(req.body.token);
+    res.status(201).json(response);
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
 const showById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.userid);
@@ -91,6 +104,7 @@ export default {
   showAllUsers,
   insert,
   login,
+  vaidateToken,
   showById,
   showByCpfOrCnpj,
   showByName,

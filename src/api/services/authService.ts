@@ -71,6 +71,10 @@ const registerUser = async (
   return { newUser, token };
 };
 
+const validateToken = async (token: string) => {
+  return jwt.verify(token, mySecret);
+};
+
 const authenticateUser = async (user: UsersWhithIDsOfFKs) => {
   const selectedUser = await usersRepository.selectByCpfOrCnpjWithoutJoin(
     user.cpf_cnpj!
@@ -206,6 +210,7 @@ export default {
   getAllUsers,
   registerUser,
   authenticateUser,
+  validateToken,
   findUserById,
   findUserByCpfOrCnpj,
   findUserByName,
