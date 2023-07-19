@@ -65,7 +65,7 @@ const registerUser = async (
   const token = jwt.sign(
     { id: newUser.id, userType: newUser.userType },
     mySecret,
-    { expiresIn: "1d" }
+    { expiresIn: "7d" }
   );
 
   return { newUser, token };
@@ -102,7 +102,7 @@ const authenticateUser = async (user: UsersWhithIDsOfFKs) => {
   const token = jwt.sign(
     { cpf_cnpj: selectedUser.cpf_cnpj, userType: selectedUser.userType },
     mySecret,
-    { expiresIn: "1d" }
+    { expiresIn: "7d" }
   );
 
   return token;
