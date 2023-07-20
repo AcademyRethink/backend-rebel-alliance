@@ -63,6 +63,10 @@ const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
 
   const plotId: number | null = existsPLot.length ? existsPLot[0].id : null;
 
+  if (plotId === null && typeof farmId === "number") {
+    await plotRepository.insertPlot({ name: plot, farm_id: farmId });
+  }
+
   if (plotId && stageId && userId && farmId) {
     const formatedPlanting: PlantingsWithIds = {
       plot_id: plotId,
