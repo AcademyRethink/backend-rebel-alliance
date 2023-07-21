@@ -40,7 +40,7 @@ const insert = async (
   try {
     const { name, farm_id } = req.body;
     const plot: PlotWhithIDsOfFKs = { name, farm_id };
-    const newPlot: PlotWhithIDsOfFKs = await plotService.postPlot(plot);
+    const newPlot: PlotWhithIDsOfFKs[] = await plotService.postPlot(plot);
     res.status(200).send(newPlot);
   } catch (error) {
     next(error);

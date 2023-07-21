@@ -36,7 +36,7 @@ const selectPlotByFarmIdWithJoin = (
 
 const insertPlot = async (
   plot: PlotWhithIDsOfFKs
-): Promise<PlotWhithIDsOfFKs> => {
+): Promise<Array<PlotWhithIDsOfFKs>> => {
   return await knexInstance("plot")
     .insert(plot)
     .returning(["id", "name", "farm_id"]);

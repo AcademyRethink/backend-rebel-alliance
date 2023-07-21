@@ -70,7 +70,9 @@ const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
       name: plot,
       farm_id: farmId,
     });
-    plotId = newPlot.id;
+    console.log(newPlot);
+
+    plotId = newPlot[0].id;
   }
 
   if (plotId && stageId && userId && farmId) {
