@@ -1,12 +1,21 @@
 import { Router } from "express";
 import addressController from "../controllers/addressController";
+import { tokenValidator } from "../middlewares/tokenValidator";
 
 const addressRoutes: Router = Router();
 
-addressRoutes.get("/", addressController.showAllAddresses);
-addressRoutes.get("/:addressid", addressController.showById);
-addressRoutes.get("/cep/:addresscep", addressController.showByCep);
-addressRoutes.get("/street/:addressstreet", addressController.showByStreet);
-addressRoutes.delete("/:addressid", addressController.remove);
+addressRoutes.get("/", tokenValidator, addressController.showAllAddresses);
+addressRoutes.get("/:addressid", tokenValidator, addressController.showById);
+addressRoutes.get(
+  "/cep/:addresscep",
+  tokenValidator,
+  addressController.showByCep
+);
+addressRoutes.get(
+  "/street/:addressstreet",
+  tokenValidator,
+  addressController.showByStreet
+);
+addressRoutes.delete("/:addressid", tokenValidator, addressController.remove);
 
 export { addressRoutes };
