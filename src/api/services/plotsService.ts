@@ -28,6 +28,14 @@ const getPlotsInFarmWithPlatingData = async (
   return await plotRepository.selectPlotByFarmIdWithJoin(farm_id);
 };
 
+const getAPlotWithPlantingData = async (
+  id: number,
+  farm_id: number
+): Promise<PlotWithPlatingData[]> => {
+  const plot = await plotRepository.selectPlotByFarmIdWithJoin(farm_id, id);
+  return plot;
+};
+
 const postPlot = async (
   plot: PlotWhithIDsOfFKs
 ): Promise<Array<PlotWhithIDsOfFKs>> => {
@@ -96,6 +104,7 @@ const deletePlot = async (id: number): Promise<PlotWhithIDsOfFKs> => {
 export default {
   getPlotsInFarm,
   getPlotsInFarmWithPlatingData,
+  getAPlotWithPlantingData,
   postPlot,
   updatePlot,
   deletePlot,

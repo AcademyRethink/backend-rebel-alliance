@@ -18,6 +18,26 @@ const idValidator = async (
   }
 };
 
+const showIdsValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const id = Number(req.params.id);
+    const farm_id = Number(req.params.farm_id);
+
+    const idSchema = number().required("Plot id is required!");
+    await idSchema.validate(id, hasTrueStrict);
+
+    const farmIdSchema = number().required("Farm id is required!");
+    await farmIdSchema.validate(farm_id, hasTrueStrict);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 const plotDataValidator = async (
   req: Request,
   res: Response,
@@ -36,4 +56,4 @@ const plotDataValidator = async (
   }
 };
 
-export default { idValidator, plotDataValidator };
+export default { idValidator, showIdsValidator, plotDataValidator };

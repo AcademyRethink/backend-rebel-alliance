@@ -64,6 +64,7 @@ const selectAllPlantingsInPlotWithHarvests = (
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
     .where({ "planting.plot_id": plotId })
     .groupBy("planting.id")
+    .orderBy("planting.date", "desc")
     .count("harvest.id as harvests");
 
 const selectId = (

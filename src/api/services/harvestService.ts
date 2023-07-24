@@ -7,23 +7,21 @@ import { makeError } from "../middlewares/errorHandler";
 import plantingsRepository from "../repositories/plantingsRepository";
 
 const registerNewHarvest = async (
-  harvest: HarvestWhithNamesOfFKs
+  harvest: HarvestWhithIDsOfFKs
 ): Promise<HarvestWhithIDsOfFKs> => {
-  const findUser = await usersRepository.selectByNameWithoutJoin(
-    harvest.user_name!
+  const findUser = await usersRepository.selectByIdWithoutJoin(
+    harvest.user_id!
   );
-  const findFarm = await farmRepository.selectByNameWhithoutJoin(
-    harvest.farm_name!
-  );
+  const findFarm = await farmRepository.selectByIdWithoutJoin(harvest.farm_id!);
   const findPlating = await plantingsRepository.selectPlanting(
     harvest.planting_id!
   );
 
   if (!findFarm) throw makeError({ message: "Farm Not Found", status: 200 });
 
-  const findPlot = await plotRepository.selectByNameAndFarmID(
-    findFarm.id!,
-    harvest.plot_name!
+  const findPlot = await plotRepository.selectPlotByIdAndFarmId(
+    harvest.plot_id!,
+    findFarm.id!
   );
 
   if (!findPlot) throw makeError({ message: "Plot Not Found", status: 200 });

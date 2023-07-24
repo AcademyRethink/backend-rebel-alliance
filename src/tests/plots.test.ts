@@ -56,6 +56,18 @@ describe("Get plots of the farm with plating data", () => {
   });
 });
 
+describe("Get a plot of the farm with plating data", () => {
+  it("Should return the selected plots of the informated farm with active planting data", async () => {
+    jest
+      .spyOn(plotRepository, "selectPlotByFarmIdWithJoin")
+      .mockResolvedValueOnce([plotWitPlating]);
+
+    expect(await plotService.getAPlotWithPlantingData(10, 2)).toMatchObject([
+      plotWitPlating,
+    ]);
+  });
+});
+
 describe("Insert a new plot on farm", () => {
   it("Should return the inserted plot", async () => {
     jest
@@ -65,11 +77,11 @@ describe("Insert a new plot on farm", () => {
       .spyOn(plotRepository, "selectByNameAndFarmID")
       .mockResolvedValueOnce(undefined);
 
-    jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(plot);
+    jest.spyOn(plotRepository, "insertPlot").mockResolvedValueOnce(allPlots);
 
     expect(
       await plotService.postPlot({ name: "plotName", farm_id: 1 })
-    ).toMatchObject(plot);
+    ).toMatchObject(allPlots);
   });
 
   it("Should throw an error if the farm does not exist", async () => {

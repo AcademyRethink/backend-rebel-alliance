@@ -11,9 +11,9 @@ const harvestDataValidator = async (
     const harvestSchema = object({
       date: string().required(),
       bags: number().min(1).required(),
-      plot_name: string().required(),
-      user_name: string().required(),
-      farm_name: string().required(),
+      plot_id: number().required(),
+      user_id: number().required(),
+      farm_id: number().required(),
       planting_id: number().required(),
     });
     await harvestSchema.validate(harvestData);

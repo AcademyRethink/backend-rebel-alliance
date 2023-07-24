@@ -17,16 +17,16 @@ import { plantingData } from "./mockPlantings";
 describe("Harvest Services Tests - registerNewHarvest Function", () => {
   it("Resgister a harvest", async () => {
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
     jest
       .spyOn(plantingsRepository, "selectPlanting")
       .mockResolvedValueOnce([plantingData]);
     jest
-      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
@@ -35,25 +35,25 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
     const result = await harvestService.registerNewHarvest({
       date: new Date("2023-06-28T03:00:00.000Z"),
       bags: 40,
-      plot_name: "Baixada Mineria",
-      user_name: "Jose",
-      farm_name: "Fazenda Rebel Alliance",
+      plot_id: 1,
+      user_id: 1,
+      farm_id: 1,
     });
 
     expect(result).toMatchObject(mockedHarvestWithIds);
   });
   it("Resgister fail because plot does not exist", async () => {
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
     jest
       .spyOn(plantingsRepository, "selectPlanting")
       .mockResolvedValueOnce([plantingData]);
     jest
-      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
       .mockResolvedValueOnce(undefined);
     jest
       .spyOn(harvestRepository, "insert")
@@ -63,9 +63,9 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       await harvestService.registerNewHarvest({
         date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
-        plot_name: "Baixada Mineria",
-        user_name: "Jose",
-        farm_name: "Fazenda Rebel Alliance",
+        plot_id: 1,
+        user_id: 1,
+        farm_id: 1,
       });
     } catch (error) {
       expect(error).toMatchObject({ message: "Plot Not Found", status: 200 });
@@ -74,16 +74,16 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
   it("Resgister fail because user does not exist", async () => {
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(undefined);
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
     jest
       .spyOn(plantingsRepository, "selectPlanting")
       .mockResolvedValueOnce([plantingData]);
     jest
-      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
@@ -93,9 +93,9 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       await harvestService.registerNewHarvest({
         date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
-        plot_name: "Baixada Mineria",
-        user_name: "Jose",
-        farm_name: "Fazenda Rebel Alliance",
+        plot_id: 1,
+        user_id: 1,
+        farm_id: 1,
       });
     } catch (error) {
       expect(error).toMatchObject({ message: "User Not Found", status: 200 });
@@ -104,16 +104,16 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
   it("Resgister fail because Farm does not exist", async () => {
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(undefined);
     jest
       .spyOn(plantingsRepository, "selectPlanting")
       .mockResolvedValueOnce([plantingData]);
     jest
-      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
@@ -123,9 +123,9 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       await harvestService.registerNewHarvest({
         date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
-        plot_name: "Baixada Mineria",
-        user_name: "Jose",
-        farm_name: "Fazenda Rebel Alliance",
+        plot_id: 1,
+        user_id: 1,
+        farm_id: 1,
       });
     } catch (error) {
       expect(error).toMatchObject({ message: "Farm Not Found", status: 200 });
@@ -134,14 +134,14 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
 
   it("Resgister fail because Planting does not exist", async () => {
     jest
-      .spyOn(userRepository, "selectByNameWithoutJoin")
+      .spyOn(userRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedUserWhithIds);
     jest
-      .spyOn(farmRepository, "selectByNameWhithoutJoin")
+      .spyOn(farmRepository, "selectByIdWithoutJoin")
       .mockResolvedValueOnce(mockedFarmWhithIds);
     jest.spyOn(plantingsRepository, "selectPlanting").mockResolvedValueOnce([]);
     jest
-      .spyOn(plotRepository, "selectByNameAndFarmID")
+      .spyOn(plotRepository, "selectPlotByIdAndFarmId")
       .mockResolvedValueOnce(mockedPlotWhithIds);
     jest
       .spyOn(harvestRepository, "insert")
@@ -151,9 +151,9 @@ describe("Harvest Services Tests - registerNewHarvest Function", () => {
       await harvestService.registerNewHarvest({
         date: new Date("2023-06-28T03:00:00.000Z"),
         bags: 40,
-        plot_name: "Baixada Mineria",
-        user_name: "Jose",
-        farm_name: "Fazenda Rebel Alliance",
+        plot_id: 1,
+        user_id: 1,
+        farm_id: 1,
       });
     } catch (error) {
       expect(error).toMatchObject({
