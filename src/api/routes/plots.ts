@@ -10,6 +10,11 @@ router.get(
   middleware.idValidator,
   plotController.indexWithPlatingData
 );
+router.get(
+  "/:id/farm/:farm_id",
+  middleware.showIdsValidator,
+  plotController.showWithPlatingData
+);
 router.post("/", middleware.plotDataValidator, plotController.insert);
 router.put(
   "/:id",

@@ -14,9 +14,20 @@ const selectPlotsByFarmId = async (
 };
 
 const selectPlotByFarmIdWithJoin = (
-  farm_id: number
-): Promise<PlotWithPlatingData[]> =>
-  knexInstance("plot")
+  farm_id: number,
+  plot_id?: number
+): Promise<PlotWithPlatingData[]> => {
+  const whereClause = plot_id
+    ? {
+        "plot.id": plot_id,
+        "plot.farm_id": farm_id,
+        "planting.active": true,
+      }
+    : {
+        "plot.farm_id": farm_id,
+        "planting.active": true,
+      };
+  return knexInstance("plot")
     .select(
       "plot.farm_id",
       "plot.id as plot_id",
@@ -30,9 +41,10 @@ const selectPlotByFarmIdWithJoin = (
     .join("planting", "plot.id", "=", "planting.plot_id")
     .join("stages", "stages.id", "=", "planting.stages_id")
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
-    .where({ "plot.farm_id": farm_id, "planting.active": true })
+    .where(whereClause)
     .groupBy("plot.id", "planting.id", "stages.stage", "stages.order")
     .count("harvest.id as harvests");
+};
 
 const insertPlot = async (
   plot: PlotWhithIDsOfFKs
@@ -109,5 +121,3 @@ export default {
   selectByNameWhithoutJoin,
   selectByNameAndFarmID,
 };
-
-// selectByNameAndFarmID(2, "plot").then(console.log).catch(console.log);

@@ -32,6 +32,21 @@ const indexWithPlatingData = async (
   }
 };
 
+const showWithPlatingData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id, farm_id } = req.params;
+    const plotOnFarm: PlotWithPlatingData[] =
+      await plotService.getAPlotWithPlantingData(Number(id), Number(farm_id));
+    res.status(200).send(plotOnFarm);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const insert = async (
   req: Request,
   res: Response,
@@ -82,4 +97,11 @@ const remove = async (
   }
 };
 
-export default { index, indexWithPlatingData, insert, update, remove };
+export default {
+  index,
+  indexWithPlatingData,
+  showWithPlatingData,
+  insert,
+  update,
+  remove,
+};
