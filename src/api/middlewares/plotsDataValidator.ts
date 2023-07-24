@@ -18,6 +18,28 @@ const idValidator = async (
   }
 };
 
+const plotQuerryValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const farm = req.query.farm ? Number(req.query.farm) : undefined;
+    const plot = req.query.plot;
+    const query = { farm, plot };
+
+    const querySchema = object({
+      farm: number(),
+      plot: string(),
+    });
+
+    await querySchema.validate(query, hasTrueStrict);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 const showIdsValidator = async (
   req: Request,
   res: Response,
@@ -56,4 +78,9 @@ const plotDataValidator = async (
   }
 };
 
-export default { idValidator, showIdsValidator, plotDataValidator };
+export default {
+  idValidator,
+  plotQuerryValidator,
+  showIdsValidator,
+  plotDataValidator,
+};

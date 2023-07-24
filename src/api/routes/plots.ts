@@ -12,9 +12,9 @@ router.get(
   plotController.index
 );
 router.get(
-  "/planting/farm/:id",
+  "/planting/farm/",
   tokenValidator,
-  middleware.idValidator,
+  middleware.plotQuerryValidator,
   plotController.indexWithPlatingData
 );
 router.post(

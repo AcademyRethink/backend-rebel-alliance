@@ -38,9 +38,9 @@ describe("Get plots of the farm with plating data", () => {
       .spyOn(plotRepository, "selectPlotByFarmIdWithJoin")
       .mockResolvedValueOnce([plotWitPlating]);
 
-    expect(await plotService.getPlotsInFarmWithPlatingData(1)).toMatchObject([
-      plotWitPlating,
-    ]);
+    expect(
+      await plotService.getPlotsInFarmWithPlatingData(1, "")
+    ).toMatchObject([plotWitPlating]);
   });
 
   it("Should throw an error if the informated farm does not exist", async () => {
@@ -49,7 +49,7 @@ describe("Get plots of the farm with plating data", () => {
       .mockResolvedValueOnce(undefined);
 
     try {
-      await plotService.getPlotsInFarmWithPlatingData(5);
+      await plotService.getPlotsInFarmWithPlatingData(5, "");
     } catch (error) {
       expect(error).toMatchObject({ message: "The farm does not exist!" });
     }

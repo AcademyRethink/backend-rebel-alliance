@@ -3,6 +3,7 @@ import plotRepository from "../repositories/plotRepository";
 import farmRepository from "../repositories/farmRepository";
 import { makeError } from "../middlewares/errorHandler";
 import { FarmWhithIDsOfFKs } from "../../types";
+import { QueryStringOrNumber } from "../../types/plantingTypes";
 
 const getPlotsInFarm = async (
   farm_id: number
@@ -17,22 +18,28 @@ const getPlotsInFarm = async (
 };
 
 const getPlotsInFarmWithPlatingData = async (
-  farm_id: number
+  farm: QueryStringOrNumber,
+  plot: QueryStringOrNumber
 ): Promise<PlotWithPlatingData[]> => {
-  const existsFarm: FarmWhithIDsOfFKs | undefined =
-    await farmRepository.selectByIdWithoutJoin(farm_id);
+  const existsFarm: FarmWhithIDsOfFKs | undefined = farm
+    ? await farmRepository.selectByIdWithoutJoin(Number(farm))
+    : undefined;
 
   if (!existsFarm)
     throw makeError({ message: "The farm does not exist!", status: 200 });
 
-  return await plotRepository.selectPlotByFarmIdWithJoin(farm_id);
+  const plotName = plot ? String(plot) : "";
+  return await plotRepository.selectPlotByFarmIdWithJoin(
+    Number(farm),
+    plotName
+  );
 };
 
 const getAPlotWithPlantingData = async (
   id: number,
   farm_id: number
 ): Promise<PlotWithPlatingData[]> => {
-  const plot = await plotRepository.selectPlotByFarmIdWithJoin(farm_id, id);
+  const plot = await plotRepository.selectPlotByFarmIdWithJoin(farm_id, "", id);
   return plot;
 };
 

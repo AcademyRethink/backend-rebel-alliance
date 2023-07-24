@@ -5,9 +5,7 @@ import {
   FarmWhithIDsOfFKs,
   PlotWhithIDsOfFKs,
   UsersWhithCnpjOfFKs,
-  UsersWhithIDsOfFKs,
 } from "./src/types";
-import { plot } from "./src/tests/mockPlots";
 
 const knexInstance = knex(config);
 

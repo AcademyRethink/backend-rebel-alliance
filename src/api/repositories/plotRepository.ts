@@ -15,6 +15,7 @@ const selectPlotsByFarmId = async (
 
 const selectPlotByFarmIdWithJoin = (
   farm_id: number,
+  plotName: string,
   plot_id?: number
 ): Promise<PlotWithPlatingData[]> => {
   const whereClause = plot_id
@@ -42,6 +43,7 @@ const selectPlotByFarmIdWithJoin = (
     .join("stages", "stages.id", "=", "planting.stages_id")
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
     .where(whereClause)
+    .whereILike("plot.name", `%${plotName}%`)
     .groupBy("plot.id", "planting.id", "stages.stage", "stages.order")
     .count("harvest.id as harvests");
 };

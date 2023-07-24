@@ -23,9 +23,9 @@ const indexWithPlatingData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const farm_id = Number(req.params.id);
+    const { farm, plot } = req.query;
     const allPlotsOnFarm: PlotWithPlatingData[] =
-      await plotService.getPlotsInFarmWithPlatingData(farm_id);
+      await plotService.getPlotsInFarmWithPlatingData(farm, plot);
     res.status(200).send(allPlotsOnFarm);
   } catch (error) {
     next(error);
