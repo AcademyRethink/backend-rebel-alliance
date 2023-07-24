@@ -39,6 +39,7 @@ type WhereType = {
   "planting.farm_id"?: QueryStringOrNumber;
   "planting.plot_id"?: QueryStringOrNumber;
   "planting.date"?: QueryStringOrNumber;
+  "plot.name"?: QueryStringOrNumber;
 };
 
 type QueryStringOrNumber =

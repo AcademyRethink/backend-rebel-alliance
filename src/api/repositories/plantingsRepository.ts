@@ -32,7 +32,7 @@ const selectAPlanting = (id: number) =>
     .join("farm", "farm.id", "=", "planting.farm_id")
     .where({ "planting.id": id });
 
-const selectAllPlantings = (where: WhereType) =>
+const selectAllPlantings = (where: WhereType, plot: string | undefined) =>
   knexInstance("planting")
     .select(
       "planting.id",
@@ -48,7 +48,8 @@ const selectAllPlantings = (where: WhereType) =>
     .join("stages", "stages.id", "=", "planting.stages_id")
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id")
-    .where(where);
+    .where(where)
+    .whereILike("plot.name", `%${plot ? plot : ""}%`);
 
 const selectAllPlantingsInPlotWithHarvests = (
   plotId: number
@@ -64,6 +65,7 @@ const selectAllPlantingsInPlotWithHarvests = (
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
     .where({ "planting.plot_id": plotId })
     .groupBy("planting.id")
+    .orderBy("planting.date", "desc")
     .count("harvest.id as harvests");
 
 const selectId = (
