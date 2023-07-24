@@ -25,13 +25,13 @@ const plantingQueryValidator = async (
 ): Promise<void> => {
   try {
     const farm = req.query.farm ? Number(req.query.farm) : undefined;
-    const plot = req.query.plot ? Number(req.query.plot) : undefined;
+    const plot = req.query.plot;
     const date = req.query.date;
     const query = { farm, plot, date };
 
     const querySchema = object({
       farm: number(),
-      plot: number(),
+      plot: string(),
       date: string(),
     });
     await querySchema.validate(query, hasTrueStrict);
