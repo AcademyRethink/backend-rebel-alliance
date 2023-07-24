@@ -44,7 +44,7 @@ const selectAllPlantings = (where: WhereType) =>
       "farm.name as farm",
       "planting.active"
     )
-    .join("plot", "plot.name", "=", "planting.plot_id")
+    .join("plot", "plot.id", "=", "planting.plot_id")
     .join("stages", "stages.id", "=", "planting.stages_id")
     .join("users", "users.id", "=", "planting.user_id")
     .join("farm", "farm.id", "=", "planting.farm_id")
@@ -64,7 +64,6 @@ const selectAllPlantingsInPlotWithHarvests = (
     .leftJoin("harvest", "planting.id", "=", "harvest.planting_id")
     .where({ "planting.plot_id": plotId })
     .groupBy("planting.id")
-    .orderBy("planting.date", "desc")
     .count("harvest.id as harvests");
 
 const selectId = (
