@@ -18,10 +18,14 @@ const getAllPlantings = async (
 ) => {
   const where: WhereType = {};
   if (farm) where["planting.farm_id"] = Number(farm);
-  if (plot) where["planting.plot_id"] = Number(plot);
   if (date) where["planting.date"] = date;
-
-  const plantings = await plantingsRepository.selectAllPlantings(where);
+  if (typeof plot === "string") {
+    plot;
+  } else {
+    plot = "";
+  }
+  console.log(plot);
+  const plantings = await plantingsRepository.selectAllPlantings(where, plot);
   if (!plantings.length) {
     throw makeError({ message: "Plantings not found", status: 200 });
   }
@@ -70,7 +74,9 @@ const postPlanting = async (planting: PlantingsWithNames): Promise<string> => {
       name: plot,
       farm_id: farmId,
     });
-    plotId = newPlot.id;
+    console.log(newPlot);
+
+    plotId = newPlot[0].id;
   }
 
   if (plotId && stageId && userId && farmId) {

@@ -26,7 +26,8 @@ const selectHarvestsByPlatingId = async (
 ): Promise<HarvestWhithIDsOfFKs[]> =>
   await knexInstance("harvest")
     .select("*")
-    .where({ "harvest.planting_id": plantingId });
+    .where({ "harvest.planting_id": plantingId })
+    .orderBy("date", "desc");
 
 const selectFromAllByIdWithoutJoin = async (
   harvestId: number

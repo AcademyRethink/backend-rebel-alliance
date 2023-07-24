@@ -23,6 +23,13 @@ router.post(
   middleware.plotDataValidator,
   plotController.insert
 );
+router.get(
+  "/:id/farm/:farm_id",
+  tokenValidator,
+  middleware.showIdsValidator,
+  plotController.showWithPlatingData
+);
+router.post("/", middleware.plotDataValidator, plotController.insert);
 router.put(
   "/:id",
   middleware.idValidator,
