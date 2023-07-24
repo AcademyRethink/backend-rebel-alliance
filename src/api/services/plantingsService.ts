@@ -18,7 +18,7 @@ const getAllPlantings = async (
 ) => {
   const where: WhereType = {};
   if (farm) where["planting.farm_id"] = Number(farm);
-  if (plot) where["planting.plot_id"] = Number(plot);
+  if (plot) where["planting.plot_id"] = plot;
   if (date) where["planting.date"] = date;
 
   const plantings = await plantingsRepository.selectAllPlantings(where);
