@@ -35,6 +35,17 @@ const insertOnTableAddress = async () => {
       cep: "30310-110",
       reference_point: "Em frente ao Mercado Cruzeiro",
     },
+    {
+      id: 3,
+      street: "Av. Afonso Pena",
+      number: 1316,
+      complement: "7º andar sala 721",
+      neighborhood: "Centro",
+      city: "Belo Horizonte",
+      state: "Minas Gerais",
+      cep: "30130-009",
+      reference_point: "Em Belo Horizonte",
+    },
   ];
 
   await knexInstance("address").insert(adresses);
@@ -50,10 +61,17 @@ const insertOnTableFarm = async () => {
       address_id: 1,
     },
     {
-      id: 1,
+      id: 2,
       name: "Fazenda Belo Horizonte",
       phone: "315203630",
       cnpj: "026746932000171",
+      address_id: 2,
+    },
+    {
+      id: 3,
+      name: "Ministerio da fazenda",
+      phone: "(31) 3218-6720",
+      cnpj: "00000000000000",
       address_id: 2,
     },
   ];
@@ -81,6 +99,16 @@ const users: UsersWhithCnpjOfFKs[] = [
     password: "jose1234",
     userType: "Administrador",
     farm_cnpj: "26746932000171",
+  },
+  {
+    id: 3,
+    cpf_cnpj: "00000000000",
+    name: "Admin",
+    celphone: "999999999",
+    email: "admin@admin.com",
+    password: "admin123",
+    userType: "Administrador",
+    farm_cnpj: "00000000000000",
   },
 ];
 
