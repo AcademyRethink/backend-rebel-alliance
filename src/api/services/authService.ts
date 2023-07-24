@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-const mySecret = process.env.SECRET || "K7s9P3x2Y5";
+const mySecret = process.env.SECRET!;
 
 const getAllUsers = async () => {
   const users = await usersRepository.index();
