@@ -6,6 +6,7 @@ import {
   PlotWhithIDsOfFKs,
   UsersWhithCnpjOfFKs,
 } from "./src/types";
+import { PlantingsWithIds } from "./src/types/plantingTypes";
 
 const knexInstance = knex(config);
 
@@ -115,7 +116,6 @@ const insertOnTablePlot = async () => {
     { id: 1, name: "Bom Retiro", farm_id: 1 },
     { id: 2, name: "Vagalume", farm_id: 1 },
     { id: 3, name: "Boa Vista", farm_id: 2 },
-    { id: 4, name: "Pampulha", farm_id: 2 },
   ];
 
   await knexInstance("plot").insert(plots);
@@ -138,3 +138,57 @@ const insertOnTableStages = async () => {
   ];
   await knexInstance("stages").insert(stages);
 };
+
+const insertOnTablePlantings = async () => {
+  const plantings: PlantingsWithIds[] = [
+    {
+      id: 1,
+      date: "2023-07-24",
+      saplings: 100,
+      plot_id: 1,
+      stages_id: 1,
+      user_id: 2,
+      farm_id: 1,
+      active: true,
+    },
+    {
+      id: 2,
+      date: "2023-07-21",
+      saplings: 100,
+      plot_id: 2,
+      stages_id: 1,
+      user_id: 2,
+      farm_id: 1,
+      active: true,
+    },
+    {
+      id: 3,
+      date: "2023-07-24",
+      saplings: 100,
+      plot_id: 3,
+      stages_id: 1,
+      user_id: 1,
+      farm_id: 2,
+      active: true,
+    },
+  ];
+
+  await knexInstance("planting").insert(plantings);
+};
+
+const populateDataBase = async () => {
+  await insertOnTableAddress();
+  // await insertOnTableFarm();
+
+  // insert USERS
+
+  // await insertOnTablePlot();
+  // await insertOnTableCulture();
+  // await insertOnTableStages();
+  // await insertOnTablePlantings();
+};
+
+populateDataBase()
+  .then(() => console.log("Success!"))
+  .then(() => process.exit())
+  .catch(console.log);
