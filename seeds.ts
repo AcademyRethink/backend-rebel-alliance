@@ -7,6 +7,7 @@ import {
   UsersWhithCnpjOfFKs,
 } from "./src/types";
 import { PlantingsWithIds } from "./src/types/plantingTypes";
+import authService from "./src/api/services/authService";
 
 const knexInstance = knex(config);
 
@@ -71,7 +72,7 @@ const insertOnTableFarm = async () => {
       name: "Ministerio da fazenda",
       phone: "(31) 3218-6720",
       cnpj: "00000000000000",
-      address_id: 2,
+      address_id: 3,
     },
   ];
 
@@ -178,14 +179,15 @@ const insertOnTablePlantings = async () => {
 
 const populateDataBase = async () => {
   await insertOnTableAddress();
-  // await insertOnTableFarm();
-
+  await insertOnTableFarm();
   // insert USERS
-
-  // await insertOnTablePlot();
-  // await insertOnTableCulture();
-  // await insertOnTableStages();
-  // await insertOnTablePlantings();
+  await authService.registerUser(users[0]);
+  await authService.registerUser(users[1]);
+  await authService.registerUser(users[2]);
+  await insertOnTablePlot();
+  await insertOnTableCulture();
+  await insertOnTableStages();
+  await insertOnTablePlantings();
 };
 
 populateDataBase()
