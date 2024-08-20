@@ -5,7 +5,7 @@ dotenv.config();
 const parameters = {
   units: "metric",
   lang: "pt_br",
-  appid: process.env.WEATHER_API_KEY,
+  appid: "d7fefb0c3acf5e8879f7ea77cc51ce57",
 };
 
 export const defaultParameters = `appid=${parameters.appid}&units=${parameters.units}&lang=${parameters.lang}`;
